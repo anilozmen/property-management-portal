@@ -39,6 +39,7 @@ public class SecurityConfig {
 
         http
                 .csrf().disable()
+                .cors().and()
                 .authorizeRequests()
                 .antMatchers("/api/v1/authenticate/**").permitAll()
                 .antMatchers("/api/v1/admin/**").hasAuthority("1")
