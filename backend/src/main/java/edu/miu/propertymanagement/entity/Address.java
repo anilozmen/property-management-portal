@@ -1,6 +1,13 @@
 package edu.miu.propertymanagement.entity;
 
 import lombok.*;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import org.hibernate.annotations.Filter;
+import org.hibernate.annotations.FilterDef;
+import org.hibernate.annotations.ParamDef;
+import org.hibernate.annotations.SQLDelete;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -9,6 +16,9 @@ import javax.validation.constraints.NotBlank;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
+@SQLDelete(sql = "UPDATE address SET deleted = true WHERE id=?")
+@FilterDef(name = "deletedAddressFilter", parameters = @ParamDef(name = "isDeleted", type = "boolean"))
+@Filter(name = "deletedAddressFilter", condition = "deleted = :isDeleted")
 public class Address {
 
     @Id
@@ -40,4 +50,6 @@ public class Address {
     @NonNull
     @Column(nullable = false)
     private String zipCode;
+
+    private boolean deleted = Boolean.FALSE;
 }
