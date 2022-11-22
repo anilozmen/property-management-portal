@@ -23,7 +23,7 @@ public class Address {
 
     @NotBlank(message = "Address 2 cannot be blank")
     @NonNull
-    @Column(nullable = true, name = "address_2")
+    @Column(name = "address_2")
     private String address2;
 
     @NotBlank(message = "City cannot be blank")
