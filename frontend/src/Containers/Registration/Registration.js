@@ -15,9 +15,14 @@ export default function Registration() {
         axios.post('authenticate/register', data).then(response => {
             navigate('/');
         }).catch(error => {
+            console.log(error.response.data);
+            const errorData = error.response.data.error;
+            const validationErrors = errorData.validationErrors;
+            console.log(validationErrors);
             //todo: handle error properly .. show snackbar with proper error message, we might get from server.
-            console.log(error.message);
-            alert('Something went wrong while registering.. ');
+            if (validationErrors) {
+                alert(validationErrors);
+            }
         })
     }
 

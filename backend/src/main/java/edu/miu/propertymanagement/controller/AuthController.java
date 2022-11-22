@@ -18,6 +18,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @RestController
 @Validated
 @RequiredArgsConstructor
@@ -28,7 +30,7 @@ public class AuthController {
 
     @PostMapping("/register")
     @ResponseStatus(HttpStatus.CREATED)
-    public void register(@RequestBody RegisterRequest registerRequest) {
+    public void register(@RequestBody @Valid RegisterRequest registerRequest) {
         if (registerRequest.getAccountType() == null) {
             throw new ErrorException("Account type value is required.");
         }

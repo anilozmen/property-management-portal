@@ -26,22 +26,18 @@ public class User {
     private long id;
 
     @NotBlank(message = "First Name cannot be blank")
-    @NonNull
     @Column(nullable = false)
     private String firstName;
 
     @NotBlank(message = "Last Name cannot be blank")
-    @NonNull
     @Column(nullable = false)
     private String lastName;
 
     @NotBlank(message = "Email Address cannot be blank")
-    @NonNull
     @Column(nullable = false)
     private String email;
 
     @NotBlank(message = "Password cannot be blank")
-    @NonNull
     @Column(nullable = false)
     private String password;
 
