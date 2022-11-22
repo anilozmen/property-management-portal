@@ -13,6 +13,7 @@ import edu.miu.propertymanagement.entity.dto.response.SuccessDto;
 import edu.miu.propertymanagement.exceptions.ErrorException;
 import edu.miu.propertymanagement.service.AuthService;
 import lombok.RequiredArgsConstructor;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,16 +21,23 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/authenticate")
 @CrossOrigin(origins = "http://localhost:3000")
-public class AuthController extends AuthExceptionController {
+public class AuthController {
     private final AuthService authService;
 
     @PostMapping("/register")
     @ResponseStatus(HttpStatus.CREATED)
-    public void register(@RequestBody RegisterRequest registerRequest, @RequestParam(defaultValue = "false") boolean owner) {
-        if (owner) {
-            authService.registerOwner(registerRequest);
+    public void register(@RequestBody RegisterRequest registerRequest) {
+        if(registerRequest.getUserType() == null) {
+            throw new ErrorException("Account type value is required.");
         }
-        authService.registerCustomer(registerRequest);
+        
+        if (registerRequest.getUserType().equals("owner")) {
+            authService.registerOwner(registerRequest);
+        } else if (registerRequest.getUserType().equals("customer")) {
+            authService.registerCustomer(registerRequest);
+        } else {
+            throw new ErrorException("Account type not recognized. Only customer / owner field are accepted");
+        }
     }
 
     @PostMapping("/login")

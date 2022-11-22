@@ -27,4 +27,10 @@ public class AuthExceptionController {
         ErrorResponse error = new ErrorResponse(exception.getLocalizedMessage());
         return ResponseEntity.ok(error);
     }
+    
+    @ExceptionHandler(value = Exception.class)
+    public ResponseEntity<ErrorResponse> exceptionGeneralMessage(Exception e) {
+        ErrorResponse errorResponse = new ErrorResponse("Something went wrong while handling data...");
+        return ResponseEntity.ok(errorResponse);
+    }
 }
