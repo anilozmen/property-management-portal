@@ -5,9 +5,10 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
 public class ErrorResponse {
-//    public ErrorDto error;
-    public String message;
+    public ErrorDto error;
+    
+    public ErrorResponse(String message) {
+        this.error = new ErrorDto(message);
+    }
 }
