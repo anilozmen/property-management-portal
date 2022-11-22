@@ -5,6 +5,7 @@ import edu.miu.propertymanagement.entity.dto.request.RegisterRequest;
 import edu.miu.propertymanagement.entity.dto.response.LoginResponse;
 import edu.miu.propertymanagement.service.AuthService;
 import lombok.RequiredArgsConstructor;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.w3c.dom.html.HTMLAppletElement;
@@ -12,6 +13,7 @@ import org.w3c.dom.html.HTMLAppletElement;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/authenticate")
+@CrossOrigin(origins = "*", originPatterns = "*")
 public class AuthController {
 
     private final AuthService authService;

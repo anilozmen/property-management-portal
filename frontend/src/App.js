@@ -3,6 +3,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {add} from './reducers/counter';
 import {BrowserRouter, Routes, Route} from "react-router-dom";
 import Registration from "./Containers/Registration/Registration";
+import './services/axios';
 
 function App() {
     // const dispatch = useDispatch();
