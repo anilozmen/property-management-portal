@@ -13,7 +13,7 @@ import org.w3c.dom.html.HTMLAppletElement;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/authenticate")
-@CrossOrigin(origins = "*", originPatterns = "*")
+@CrossOrigin(origins = "http://localhost:3000")
 public class AuthController {
 
     private final AuthService authService;

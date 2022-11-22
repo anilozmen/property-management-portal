@@ -10,8 +10,8 @@ export default function Registration() {
     }, []);
 
     function submitRegistrationData(data) {
-        axios.post('/register', data).then(response => {
-            
+        axios.post('authenticate/register', data).then(response => {
+
         }).catch(error => {
             //todo: handle error properly .. show snackbar with proper error message, we might get from server.
             console.log(error.message);
@@ -23,14 +23,16 @@ export default function Registration() {
         const form = formRef.current;
         const data = {
             'email': form.email.value,
-            'first_name': form.fname.value,
-            'last_name': form.lname.value,
+            'firstName': form.fname.value,
+            'lastName': form.lname.value,
+            'password': form.password.value,
+            'phoneNumber': form.phoneNumber.value,
             'address': {
-                'street_address_1': form.street_address_1.value,
-                'street_address_2': form.street_address_2.value,
+                'address1': form.street_address_1.value,
+                'address2': form.street_address_2.value,
                 'city': form.city.value,
                 'state': form.state.value,
-                'zipcode': form.zipcode.value
+                'zipCode': form.zipcode.value
             }
         }
         submitRegistrationData(data);
@@ -40,6 +42,10 @@ export default function Registration() {
         <div className={'registration-screen'}>
             <label htmlFor={'email'}>Email</label>
             <input type={'email'} name={'email'}/>
+
+            <label htmlFor={'password'}>Password</label>
+            <input type={'password'} name={'password'}/>
+
 
             <label htmlFor={'fname'}>First Name</label>
             <input type={'text'} name={'fname'}/>
@@ -61,6 +67,10 @@ export default function Registration() {
 
             <label htmlFor={'zipcode'}>Zip Code</label>
             <input type={'text'} name={'zipcode'}/>
+
+            <label htmlFor={'phoneNumber'}>Phone Number</label>
+            <input type={'text'} name={'phoneNumber'}/>
+
 
             <label htmlFor={'userType'}>Account Type</label>
             <select name={'userType'} title={'Account type'}>
