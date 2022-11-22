@@ -8,7 +8,7 @@ export default function Registration() {
     useEffect(() => {
         document.title = "Registration Page";
     }, []);
-    
+
     function submitRegistrationData(data) {
         axios.post('/register', data).then(response => {
             
@@ -62,6 +62,11 @@ export default function Registration() {
             <label htmlFor={'zipcode'}>Zip Code</label>
             <input type={'text'} name={'zipcode'}/>
 
+            <label htmlFor={'userType'}>Account Type</label>
+            <select name={'userType'} title={'Account type'}>
+                <option value={'customer'}>Customer</option>
+                <option value={'owner'}>Owner</option>
+            </select>
 
             <div>
                 <button onClick={onRegisterClick}>Submit</button>
