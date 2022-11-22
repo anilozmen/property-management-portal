@@ -29,7 +29,7 @@ public class AuthController extends AuthExceptionController {
         if (owner) {
             authService.registerOwner(registerRequest);
         }
-        authService.registerCustomer(registerRequest);
+        else authService.registerCustomer(registerRequest);
     }
 
     @PostMapping("/login")

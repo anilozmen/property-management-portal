@@ -6,6 +6,9 @@ import edu.miu.propertymanagement.entity.dto.response.*;
 import edu.miu.propertymanagement.repository.*;
 import edu.miu.propertymanagement.service.*;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -22,6 +25,8 @@ public class AuthServiceImpl implements AuthService {
     private UserRepository userRepository;
     private OwnerRepository ownerRepository;
     private EmailService emailService;
+    @Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     public AuthServiceImpl(ModelMapper modelMapper, CustomerRepository customerRepository, UserRepository userRepository, OwnerRepository ownerRepository, EmailService emailService) {
         this.modelMapper = modelMapper;
@@ -33,18 +38,21 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public void registerCustomer(RegisterRequest registerRequest) {
-        Customer customer = modelMapper.map(registerRequest, Customer.class);
-        generateAndSetTokenDetails(customer);
-        customerRepository.save(customer);
-        sendVerificationEmail(customer);
+        registerInternal(registerRequest, customerRepository, Customer.class);
     }
 
     @Override
     public void registerOwner(RegisterRequest registerRequest) {
-        Owner owner = modelMapper.map(registerRequest, Owner.class);
-        generateAndSetTokenDetails(owner);
-        ownerRepository.save(owner);
-        sendVerificationEmail(owner);
+        registerInternal(registerRequest, ownerRepository, Owner.class);
+    }
+
+    private void registerInternal(RegisterRequest registerRequest, CrudRepository repository, Class<? extends User> type) {
+        registerRequest.setPassword(bCryptPasswordEncoder.encode(registerRequest.getPassword()));
+        User user = modelMapper.map(registerRequest, type);
+
+        generateAndSetTokenDetails(user);
+        repository.save(user);
+        sendVerificationEmail(user);
     }
 
     public void generateAndSetTokenDetails(User user) {
