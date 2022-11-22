@@ -5,31 +5,38 @@ import edu.miu.propertymanagement.entity.dto.request.*;
 import edu.miu.propertymanagement.entity.dto.response.*;
 import edu.miu.propertymanagement.repository.*;
 import edu.miu.propertymanagement.service.*;
+import edu.miu.propertymanagement.util.JWTUtil;
+import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDateTime;
 import java.util.Random;
 
 @Service
+@RequiredArgsConstructor
 public class AuthServiceImpl implements AuthService {
 
     private final int MAX_VERIFICATION_ATTEMPTS = 6;
     private final int VERIFICATION_TOKEN_LIFE = 30;
 
-    private ModelMapper modelMapper;
-    private CustomerRepository customerRepository;
-    private UserRepository userRepository;
-    private OwnerRepository ownerRepository;
-    private EmailService emailService;
+    private final UserRepository userRepository;
 
-    public AuthServiceImpl(ModelMapper modelMapper, CustomerRepository customerRepository, UserRepository userRepository, OwnerRepository ownerRepository, EmailService emailService) {
-        this.modelMapper = modelMapper;
-        this.customerRepository = customerRepository;
-        this.userRepository = userRepository;
-        this.ownerRepository = ownerRepository;
-        this.emailService = emailService;
-    }
+    private final ModelMapper modelMapper;
+    private final CustomerRepository customerRepository;
+    private final OwnerRepository ownerRepository;
+    private final AuthenticationManager authenticationManager;
+    private final  UserDetailsService userDetailsService;
+    private final JWTUtil jwtUtil;
+    private final EmailService emailService;
 
     @Override
     public void registerCustomer(RegisterRequest registerRequest) {
@@ -66,7 +73,15 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public LoginResponse login(LoginRequest loginRequest) {
-        return new LoginResponse(loginRequest.getEmail(), loginRequest.getPassword());
+        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
+                loginRequest.getEmail(),
+                loginRequest.getPassword()
+        ));
+        UserDetails userDetails = userDetailsService.loadUserByUsername(loginRequest.getEmail());
+        String accessToken = jwtUtil.generateAccessToken(userDetails);
+        String refreshToken = jwtUtil.generateRefreshToken(userDetails);
+
+        return new LoginResponse(accessToken, refreshToken);
     }
 
     @Override
