@@ -14,7 +14,7 @@ import java.util.Random;
 @Service
 public class AuthServiceImpl implements AuthService {
 
-    private final int MAX_LOGIN_ATTEMPTS = 6;
+    private final int MAX_VERIFICATION_ATTEMPTS = 6;
     private final int VERIFICATION_TOKEN_LIFE = 30;
 
     private ModelMapper modelMapper;
@@ -78,7 +78,7 @@ public class AuthServiceImpl implements AuthService {
     public EmailVerificationResponse verifyEmail(EmailVerificationRequest emailVerificationRequest) {
         User user = userRepository.findByEmail(emailVerificationRequest.getEmail());
 
-        if (user.getEmailVerificationAttempts() >= MAX_LOGIN_ATTEMPTS)
+        if (user.getEmailVerificationAttempts() >= MAX_VERIFICATION_ATTEMPTS)
             return new EmailVerificationResponse(false, "Too many incorrect attempts");
 
         if (user.getEmailVerificationTokenExpiry().isBefore(LocalDateTime.now()))
@@ -91,10 +91,11 @@ public class AuthServiceImpl implements AuthService {
         if (!tokenMatch) {
             user.setEmailVerificationAttempts(user.getEmailVerificationAttempts() + 1);
 
+            userRepository.save(user);
             return new EmailVerificationResponse(false, "Invalid token");
         }
 
-        user.setIsEmailVerified(true);
+        user.setEmailVerified(true);
 
         userRepository.save(user);
         return new EmailVerificationResponse(true, "Verification successful");

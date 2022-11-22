@@ -58,11 +58,12 @@ public class User {
     private int userType;
 
     @Column(columnDefinition = "boolean default false")
-    private boolean IsEmailVerified;
+    private boolean isEmailVerified;
 
     private String emailVerificationToken;
 
     private LocalDateTime emailVerificationTokenExpiry;
 
+    @Column(columnDefinition = "int default 0")
     private Integer emailVerificationAttempts;
 }
