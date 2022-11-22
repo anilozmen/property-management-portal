@@ -1,6 +1,7 @@
 package edu.miu.propertymanagement.controller;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import edu.miu.propertymanagement.controller.exception_controller.AuthExceptionController;
@@ -13,23 +14,34 @@ import edu.miu.propertymanagement.entity.dto.response.SuccessDto;
 import edu.miu.propertymanagement.exceptions.ErrorException;
 import edu.miu.propertymanagement.service.AuthService;
 import lombok.RequiredArgsConstructor;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @RestController
+@Validated
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/authenticate")
 @CrossOrigin(origins = "http://localhost:3000")
-public class AuthController extends AuthExceptionController {
+public class AuthController {
     private final AuthService authService;
 
     @PostMapping("/register")
     @ResponseStatus(HttpStatus.CREATED)
-    public void register(@RequestBody RegisterRequest registerRequest, @RequestParam(defaultValue = "false") boolean owner) {
-        if (owner) {
-            authService.registerOwner(registerRequest);
+    public void register(@RequestBody @Valid RegisterRequest registerRequest) {
+        if (registerRequest.getAccountType() == null) {
+            throw new ErrorException("Account type value is required.");
         }
-        authService.registerCustomer(registerRequest);
+
+        if (registerRequest.getAccountType().equals("owner")) {
+            authService.registerOwner(registerRequest);
+        } else if (registerRequest.getAccountType().equals("customer")) {
+            authService.registerCustomer(registerRequest);
+        } else {
+            throw new ErrorException("Account type not recognized. Only customer / owner field are accepted");
+        }
     }
 
     @PostMapping("/login")
