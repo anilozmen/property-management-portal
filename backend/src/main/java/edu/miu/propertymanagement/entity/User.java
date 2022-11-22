@@ -41,7 +41,7 @@ public class User {
     @OneToOne
     private Address address;
 
-    @NotBlank(message = "First Name cannot be blank")
+    @NotBlank(message = "Phone Number cannot be blank")
     @NonNull
     private String phoneNumber;
 
