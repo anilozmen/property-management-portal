@@ -19,7 +19,6 @@ import javax.validation.constraints.NotBlank;
 public class PropertyImages {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(columnDefinition = "serial")
     private long id;
 
     @NotBlank(message = "URL cannot be blank")

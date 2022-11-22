@@ -23,7 +23,6 @@ public class Address {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(columnDefinition = "serial")
     private long id;
 
     @NotBlank(message = "Address 1 cannot be blank")

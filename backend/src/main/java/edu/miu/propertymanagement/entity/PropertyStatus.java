@@ -20,7 +20,6 @@ public class PropertyStatus {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(columnDefinition = "serial")
     private long id;
 
     @NotBlank(message = "Property Status Name cannot be blank")
