@@ -20,7 +20,6 @@ public class PropertyType {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(columnDefinition = "serial")
     private long id;
 
     @NotBlank(message = "Property Type Name cannot be blank")
