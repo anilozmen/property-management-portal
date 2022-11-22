@@ -1,1 +1,4 @@
 .DS_Store
+
+frontend/.idea/
+backend/.idea/

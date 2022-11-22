@@ -48,8 +48,6 @@ public class User {
     @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private Address address;
 
-    @NotBlank(message = "Phone Number cannot be blank")
-    @NonNull
     private String phoneNumber;
 
     private boolean deleted = Boolean.FALSE;

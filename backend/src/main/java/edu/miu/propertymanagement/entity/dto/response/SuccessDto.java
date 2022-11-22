@@ -1,0 +1,13 @@
+package edu.miu.propertymanagement.entity.dto.response;
+
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@AllArgsConstructor
+@NoArgsConstructor
+@Data
+public class SuccessDto {
+    String message;
+}
