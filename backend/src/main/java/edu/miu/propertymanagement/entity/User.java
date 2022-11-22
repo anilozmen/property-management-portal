@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name = "user_type", discriminatorType = DiscriminatorType.INTEGER)
+@DiscriminatorColumn(name = "user_type", discriminatorType = DiscriminatorType.STRING)
 @Table(name = "users")
 @SQLDelete(sql = "UPDATE users SET deleted = true WHERE id=?")
 @FilterDef(name = "deletedUserFilter", parameters = @ParamDef(name = "isDeleted", type = "boolean"))
@@ -53,7 +53,7 @@ public class User {
     private boolean deleted = Boolean.FALSE;
 
     @Column(name="user_type", insertable = false, updatable = false)
-    private int userType;
+    private String userType;
 
     @Column(columnDefinition = "boolean default false")
     private boolean isEmailVerified;

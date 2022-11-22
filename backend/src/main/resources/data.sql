@@ -21,11 +21,11 @@ SELECT pg_catalog.setval('public.address_id_seq', 6, true);
 
 -- USERS
 INSERT INTO users (id, first_name, last_name, email, password, address_id, phone_number, user_type, deleted)
-VALUES (1, 'John', 'Doe', 'john@miu.edu', '$2a$12$IKEQb00u5QpZMx4v5zMweu.3wrq0pS7XLCHO4yHZ.BW/yvWu1feo2', 1, '+1 641 111 11 11', 1, false); --123
+VALUES (1, 'John', 'Doe', 'john@miu.edu', '$2a$12$IKEQb00u5QpZMx4v5zMweu.3wrq0pS7XLCHO4yHZ.BW/yvWu1feo2', 1, '+1 641 111 11 11', 'ADMIN', false); --123
 INSERT INTO users (id, first_name, last_name, email, password, address_id, phone_number, user_type, deleted)
-VALUES (2, 'Jessica', 'Doe', 'jessica@miu.edu', '$2a$12$IKEQb00u5QpZMx4v5zMweu.3wrq0pS7XLCHO4yHZ.BW/yvWu1feo2', 2, '+1 641 222 22 22', 2, false); --123
+VALUES (2, 'Jessica', 'Doe', 'jessica@miu.edu', '$2a$12$IKEQb00u5QpZMx4v5zMweu.3wrq0pS7XLCHO4yHZ.BW/yvWu1feo2', 2, '+1 641 222 22 22', 'OWNER', false); --123
 INSERT INTO users (id, first_name, last_name, email, password, address_id, phone_number, user_type, deleted)
-VALUES (3, 'Jerry', 'Doe', 'jerry@miu.edu', '$2a$12$IKEQb00u5QpZMx4v5zMweu.3wrq0pS7XLCHO4yHZ.BW/yvWu1feo2', 3, '+1 641 333 33 33', 3, true); --123
+VALUES (3, 'Jerry', 'Doe', 'jerry@miu.edu', '$2a$12$IKEQb00u5QpZMx4v5zMweu.3wrq0pS7XLCHO4yHZ.BW/yvWu1feo2', 3, '+1 641 333 33 33', 'CUSTOMER', true); --123
 
 SELECT pg_catalog.setval('public.users_id_seq', 3, true);
 
