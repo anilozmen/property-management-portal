@@ -1,8 +1,10 @@
 package edu.miu.propertymanagement.service;
 
 
+import edu.miu.propertymanagement.entity.dto.request.EmailVerificationRequest;
 import edu.miu.propertymanagement.entity.dto.request.LoginRequest;
 import edu.miu.propertymanagement.entity.dto.request.RegisterRequest;
+import edu.miu.propertymanagement.entity.dto.response.EmailVerificationResponse;
 import edu.miu.propertymanagement.entity.dto.response.LoginResponse;
 
 public interface AuthService {
@@ -10,4 +12,6 @@ public interface AuthService {
     void registerOwner(RegisterRequest registerRequest);
     LoginResponse login(LoginRequest loginRequest);
     void resetPassword(String email);
+
+    EmailVerificationResponse verifyEmail(EmailVerificationRequest emailVerificationRequest);
 }

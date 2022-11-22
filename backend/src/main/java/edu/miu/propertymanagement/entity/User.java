@@ -5,9 +5,9 @@ import org.hibernate.annotations.Filter;
 import org.hibernate.annotations.FilterDef;
 import org.hibernate.annotations.ParamDef;
 import org.hibernate.annotations.SQLDelete;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import java.time.LocalDateTime;
 
 @Data
 @AllArgsConstructor
@@ -52,6 +52,16 @@ public class User {
 
     private boolean deleted = Boolean.FALSE;
 
-    @Column(name = "user_type", insertable = false, updatable = false)
-    protected int userType;
+    @Column(name="user_type", insertable = false, updatable = false)
+    private int userType;
+
+    @Column(columnDefinition = "boolean default false")
+    private boolean isEmailVerified;
+
+    private String emailVerificationToken;
+
+    private LocalDateTime emailVerificationTokenExpiry;
+
+    @Column(columnDefinition = "int default 0")
+    private Integer emailVerificationAttempts;
 }
