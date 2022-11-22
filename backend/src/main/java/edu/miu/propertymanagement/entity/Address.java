@@ -13,6 +13,7 @@ public class Address {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(columnDefinition = "serial")
     private long id;
 
     @NotBlank(message = "Address 1 cannot be blank")
@@ -22,7 +23,7 @@ public class Address {
 
     @NotBlank(message = "Address 2 cannot be blank")
     @NonNull
-    @Column(nullable = false, name = "address_2")
+    @Column(name = "address_2")
     private String address2;
 
     @NotBlank(message = "City cannot be blank")
