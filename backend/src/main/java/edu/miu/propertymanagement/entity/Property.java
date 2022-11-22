@@ -19,9 +19,9 @@ import java.util.List;
 @FilterDef(name = "deletedPropertyFilter", parameters = @ParamDef(name = "isDeleted", type = "boolean"))
 @Filter(name = "deletedPropertyFilter", condition = "deleted = :isDeleted")
 public class Property {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(columnDefinition = "serial")
     private long id;
 
     @NotBlank(message = "Property Name cannot be blank")

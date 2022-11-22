@@ -17,9 +17,9 @@ import javax.validation.constraints.NotBlank;
 @FilterDef(name = "deletedListingFilter", parameters = @ParamDef(name = "isDeleted", type = "boolean"))
 @Filter(name = "deletedListingFilter", condition = "deleted = :isDeleted")
 public class ListingType {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(columnDefinition = "serial")
     private long id;
 
     @NotBlank(message = "Listing Type Name cannot be blank")
