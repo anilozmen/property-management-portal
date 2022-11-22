@@ -8,21 +8,29 @@ import edu.miu.propertymanagement.entity.dto.response.LoginResponse;
 import edu.miu.propertymanagement.repository.CustomerRepository;
 import edu.miu.propertymanagement.repository.OwnerRepository;
 import edu.miu.propertymanagement.service.AuthService;
+import edu.miu.propertymanagement.util.JWTUtil;
+import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 @Service
+@RequiredArgsConstructor
 public class AuthServiceImpl implements AuthService {
 
-    private ModelMapper modelMapper;
-    private CustomerRepository customerRepository;
-    private OwnerRepository ownerRepository;
-
-    public AuthServiceImpl(ModelMapper modelMapper, CustomerRepository customerRepository, OwnerRepository ownerRepository) {
-        this.modelMapper = modelMapper;
-        this.customerRepository = customerRepository;
-        this.ownerRepository = ownerRepository;
-    }
+    private final ModelMapper modelMapper;
+    private final CustomerRepository customerRepository;
+    private final OwnerRepository ownerRepository;
+    private final AuthenticationManager authenticationManager;
+    private final  UserDetailsService userDetailsService;
+    private final JWTUtil jwtUtil;
 
     @Override
     public void registerCustomer(RegisterRequest registerRequest) {
@@ -38,7 +46,15 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public LoginResponse login(LoginRequest loginRequest) {
-        return new LoginResponse(loginRequest.getEmail(), loginRequest.getPassword());
+        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
+                loginRequest.getEmail(),
+                loginRequest.getPassword()
+        ));
+        UserDetails userDetails = userDetailsService.loadUserByUsername(loginRequest.getEmail());
+        String accessToken = jwtUtil.generateAccessToken(userDetails);
+        String refreshToken = jwtUtil.generateRefreshToken(userDetails);
+
+        return new LoginResponse(accessToken, refreshToken);
     }
 
     @Override
