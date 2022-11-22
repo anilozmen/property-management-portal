@@ -38,11 +38,14 @@ public class User {
     @Column(nullable = false)
     private String password;
 
-    @OneToOne
+    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private Address address;
 
     @NotBlank(message = "Phone Number cannot be blank")
     @NonNull
     private String phoneNumber;
+
+    @Column(name="user_type", insertable = false, updatable = false)
+    protected int userType;
 
 }
