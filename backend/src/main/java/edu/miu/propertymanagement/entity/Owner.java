@@ -10,6 +10,6 @@ import java.util.List;
 @DiscriminatorValue("2")
 public class Owner extends User {
 
-    @OneToMany
+    @OneToMany(mappedBy = "owner")
     private List<Property> properties;
 }
