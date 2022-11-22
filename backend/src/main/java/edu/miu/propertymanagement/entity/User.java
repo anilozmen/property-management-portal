@@ -54,6 +54,6 @@ public class User {
 
     private boolean deleted = Boolean.FALSE;
 
-    @Column(name="user_type", insertable = false, updatable = false)
+    @Column(name = "user_type", insertable = false, updatable = false)
     protected int userType;
 }
