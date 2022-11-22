@@ -40,6 +40,9 @@ export default function Registration() {
 
     return (<form ref={formRef} className='form-registration'>
         <div className={'registration-screen'}>
+            
+            <h1>Registration Page</h1>
+            
             <label htmlFor={'email'}>Email</label>
             <input type={'email'} name={'email'}/>
 
@@ -78,7 +81,7 @@ export default function Registration() {
                 <option value={'owner'}>Owner</option>
             </select>
 
-            <div>
+            <div className={'submit-button'}>
                 <button onClick={onRegisterClick}>Submit</button>
             </div>
 
