@@ -134,4 +134,13 @@ public class AuthServiceImpl implements AuthService {
         userRepository.save(user);
         return new EmailVerificationResponse(true, "Verification successful");
     }
+
+    @Override
+    public void resendVerificationToken(String email) {
+        User user = userRepository.findByEmail(email);
+
+        generateAndSetTokenDetails(user);
+        userRepository.save(user);
+        sendVerificationEmail(user);
+    }
 }

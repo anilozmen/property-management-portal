@@ -60,4 +60,8 @@ public class AuthController {
     public EmailVerificationResponse verifyEmail(@RequestBody EmailVerificationRequest emailVerificationRequest) {
         return authService.verifyEmail(emailVerificationRequest);
     }
+    @GetMapping("/verify-email")
+    public void verifyEmail(@RequestParam String email) {
+        authService.resendVerificationToken(email);
+    }
 }
