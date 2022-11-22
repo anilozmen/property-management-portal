@@ -15,6 +15,7 @@ export default function Registration() {
         }).catch(error => {
             //todo: handle error properly .. show snackbar with proper error message, we might get from server.
             console.log(error.message);
+            alert('Something went wrong while registering.. ');
         })
     }
 
@@ -84,7 +85,6 @@ export default function Registration() {
             <div className={'submit-button'}>
                 <button onClick={onRegisterClick}>Submit</button>
             </div>
-
         </div>
     </form>);
 }
