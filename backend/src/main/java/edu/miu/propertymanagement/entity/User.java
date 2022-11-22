@@ -1,8 +1,10 @@
 package edu.miu.propertymanagement.entity;
 
 import lombok.*;
-import org.springframework.lang.Nullable;
-
+import org.hibernate.annotations.Filter;
+import org.hibernate.annotations.FilterDef;
+import org.hibernate.annotations.ParamDef;
+import org.hibernate.annotations.SQLDelete;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
@@ -14,6 +16,9 @@ import java.time.LocalDateTime;
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "user_type", discriminatorType = DiscriminatorType.INTEGER)
 @Table(name = "users")
+@SQLDelete(sql = "UPDATE users SET deleted = true WHERE id=?")
+@FilterDef(name = "deletedUserFilter", parameters = @ParamDef(name = "isDeleted", type = "boolean"))
+@Filter(name = "deletedUserFilter", condition = "deleted = :isDeleted")
 public class User {
 
     @Id
@@ -46,6 +51,8 @@ public class User {
     @NotBlank(message = "Phone Number cannot be blank")
     @NonNull
     private String phoneNumber;
+
+    private boolean deleted = Boolean.FALSE;
 
     @Column(name="user_type", insertable = false, updatable = false)
     private int userType;

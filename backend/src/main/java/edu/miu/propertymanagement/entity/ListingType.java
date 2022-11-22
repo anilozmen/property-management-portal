@@ -1,6 +1,10 @@
 package edu.miu.propertymanagement.entity;
 
 import lombok.*;
+import org.hibernate.annotations.Filter;
+import org.hibernate.annotations.FilterDef;
+import org.hibernate.annotations.ParamDef;
+import org.hibernate.annotations.SQLDelete;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -9,6 +13,9 @@ import javax.validation.constraints.NotBlank;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
+@SQLDelete(sql = "UPDATE listing_type SET deleted = true WHERE id=?")
+@FilterDef(name = "deletedListingFilter", parameters = @ParamDef(name = "isDeleted", type = "boolean"))
+@Filter(name = "deletedListingFilter", condition = "deleted = :isDeleted")
 public class ListingType {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,4 +26,6 @@ public class ListingType {
     @NonNull
     @Column(nullable = false)
     private String name;
+
+    private boolean deleted = Boolean.FALSE;
 }
