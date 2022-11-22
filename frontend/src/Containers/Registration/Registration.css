@@ -1,0 +1,17 @@
+.registration-screen {
+    display: grid;
+    width: 500px;
+    gap: 12px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 40px;
+    text-align: start;
+}
+
+.registration-screen label {
+    text-decoration: underline;
+}
+
+.registration-screen button {
+    margin-top: 12px;
+}
