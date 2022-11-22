@@ -3,67 +3,25 @@ import { getAccessToken, getRefreshToken, removeTokens, setTokens } from "./toke
 
 const API_BASE_URL = "http://localhost:8080/api/v1";
 
-const http = {
-  get: function (url, params = {}) {
-    return axios.get(
-      API_BASE_URL + url,
-      {
-        params,
-        headers: {
-          "Authorization": "Bearer " + getAccessToken(),
-          "Accept": "application/json"
-        }
-      }
-    )
-      .then(response => response.data);
-  },
-
-  post: function (url, body = {}) {
-    return axios.post(
-      API_BASE_URL + url,
-      body,
-      {
-        headers: {
-          "Authorization": "Bearer " + getAccessToken(),
-          "Content-Type": "application/json",
-          "Accept": "application/json"
-        }
-      }
-    )
-      .then(response => response.data);
-  },
-
-  put: function (url, body = {}) {
-    return axios.put(
-      API_BASE_URL + url,
-      body,
-      {
-        headers: {
-          "Authorization": "Bearer " + getAccessToken(),
-          "Content-Type": "application/json",
-          "Accept": "application/json"
-        }
-      }
-    )
-      .then(response => response.data);
-  },
-
-  delete: function (url) {
-    return axios.delete(
-      API_BASE_URL + url,
-      {
-        headers: {
-          "Authorization": "Bearer " + getAccessToken(),
-          "Accept": "application/json"
-        }
-      }
-    )
-      .then(response => response.data);
-  }
-};
+axios.defaults.baseURL = API_BASE_URL;
+axios.defaults.headers.post["Content-Type"] = "application/json";
+axios.defaults.headers.post["Accept"] = "application/json";
+axios.defaults.headers.get["Accept"] = "application/json";
 
 let isTokenBeingRefreshed = false;
 let heldRequests = [];
+
+axios.interceptors.request.use(
+  (config) => {
+    if (getAccessToken())
+      config.headers.common["Authorization"] = "Bearer " + getAccessToken();
+
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
 
 axios.interceptors.response.use(
   (response) => {
@@ -99,11 +57,11 @@ axios.interceptors.response.use(
 
       isTokenBeingRefreshed = true;
 
-      return http.post(
+      return axios.post(
         API_BASE_URL + '/refresh',
         {
-          accessToken: token.getAccessToken(),
-          refreshToken: token.getRefreshToken(),
+          accessToken: getAccessToken(),
+          refreshToken: getRefreshToken(),
         }
       )
         .then((res) => {
@@ -143,4 +101,4 @@ function releaseHeldRequests(err, refreshedAccessToken = null) {
   heldRequests = [];
 }
 
-export default http;
+export default axios;
