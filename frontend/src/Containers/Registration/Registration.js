@@ -1,9 +1,11 @@
 import './Registration.css';
 import {useEffect, useRef} from "react";
 import axios from "axios";
+import {useNavigate} from 'react-router-dom';
 
 export default function Registration() {
     const formRef = useRef();
+    const navigate = useNavigate();
 
     useEffect(() => {
         document.title = "Registration Page";
@@ -11,7 +13,7 @@ export default function Registration() {
 
     function submitRegistrationData(data) {
         axios.post('authenticate/register', data).then(response => {
-
+            navigate('/');
         }).catch(error => {
             //todo: handle error properly .. show snackbar with proper error message, we might get from server.
             console.log(error.message);
@@ -41,14 +43,14 @@ export default function Registration() {
 
     return (<form ref={formRef} className='form-registration'>
         <div className={'registration-screen'}>
-            
+
             <h1>Registration Page</h1>
-            
+
             <label htmlFor={'email'}>Email</label>
-            <input type={'email'} name={'email'}/>
+            <input type={'email'} name={'email'} required/>
 
             <label htmlFor={'password'}>Password</label>
-            <input type={'password'} name={'password'}/>
+            <input type={'password'} name={'password'} required/>
 
 
             <label htmlFor={'fname'}>First Name</label>
