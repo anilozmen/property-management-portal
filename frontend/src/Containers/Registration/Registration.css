@@ -1,0 +1,27 @@
+.registration-screen {
+    display: grid;
+    gap: 12px;
+    width: 640px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 40px;
+    margin-bottom: 40px;
+    text-align: start;
+    border: 1px solid green;
+    padding-left: 12px;
+    padding-right: 12px;
+}
+
+.registration-screen label {
+    text-decoration: underline;
+}
+
+.registration-screen button {
+    margin-top: 12px;
+    margin-bottom: 12px;
+}
+
+.registration-screen .submit-button {
+    display: flex;
+    justify-content: center;
+}

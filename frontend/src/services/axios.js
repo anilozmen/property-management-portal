@@ -100,5 +100,3 @@ function releaseHeldRequests(err, refreshedAccessToken = null) {
 
   heldRequests = [];
 }
-
-export default axios;

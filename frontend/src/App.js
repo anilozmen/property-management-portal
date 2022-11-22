@@ -1,17 +1,23 @@
 import './App.css';
-import { useDispatch, useSelector } from 'react-redux';
-import { add } from './reducers/counter';
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Registration from "./Containers/Registration/Registration";
+import Login from "./pages/Login/Login";
 
 function App() {
-  const dispatch = useDispatch();
-  const count = useSelector(state => state.counter.value);
 
-  return (
-    <div className="App">
-      <span>Count: {count}</span>
-      <button onClick={() => dispatch(add(8))}>Click</button>
-    </div>
-  );
+    return (
+        <BrowserRouter>
+
+            <div className="App">
+                <Routes>
+                    <Route path='/' element={<div>Home Page</div>} />
+                    <Route path='registration' element={<Registration />} />
+                    <Route path='login' element={<Login />} />
+                </Routes>
+            </div>
+
+        </BrowserRouter>
+    );
 }
 
 export default App;
