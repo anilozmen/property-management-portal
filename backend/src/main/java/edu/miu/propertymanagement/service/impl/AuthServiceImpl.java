@@ -3,10 +3,13 @@ package edu.miu.propertymanagement.service.impl;
 import edu.miu.propertymanagement.entity.*;
 import edu.miu.propertymanagement.entity.dto.request.*;
 import edu.miu.propertymanagement.entity.dto.response.*;
+import edu.miu.propertymanagement.exceptions.UserNotExistsException;
+import edu.miu.propertymanagement.exceptions.UserNotVerifiedException;
 import edu.miu.propertymanagement.repository.*;
 import edu.miu.propertymanagement.service.*;
 import edu.miu.propertymanagement.util.JWTUtil;
 import lombok.RequiredArgsConstructor;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -34,9 +37,11 @@ public class AuthServiceImpl implements AuthService {
     private final CustomerRepository customerRepository;
     private final OwnerRepository ownerRepository;
     private final AuthenticationManager authenticationManager;
-    private final  UserDetailsService userDetailsService;
+    private final UserDetailsService userDetailsService;
     private final JWTUtil jwtUtil;
     private final EmailService emailService;
+
+    private final UserService userService;
 
     @Override
     public void registerCustomer(RegisterRequest registerRequest) {
@@ -77,7 +82,21 @@ public class AuthServiceImpl implements AuthService {
                 loginRequest.getEmail(),
                 loginRequest.getPassword()
         ));
+
         UserDetails userDetails = userDetailsService.loadUserByUsername(loginRequest.getEmail());
+
+        String email = userDetails.getUsername();
+
+        User user = userService.getUserById(email);
+
+        if (user == null || user.isDeleted()) {
+            throw new UserNotExistsException();
+        }
+       
+        if (!user.isEmailVerified()) {
+            throw new UserNotVerifiedException();
+        }
+
         String accessToken = jwtUtil.generateAccessToken(userDetails);
         String refreshToken = jwtUtil.generateRefreshToken(userDetails);
 

@@ -29,6 +29,8 @@ import javax.validation.ConstraintViolationException;
 
 import edu.miu.propertymanagement.entity.dto.response.*;
 import edu.miu.propertymanagement.exceptions.ErrorException;
+import edu.miu.propertymanagement.exceptions.UserNotExistsException;
+import edu.miu.propertymanagement.exceptions.UserNotVerifiedException;
 
 @RestControllerAdvice
 public class AuthExceptionController {
@@ -55,5 +57,21 @@ public class AuthExceptionController {
         ValidationErrorResponse validationErrorResponse = new ValidationErrorResponse(errorMessages);
         return ResponseEntity.status(400).body(validationErrorResponse);
     }
+
+    @ExceptionHandler(value = UserNotVerifiedException.class)
+    public ResponseEntity<ErrorResponse> exceptionUserNotVerifiedExceptionHandler(UserNotVerifiedException exception) {
+
+        ErrorResponse errorResponse = new ErrorResponse("User is not verified. Please check your email for verification link");
+        return ResponseEntity.status(400).body(errorResponse);
+    }
+    
+
+    @ExceptionHandler(value = UserNotExistsException.class)
+    public ResponseEntity<ErrorResponse> exceptionUserNotExistsExceptionHandler(UserNotExistsException exception) {
+
+        ErrorResponse errorResponse = new ErrorResponse("User doesnt exists.. please create ");
+        return ResponseEntity.status(400).body(errorResponse);
+    }
+    
 
 }
