@@ -5,9 +5,11 @@ import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import java.util.ArrayList;
 import java.util.logging.ErrorManager;
 
 import javax.naming.AuthenticationException;
+import javax.validation.ConstraintViolationException;
 
 import edu.miu.propertymanagement.entity.dto.response.ErrorDto;
 import edu.miu.propertymanagement.entity.dto.response.ErrorResponse;
@@ -27,10 +29,12 @@ public class AuthExceptionController {
         ErrorResponse error = new ErrorResponse(exception.getLocalizedMessage());
         return ResponseEntity.ok(error);
     }
-    
-    @ExceptionHandler(value = Exception.class)
-    public ResponseEntity<ErrorResponse> exceptionGeneralMessage(Exception e) {
-        ErrorResponse errorResponse = new ErrorResponse("Something went wrong while handling data...");
+
+    @ExceptionHandler(value = ConstraintViolationException.class)
+    public ResponseEntity<ErrorResponse> exceptionValidationHandler(ConstraintViolationException exception) {
+        String errorMessage = new ArrayList<>(exception.getConstraintViolations()).get(0).getMessage();
+        ErrorResponse errorResponse = new ErrorResponse(errorMessage);
         return ResponseEntity.ok(errorResponse);
     }
+    
 }

@@ -36,7 +36,8 @@ export default function Registration() {
                 'city': form.city.value,
                 'state': form.state.value,
                 'zipCode': form.zipcode.value
-            }
+            },
+            'accountType': form.userType.value
         }
         submitRegistrationData(data);
     }

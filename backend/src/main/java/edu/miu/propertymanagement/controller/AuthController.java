@@ -1,6 +1,7 @@
 package edu.miu.propertymanagement.controller;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import edu.miu.propertymanagement.controller.exception_controller.AuthExceptionController;
@@ -18,6 +19,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@Validated
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/authenticate")
 @CrossOrigin(origins = "http://localhost:3000")
@@ -27,13 +29,13 @@ public class AuthController {
     @PostMapping("/register")
     @ResponseStatus(HttpStatus.CREATED)
     public void register(@RequestBody RegisterRequest registerRequest) {
-        if(registerRequest.getUserType() == null) {
+        if (registerRequest.getAccountType() == null) {
             throw new ErrorException("Account type value is required.");
         }
-        
-        if (registerRequest.getUserType().equals("owner")) {
+
+        if (registerRequest.getAccountType().equals("owner")) {
             authService.registerOwner(registerRequest);
-        } else if (registerRequest.getUserType().equals("customer")) {
+        } else if (registerRequest.getAccountType().equals("customer")) {
             authService.registerCustomer(registerRequest);
         } else {
             throw new ErrorException("Account type not recognized. Only customer / owner field are accepted");

@@ -1,5 +1,7 @@
 package edu.miu.propertymanagement.entity.dto.request;
 
+import javax.persistence.Transient;
+
 import edu.miu.propertymanagement.entity.Address;
 import lombok.*;
 
@@ -13,5 +15,5 @@ public class RegisterRequest {
     private String password;
     private Address address;
     private String phoneNumber;
-    private String userType;
+    private String accountType;
 }
