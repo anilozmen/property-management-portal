@@ -1,6 +1,8 @@
 package edu.miu.propertymanagement.entity.dto.request;
 
+import edu.miu.propertymanagement.entity.Address;
 import lombok.*;
+
 
 @Data
 @NoArgsConstructor
@@ -11,6 +13,6 @@ public class UserDto {
     private String lastName;
     private String email;
     private String password;
-//    private Address address;
+    private Address address;
     private String phoneNumber;
 }
