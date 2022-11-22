@@ -11,7 +11,7 @@ import java.util.List;
 public class ApplicationUserDetail implements UserDetails {
     private final String username;
     private final String password;
-    private final int role;
+    private final String role;
 
     public ApplicationUserDetail(User user) {
         username = user.getEmail();
@@ -22,7 +22,7 @@ public class ApplicationUserDetail implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<GrantedAuthority> authorities = new ArrayList<>();
-        authorities.add(() -> "" + role);
+        authorities.add(() -> role);
 
         return authorities;
     }
