@@ -45,7 +45,7 @@ public class User {
     @Column(nullable = false)
     private String password;
 
-    @OneToOne
+    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private Address address;
 
     @NotBlank(message = "Phone Number cannot be blank")
@@ -54,4 +54,6 @@ public class User {
 
     private boolean deleted = Boolean.FALSE;
 
+    @Column(name="user_type", insertable = false, updatable = false)
+    protected int userType;
 }
