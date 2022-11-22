@@ -14,7 +14,7 @@ let heldRequests = [];
 axios.interceptors.request.use(
   (config) => {
     if (getAccessToken())
-      config.headers.common["Authorization"] = "Bearer " + getAccessToken();
+      config.headers["Authorization"] = "Bearer " + getAccessToken();
 
     return config;
   },
