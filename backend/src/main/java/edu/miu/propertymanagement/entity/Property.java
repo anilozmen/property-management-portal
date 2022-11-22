@@ -1,6 +1,10 @@
 package edu.miu.propertymanagement.entity;
 
 import lombok.*;
+import org.hibernate.annotations.Filter;
+import org.hibernate.annotations.FilterDef;
+import org.hibernate.annotations.ParamDef;
+import org.hibernate.annotations.SQLDelete;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -11,6 +15,9 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
+@SQLDelete(sql = "UPDATE property SET deleted = true WHERE id=?")
+@FilterDef(name = "deletedPropertyFilter", parameters = @ParamDef(name = "isDeleted", type = "boolean"))
+@Filter(name = "deletedPropertyFilter", condition = "deleted = :isDeleted")
 public class Property {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -53,5 +60,6 @@ public class Property {
     @JoinColumn(name = "id_property")
     private List<PropertyImages> propertyImages;
 
+    private boolean deleted = Boolean.FALSE;
 
 }
