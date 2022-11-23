@@ -35,7 +35,7 @@ public class PropertyServiceImpl implements PropertyService {
 
     @Override
     public List<PropertyDto> findListingProperties() {
-        return listMapper.mapList(propertyRepository.findByPropertyStatusIn(PropertyStatus.AVAILABLE.toString(), PropertyStatus.PENDING.toString()), PropertyDto.class);
+        return listMapper.mapList(propertyRepository.findByPropertyStatusIn(PropertyStatus.AVAILABLE, PropertyStatus.PENDING), PropertyDto.class);
     }
 
     @Override
