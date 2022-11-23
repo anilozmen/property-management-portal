@@ -33,8 +33,13 @@ class MessageController {
 
         ApplicationUserDetail userDetail = userService.getLoggedInUser();
 
-        if (userDetail.isOwner() && propertyId != null) {
-            return messageService.getAllMessageForProperty(propertyId);
+        if (propertyId != null) {
+            if (userDetail.isOwner()) {
+                return messageService.getAllMessageForProperty(propertyId);
+            }
+            else if(userDetail.isCustomer()) {
+                return messageService.getAllOwnerRelatedPropertyMessages(propertyId);
+            }
         }
 
         return messageService.getAllMessagesByUserId(userDetail.getId());
@@ -60,7 +65,6 @@ class MessageController {
     public void editMessage(@PathVariable(value = "id") long id, @RequestBody OwnerMessageRequest request) {
         MessageDto messageDto = messageService.getMessageById(id);
         messageDto.setReply(request.getReply());
-        messageService.editMessage(messageDto,id);
+        messageService.editMessage(messageDto, id);
     }
-
 }

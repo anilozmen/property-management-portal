@@ -14,4 +14,8 @@ public interface MessageRepository extends CrudRepository<Message, Long> {
 
     @Query("select m from messages m where m.property.id=:id")
     List<Message> getAllMessageForProperty(long id);
+
+    @Query("select m from messages m where (m.sender.id=:userId or m.sender.id=:secondUserId" +
+            " or m.receiver.id=:userId or m.receiver.id=:secondUserId) and m.property.id=:propertyId")
+    List<Message> getAllOwnerRelatedPropertyMessages(Long propertyId, Long userId, Long secondUserId);
 }

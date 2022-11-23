@@ -17,4 +17,6 @@ public interface MessageService {
     void deleteMessage(long id);
 
     MessageDto getMessageById(long id);
+
+    List<MessageDto> getAllOwnerRelatedPropertyMessages(Long propertyId);
 }

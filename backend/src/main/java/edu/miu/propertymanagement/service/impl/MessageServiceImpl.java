@@ -63,6 +63,18 @@ public class MessageServiceImpl implements MessageService {
         return MessageMapper.mapMessageToDto(messageRepository.findById(id).orElse(null));
     }
 
+    @Override
+    public List<MessageDto> getAllOwnerRelatedPropertyMessages(Long propertyId) {
+        ApplicationUserDetail userDetail = userService.getLoggedInUser();
+        Long loggedInUserId = propertyService.getOwnerByProperty(propertyId);
+        return MessageMapper.mapMessageListToDtoList(messageRepository.getAllOwnerRelatedPropertyMessages(
+                propertyId,
+                userDetail.getId(),
+                loggedInUserId
+                
+        ));
+    }
+
     private Message mapMessageDtoToEntity(MessageDto messageDto) {
         Message message = new Message();
         message.setReply(messageDto.getReply());
