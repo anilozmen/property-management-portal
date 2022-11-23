@@ -116,7 +116,7 @@ public class AuthServiceImpl implements AuthService {
         if (user == null || user.isDeleted()) {
             throw new UserNotExistsException();
         }
-       
+
         if (!user.isEmailVerified()) {
             throw new UserNotVerifiedException();
         }
@@ -131,6 +131,9 @@ public class AuthServiceImpl implements AuthService {
     public PasswordResetResponse resetPassword(String email) {
         User user = userRepository.findByEmail(email);
 
+        if (user == null)
+            throw new UserNotExistsException();
+
         if (!user.isDeleted() && user.isEmailVerified()) {
             Random random = new Random();
             String token = String.valueOf(random.nextInt(100000, 1000000));
@@ -144,7 +147,7 @@ public class AuthServiceImpl implements AuthService {
             return new PasswordResetResponse(token);
         }
 
-        return null;
+        throw new UserNotVerifiedException();
     }
 
     @Override
@@ -194,7 +197,6 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public void changeUserPassword(User user, String password) {
-        System.out.println("PASSWORD: " + password);
         user.setPassword(passwordEncoder.encode(password));
         userRepository.save(user);
     }
