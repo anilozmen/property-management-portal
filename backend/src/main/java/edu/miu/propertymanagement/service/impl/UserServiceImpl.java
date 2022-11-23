@@ -11,9 +11,9 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
 class UserServiceImpl implements UserService {
-    
+
     private final UserRepository userRepository;
-    
+
     @Override
     public User getUserByEmailId(String id) {
         return userRepository.findByEmail(id);
@@ -21,7 +21,12 @@ class UserServiceImpl implements UserService {
 
     @Override
     public ApplicationUserDetail getLoggedInUser() {
-        return ((ApplicationUserDetail) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+        try {
+            return ((ApplicationUserDetail) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     @Override
