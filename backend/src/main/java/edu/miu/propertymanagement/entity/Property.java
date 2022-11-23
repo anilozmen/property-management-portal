@@ -1,13 +1,13 @@
 package edu.miu.propertymanagement.entity;
 
 import lombok.*;
-import org.hibernate.annotations.Filter;
-import org.hibernate.annotations.FilterDef;
-import org.hibernate.annotations.ParamDef;
-import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.*;
 
 import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -37,23 +37,23 @@ public class Property {
     @Column(nullable = false)
     private String description;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private Address address;
 
-    @NotBlank(message = "Property Price cannot be blank")
-    @NonNull
+    @NotNull(message = "Property price cannot be null")
     @Column(nullable = false)
     private BigDecimal price;
 
-    @OneToOne
+    @Enumerated(EnumType.STRING)
     private PropertyType propertyType;
 
-    @OneToOne
+    @Enumerated(EnumType.STRING)
     private PropertyStatus propertyStatus;
 
-    @OneToOne
+    @Enumerated(EnumType.STRING)
     private ListingType listingType;
 
+    @ColumnDefault("0")
     private long viewCount;
 
     @OneToMany
