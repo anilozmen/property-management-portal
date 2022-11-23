@@ -12,11 +12,13 @@ public class ApplicationUserDetail implements UserDetails {
     private final String username;
     private final String password;
     private final String role;
+    private final long id;
 
     public ApplicationUserDetail(User user) {
         username = user.getEmail();
         password = user.getPassword();
         role = user.getUserType();
+        id = user.getId();
     }
 
     @Override
@@ -25,6 +27,22 @@ public class ApplicationUserDetail implements UserDetails {
         authorities.add(() -> role);
 
         return authorities;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public boolean isOwner() {
+        return role.equals("OWNER");
+    }
+
+    public boolean isAdmin() {
+        return role.equals("ADMIN");
+    }
+
+    public boolean isCustomer() {
+        return role.equals("CUSTOMER");
     }
 
     @Override

@@ -1,7 +1,6 @@
 package edu.miu.propertymanagement.service.impl;
 
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 
 import edu.miu.propertymanagement.entity.User;

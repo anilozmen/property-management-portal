@@ -22,42 +22,42 @@ SELECT pg_catalog.setval('public.address_id_seq', 6, true);
 -- USERS
 INSERT INTO users (id, first_name, last_name, email, password, address_id, phone_number, user_type, deleted)
 VALUES (1, 'John', 'Doe', 'john@miu.edu', '$2a$12$IKEQb00u5QpZMx4v5zMweu.3wrq0pS7XLCHO4yHZ.BW/yvWu1feo2', 1, '+1 641 111 11 11', 'ADMIN', false); --123
-INSERT INTO users (id, first_name, last_name, email, password, address_id, phone_number, user_type, deleted)
-VALUES (2, 'Jessica', 'Doe', 'jessica@miu.edu', '$2a$12$IKEQb00u5QpZMx4v5zMweu.3wrq0pS7XLCHO4yHZ.BW/yvWu1feo2', 2, '+1 641 222 22 22', 'OWNER', false); --123
+INSERT INTO users (id, is_email_verified, first_name, last_name, email, password, address_id, phone_number, user_type, deleted)
+VALUES (2, true, 'Jessica', 'Doe', 'jessica@miu.edu', '$2a$12$IKEQb00u5QpZMx4v5zMweu.3wrq0pS7XLCHO4yHZ.BW/yvWu1feo2', 2, '+1 641 222 22 22', 'OWNER', false); --123
 INSERT INTO users (id, first_name, last_name, email, password, address_id, phone_number, user_type, deleted)
 VALUES (3, 'Jerry', 'Doe', 'jerry@miu.edu', '$2a$12$IKEQb00u5QpZMx4v5zMweu.3wrq0pS7XLCHO4yHZ.BW/yvWu1feo2', 3, '+1 641 333 33 33', 'CUSTOMER', true); --123
 
 SELECT pg_catalog.setval('public.users_id_seq', 3, true);
 
--- LISTING TYPE
-INSERT INTO listing_type (id, name, deleted)
-VALUES (1, 'SELL', false);
-INSERT INTO listing_type (id, name, deleted)
-VALUES (2, 'RENT', false);
+-- -- LISTING TYPE
+-- INSERT INTO listing_type (id, name, deleted)
+-- VALUES (1, 'SELL', false);
+-- INSERT INTO listing_type (id, name, deleted)
+-- VALUES (2, 'RENT', false);
 
-SELECT pg_catalog.setval('public.listing_type_id_seq', 2, true);
+-- SELECT pg_catalog.setval('public.listing_type_id_seq', 2, true);
 
--- PROPERTY STATUS
-INSERT INTO property_status (id, name, deleted)
-VALUES (1, 'SOLD', false);
-INSERT INTO property_status (id, name, deleted)
-VALUES (2, 'ACTIVE', false);
-SELECT pg_catalog.setval('public.property_status_id_seq', 2, true);
+-- -- PROPERTY STATUS
+-- INSERT INTO property_status (id, name, deleted)
+-- VALUES (1, 'SOLD', false);
+-- INSERT INTO property_status (id, name, deleted)
+-- VALUES (2, 'ACTIVE', false);
+-- SELECT pg_catalog.setval('public.property_status_id_seq', 2, true);
 
 -- PROPERTY TYPE
-INSERT INTO property_type (id, name, deleted)
-VALUES (1, 'APARTMENT', false);
-INSERT INTO property_type (id, name, deleted)
-VALUES (2, 'CONDO', false);
-
-SELECT pg_catalog.setval('public.property_type_id_seq', 2, true);
+-- INSERT INTO property_type (id, name, deleted)
+-- VALUES (1, 'APARTMENT', false);
+-- INSERT INTO property_type (id, name, deleted)
+-- VALUES (2, 'CONDO', false);
+--
+-- SELECT pg_catalog.setval('public.property_type_id_seq', 2, true);
 
 -- PROPERTY
-INSERT INTO property (id, description, name, price, view_count, address_id, listing_type_id, owner_id, property_status_id, property_type_id, deleted)
-VALUES (1, 'PROPERTY 1 DESCRIPTION', 'PROPERTY 1 NAME', 35.5, 0, 4, 1, 2, 1, 1, false);
-INSERT INTO property (id, description, name, price, view_count, address_id, listing_type_id, owner_id, property_status_id, property_type_id, deleted)
-VALUES (2, 'PROPERTY 2 DESCRIPTION', 'PROPERTY 2 NAME', 50.5, 356, 5, 1, 2, 2, 2, false);
-INSERT INTO property (id, description, name, price, view_count, address_id, listing_type_id, owner_id, property_status_id, property_type_id, deleted)
-VALUES (3, 'PROPERTY 3 DESCRIPTION', 'PROPERTY 3 NAME', 20, 120, 6, 2, 2, 2, 2, false);
+INSERT INTO property (id, description, name, price, view_count, address_id, listing_type, owner_id, property_status, property_type, deleted)
+VALUES (1, 'PROPERTY 1 DESCRIPTION', 'PROPERTY 1 NAME', 35.5, 0, 4, 'SALE', 2, 'AVAILABLE', 'HOUSE', false);
+INSERT INTO property (id, description, name, price, view_count, address_id, listing_type, owner_id, property_status, property_type, deleted)
+VALUES (2, 'PROPERTY 2 DESCRIPTION', 'PROPERTY 2 NAME', 50.5, 356, 5, 'SALE', 2, 'AVAILABLE', 'CONDO', false);
+INSERT INTO property (id, description, name, price, view_count, address_id, listing_type, owner_id, property_status, property_type, deleted)
+VALUES (3, 'PROPERTY 3 DESCRIPTION', 'PROPERTY 3 NAME', 20, 120, 6, 'RENT', 2, 'AVAILABLE', 'APARTMENT', false);
 
 SELECT pg_catalog.setval('public.property_id_seq', 3, true);
