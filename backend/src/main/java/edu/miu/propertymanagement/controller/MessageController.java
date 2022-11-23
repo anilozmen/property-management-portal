@@ -20,6 +20,7 @@ import lombok.RequiredArgsConstructor;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/messages")
+@CrossOrigin(origins = "http://localhost:3000")
 class MessageController {
 
     private final UserService userService;
@@ -36,8 +37,7 @@ class MessageController {
         if (propertyId != null) {
             if (userDetail.isOwner()) {
                 return messageService.getAllMessageForProperty(propertyId);
-            }
-            else if(userDetail.isCustomer()) {
+            } else if (userDetail.isCustomer()) {
                 return messageService.getAllOwnerRelatedPropertyMessages(propertyId);
             }
         }
