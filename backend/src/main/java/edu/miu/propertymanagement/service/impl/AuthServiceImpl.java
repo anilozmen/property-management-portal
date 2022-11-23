@@ -9,6 +9,7 @@ import edu.miu.propertymanagement.entity.dto.request.LoginRequest;
 import edu.miu.propertymanagement.entity.dto.request.RegisterRequest;
 import edu.miu.propertymanagement.entity.dto.response.EmailVerificationResponse;
 import edu.miu.propertymanagement.entity.dto.response.LoginResponse;
+import edu.miu.propertymanagement.entity.dto.response.PasswordResetResponse;
 import edu.miu.propertymanagement.exceptions.UserNotExistsException;
 import edu.miu.propertymanagement.exceptions.UserNotVerifiedException;
 import edu.miu.propertymanagement.repository.CustomerRepository;
@@ -115,7 +116,7 @@ public class AuthServiceImpl implements AuthService {
         if (user == null || user.isDeleted()) {
             throw new UserNotExistsException();
         }
-       
+
         if (!user.isEmailVerified()) {
             throw new UserNotVerifiedException();
         }
@@ -127,10 +128,13 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public void resetPassword(String email) {
+    public PasswordResetResponse resetPassword(String email) {
         User user = userRepository.findByEmail(email);
 
-        if (user != null) {
+        if (user == null)
+            throw new UserNotExistsException();
+
+        if (!user.isDeleted() && user.isEmailVerified()) {
             Random random = new Random();
             String token = String.valueOf(random.nextInt(100000, 1000000));
             createPasswordResetTokenForUser(user, token);
@@ -140,7 +144,10 @@ public class AuthServiceImpl implements AuthService {
                     "http://localhost:8080/api/v1/changePassword?token=" + token
             );
 
+            return new PasswordResetResponse(token);
         }
+
+        throw new UserNotVerifiedException();
     }
 
     @Override

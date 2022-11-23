@@ -5,6 +5,7 @@ import edu.miu.propertymanagement.entity.dto.request.*;
 
 import edu.miu.propertymanagement.entity.dto.response.EmailVerificationResponse;
 import edu.miu.propertymanagement.entity.dto.response.LoginResponse;
+import edu.miu.propertymanagement.entity.dto.response.PasswordResetResponse;
 import edu.miu.propertymanagement.exceptions.ErrorException;
 import edu.miu.propertymanagement.service.AuthService;
 import edu.miu.propertymanagement.service.PasswordResetService;
@@ -51,8 +52,8 @@ public class AuthController {
 
     @PostMapping("/reset-password")
     @ResponseStatus(HttpStatus.OK)
-    public void resetPassword(@RequestBody PasswordResetRequest passwordResetRequest) {
-        authService.resetPassword(passwordResetRequest.getEmail());
+    public PasswordResetResponse resetPassword(@RequestBody PasswordResetRequest passwordResetRequest) {
+        return authService.resetPassword(passwordResetRequest.getEmail());
     }
 
     @PostMapping("/change-password")
