@@ -1,25 +1,33 @@
 package edu.miu.propertymanagement.service.impl;
 
-import edu.miu.propertymanagement.entity.*;
-import edu.miu.propertymanagement.entity.dto.request.*;
-import edu.miu.propertymanagement.entity.dto.response.*;
+import edu.miu.propertymanagement.entity.Customer;
+import edu.miu.propertymanagement.entity.Owner;
+import edu.miu.propertymanagement.entity.User;
+import edu.miu.propertymanagement.entity.dto.request.EmailVerificationRequest;
+import edu.miu.propertymanagement.entity.dto.request.LoginRequest;
+import edu.miu.propertymanagement.entity.dto.request.RegisterRequest;
+import edu.miu.propertymanagement.entity.dto.response.EmailVerificationResponse;
+import edu.miu.propertymanagement.entity.dto.response.LoginResponse;
 import edu.miu.propertymanagement.exceptions.UserNotExistsException;
 import edu.miu.propertymanagement.exceptions.UserNotVerifiedException;
-import edu.miu.propertymanagement.repository.*;
-import edu.miu.propertymanagement.service.*;
+import edu.miu.propertymanagement.repository.CustomerRepository;
+import edu.miu.propertymanagement.repository.OwnerRepository;
+import edu.miu.propertymanagement.repository.UserRepository;
+import edu.miu.propertymanagement.service.AuthService;
+import edu.miu.propertymanagement.service.EmailService;
+import edu.miu.propertymanagement.service.UserService;
 import edu.miu.propertymanagement.util.JWTUtil;
 import lombok.RequiredArgsConstructor;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
+import org.springframework.data.repository.CrudRepository;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDateTime;
 import java.util.Random;
@@ -31,32 +39,37 @@ public class AuthServiceImpl implements AuthService {
     private final int MAX_VERIFICATION_ATTEMPTS = 6;
     private final int VERIFICATION_TOKEN_LIFE = 30;
 
-    private final UserRepository userRepository;
+    private ModelMapper modelMapper;
+    private CustomerRepository customerRepository;
+    private UserRepository userRepository;
+    private OwnerRepository ownerRepository;
+    private EmailService emailService;
+    @Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    private final ModelMapper modelMapper;
-    private final CustomerRepository customerRepository;
-    private final OwnerRepository ownerRepository;
     private final AuthenticationManager authenticationManager;
     private final UserDetailsService userDetailsService;
     private final JWTUtil jwtUtil;
-    private final EmailService emailService;
 
     private final UserService userService;
 
     @Override
     public void registerCustomer(RegisterRequest registerRequest) {
-        Customer customer = modelMapper.map(registerRequest, Customer.class);
-        generateAndSetTokenDetails(customer);
-        customerRepository.save(customer);
-        sendVerificationEmail(customer);
+        registerInternal(registerRequest, customerRepository, Customer.class);
     }
 
     @Override
     public void registerOwner(RegisterRequest registerRequest) {
-        Owner owner = modelMapper.map(registerRequest, Owner.class);
-        generateAndSetTokenDetails(owner);
-        ownerRepository.save(owner);
-        sendVerificationEmail(owner);
+        registerInternal(registerRequest, ownerRepository, Owner.class);
+    }
+
+    private void registerInternal(RegisterRequest registerRequest, CrudRepository repository, Class<? extends User> type) {
+        registerRequest.setPassword(bCryptPasswordEncoder.encode(registerRequest.getPassword()));
+        User user = modelMapper.map(registerRequest, type);
+
+        generateAndSetTokenDetails(user);
+        repository.save(user);
+        sendVerificationEmail(user);
     }
 
     public void generateAndSetTokenDetails(User user) {

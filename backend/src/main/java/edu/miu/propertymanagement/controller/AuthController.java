@@ -4,20 +4,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import edu.miu.propertymanagement.controller.exception_controller.AuthExceptionController;
 import edu.miu.propertymanagement.entity.dto.request.EmailVerificationRequest;
 import edu.miu.propertymanagement.entity.dto.request.LoginRequest;
 import edu.miu.propertymanagement.entity.dto.request.RegisterRequest;
 import edu.miu.propertymanagement.entity.dto.response.EmailVerificationResponse;
 import edu.miu.propertymanagement.entity.dto.response.LoginResponse;
-import edu.miu.propertymanagement.entity.dto.response.SuccessDto;
 import edu.miu.propertymanagement.exceptions.ErrorException;
 import edu.miu.propertymanagement.service.AuthService;
 import lombok.RequiredArgsConstructor;
-
-import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.*;
-
 import javax.validation.Valid;
 
 @RestController
