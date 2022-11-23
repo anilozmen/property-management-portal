@@ -36,7 +36,7 @@ class MessageController {
 
         if (propertyId != null) {
             if (userDetail.isOwner()) {
-                return messageService.getAllMessageForProperty(propertyId);
+                return messageService.getAllMessageForProperty(propertyId, userDetail.getId());
             } else if (userDetail.isCustomer()) {
                 return messageService.getAllOwnerRelatedPropertyMessages(propertyId);
             }

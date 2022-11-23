@@ -83,8 +83,13 @@ SELECT pg_catalog.setval('public.property_id_seq', 3, true);
 
 -- MESSAGES
 INSERT INTO messages (id, message,reply, property_id, receiver_id, sender_id)
-VALUES (1, 'wtf','fuck you', 1, 4, 5);
+VALUES (1, 'message from customer anil to madhav property 1','message back to anil from madhav property 1', 1, 4, 5);
 INSERT INTO messages (id, message, property_id, receiver_id, sender_id)
-VALUES (2, 'wtf', 1, 4, 5);
+VALUES (2, 'message to owner madhav from anil customer property 1', 1, 4, 5);
 
-SELECT pg_catalog.setval('public.property_id_seq', 2, true);
+INSERT INTO messages (id, message,reply, property_id, receiver_id, sender_id)
+VALUES (3, 'message from customer anil to madhav property 2','message back to anil from madhav property 2', 2, 4, 5);
+INSERT INTO messages (id, message, property_id, receiver_id, sender_id)
+VALUES (4, 'message to owner madhav from anil customer property 2', 2, 4, 5);
+
+SELECT pg_catalog.setval('public.property_id_seq', 3, true);

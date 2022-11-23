@@ -35,8 +35,8 @@ public class MessageServiceImpl implements MessageService {
     }
 
     @Override
-    public List<MessageDto> getAllMessageForProperty(long id) {
-        List<Message> messages = messageRepository.getAllMessageForProperty(id);
+    public List<MessageDto> getAllMessageForProperty(long id, long userId) {
+        List<Message> messages = messageRepository.getAllMessageForProperty(id,userId);
         return MessageMapper.mapMessageListToDtoList(messages);
     }
 

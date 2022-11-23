@@ -8,7 +8,7 @@ import edu.miu.propertymanagement.entity.dto.response.MessageDto;
 public interface MessageService {
     List<MessageDto> getAllMessagesByUserId(long userId);
     
-    List<MessageDto> getAllMessageForProperty(long id);
+    List<MessageDto> getAllMessageForProperty(long id,long userId);
     
     void addMessage(MessageDto message);
     
