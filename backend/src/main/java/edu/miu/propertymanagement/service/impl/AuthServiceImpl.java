@@ -96,10 +96,10 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public void resetPassword(String email) {
+    public PasswordResetResponse resetPassword(String email) {
         User user = userRepository.findByEmail(email);
 
-        if (user != null) {
+        if (!user.isDeleted() && user.isEmailVerified()) {
             Random random = new Random();
             String token = String.valueOf(random.nextInt(100000, 1000000));
             createPasswordResetTokenForUser(user, token);
@@ -109,7 +109,10 @@ public class AuthServiceImpl implements AuthService {
                     "http://localhost:8080/api/v1/changePassword?token=" + token
             );
 
+            return new PasswordResetResponse(token);
         }
+
+        return null;
     }
 
     @Override
@@ -159,6 +162,7 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public void changeUserPassword(User user, String password) {
+        System.out.println("PASSWORD: " + password);
         user.setPassword(passwordEncoder.encode(password));
         userRepository.save(user);
     }
