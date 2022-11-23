@@ -5,6 +5,7 @@ import { hasSessionData } from '../../services/token';
 import { Link } from 'react-router-dom';
 
 import { loginAsyncAction } from "../../reducers/login";
+import ContentContainer from "../Layout/Layout";
 
 function Login() {
   const formRef = useRef(null);
@@ -42,51 +43,39 @@ function Login() {
 
 
   return (
-    <section className="contact mt-5 mb-4">
-      <div className="container">
+    <ContentContainer>
+      <h1 className="mb-4">Login</h1>
+      <form className="form-a contactForm" onSubmit={handleSubmit} ref={formRef}>
         <div className="row">
-          <div className="col-sm-12 section-t8">
-            <div className="row">
-              <div className="col-md-12">
-                <h1 className="mb-4">Login</h1>
-                <form className="form-a contactForm" onSubmit={handleSubmit} ref={formRef}>
-                  <div className="row">
-                    <div className="col-md-12 mb-3">
-                      <div className="form-group">
-                        <label htmlFor={'email'} className="form-label">Email Address: </label>
-                        <input id={'email'} name="email" type="email" className="form-control form-control-lg form-control-a" minLength={5} required />
-                      </div>
-                    </div>
-                    <div className="col-md-12 mb-3">
-                      <div className="form-group">
-                        <label htmlFor={'password'} className="form-label">Password: </label>
-                        <input type="password" id={'password'} name="password" className="form-control form-control-lg form-control-a" minLength={3} required />
-                      </div>
-                    </div>
-
-                    {loginError ?
-                      <div>User email and password do not match!</div>
-                      : ''}
-
-                    <div className="col-md-12 text-right mb-3">
-                      <Link className='nav-link' to="/reset-password">
-                        Forgot Password?
-                      </Link>
-                    </div>
-
-                    <div className="col-md-12 text-right">
-                      <button type="submit" className="btn btn-a" disabled={isLoggingIn}>Login</button>
-                    </div>
-                  </div>
-                </form>
-              </div>
-
+          <div className="col-md-12 mb-3">
+            <div className="form-group">
+              <label htmlFor={'email'} className="form-label">Email Address: </label>
+              <input id={'email'} name="email" type="email" className="form-control form-control-lg form-control-a" minLength={5} required />
             </div>
           </div>
-        </div>
-      </div>
-    </section>
+          <div className="col-md-12 mb-3">
+            <div className="form-group">
+              <label htmlFor={'password'} className="form-label">Password: </label>
+              <input type="password" id={'password'} name="password" className="form-control form-control-lg form-control-a" minLength={3} required />
+            </div>
+          </div>
 
+          {loginError ?
+            <div>User email and password do not match!</div>
+            : ''}
+
+          <div className="col-md-12 text-right mb-3">
+            <Link className='nav-link' to="/reset-password">
+              Forgot Password?
+            </Link>
+          </div>
+
+          <div className="col-md-12 text-right">
+            <button type="submit" className="btn btn-a" disabled={isLoggingIn}>Login</button>
+          </div>
+        </div>
+      </form>
+    </ContentContainer>
   );
 }
 

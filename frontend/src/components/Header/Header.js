@@ -33,9 +33,9 @@ const Header = () => {
                             <Link className='nav-link' to="/">Home</Link>
                         </li>
                         <li className="nav-item">
-                            <a className="nav-link" href="#">Properties</a>
+                            <Link className='nav-link' to="/properties">Properties</Link>
                         </li>
-                        
+
                         {!hasSessionData() && <li className="nav-item">
                             <Link className='nav-link' to="/login">
                                 <i className="fa fa-sign-in" aria-hidden="true"></i> Login
