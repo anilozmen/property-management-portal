@@ -14,7 +14,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity
+@Entity(name = "property")
 @SQLDelete(sql = "UPDATE property SET deleted = true WHERE id=?")
 @FilterDef(name = "deletedPropertyFilter", parameters = @ParamDef(name = "isDeleted", type = "boolean"))
 @Filter(name = "deletedPropertyFilter", condition = "deleted = :isDeleted")

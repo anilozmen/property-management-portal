@@ -1,6 +1,9 @@
 package edu.miu.propertymanagement.repository;
 
 import edu.miu.propertymanagement.entity.Property;
+import edu.miu.propertymanagement.entity.User;
+
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
@@ -13,4 +16,7 @@ public interface PropertyRepository extends CrudRepository<Property, Long> {
     List<Property> findByOwnerId(long id);
 
     List<Property> findByPropertyStatusIn(String ...statuses);
+    
+    @Query("select p.owner.id from property p where p.id=:id")
+    Long getOwnerByProperty(long id);
 }
