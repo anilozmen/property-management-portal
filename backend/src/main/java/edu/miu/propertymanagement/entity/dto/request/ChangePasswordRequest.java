@@ -9,8 +9,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class ChangePasswordRequest {
 
-    private String oldPassword;
-
     private String token;
 
     private String newPassword;

@@ -50,7 +50,7 @@ function Login() {
         <div>
           <button type="submit" disabled={isLoggingIn}>Login</button>
         </div>
-        <Link to="reset-password">Forgot Password?</Link>
+        <Link to="/reset-password">Forgot Password?</Link>
       </form>
     </div>
   );
