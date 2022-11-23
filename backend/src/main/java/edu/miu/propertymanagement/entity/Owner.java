@@ -7,7 +7,7 @@ import java.util.List;
 
 @Data
 @Entity
-@DiscriminatorValue("2")
+@DiscriminatorValue("OWNER")
 public class Owner extends User {
 
     @OneToMany(mappedBy = "owner")

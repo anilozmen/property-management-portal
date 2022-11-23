@@ -1,5 +1,8 @@
 package edu.miu.propertymanagement.config;
 
+import edu.miu.propertymanagement.filter.JWTFilter;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -12,16 +15,15 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
+@RequiredArgsConstructor
 public class SecurityConfig {
-    private UserDetailsService userDetailsService;
 
-    public SecurityConfig(UserDetailsService userDetailsService/*, JwtFilter jwtFilter*/) {
-//        this.jwtFilter = jwtFilter;
-        this.userDetailsService = userDetailsService;
-    }
+    private final UserDetailsService userDetailsService;
+    private final JWTFilter jwtFilter;
 
     @Bean
 
@@ -42,7 +44,7 @@ public class SecurityConfig {
                 .cors().and()
                 .authorizeRequests()
                 .antMatchers("/api/v1/authenticate/**").permitAll()
-                .antMatchers("/api/v1/admin/**").hasAuthority("1")
+                .antMatchers("/api/v1/admin/**").hasAuthority("ADMIN")
                 .anyRequest()
                 .authenticated()
                 .and()
@@ -50,7 +52,7 @@ public class SecurityConfig {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
         ;
 
-//        http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }

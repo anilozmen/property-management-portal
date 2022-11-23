@@ -1,55 +1,45 @@
 package edu.miu.propertymanagement.service.impl;
 
-import edu.miu.propertymanagement.entity.Customer;
-import edu.miu.propertymanagement.entity.Owner;
-import edu.miu.propertymanagement.entity.PasswordResetToken;
-import edu.miu.propertymanagement.entity.User;
-import edu.miu.propertymanagement.entity.dto.request.EmailVerificationRequest;
-import edu.miu.propertymanagement.entity.dto.request.LoginRequest;
-import edu.miu.propertymanagement.entity.dto.request.RegisterRequest;
-import edu.miu.propertymanagement.entity.dto.response.EmailVerificationResponse;
-import edu.miu.propertymanagement.entity.dto.response.LoginResponse;
-import edu.miu.propertymanagement.repository.CustomerRepository;
-import edu.miu.propertymanagement.repository.OwnerRepository;
-import edu.miu.propertymanagement.repository.PasswordResetRepository;
-import edu.miu.propertymanagement.repository.UserRepository;
-import edu.miu.propertymanagement.service.AuthService;
-import edu.miu.propertymanagement.service.EmailService;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import edu.miu.propertymanagement.entity.*;
+import edu.miu.propertymanagement.entity.dto.request.*;
+import edu.miu.propertymanagement.entity.dto.response.*;
+import edu.miu.propertymanagement.repository.*;
+import edu.miu.propertymanagement.service.*;
+import edu.miu.propertymanagement.util.JWTUtil;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDateTime;
 import java.util.*;
 
 @Service
+@RequiredArgsConstructor
 public class AuthServiceImpl implements AuthService {
 
     private final int MAX_VERIFICATION_ATTEMPTS = 6;
     private final int VERIFICATION_TOKEN_LIFE = 30;
-
-    private ModelMapper modelMapper;
-    private CustomerRepository customerRepository;
-    private UserRepository userRepository;
-    private OwnerRepository ownerRepository;
-    private EmailService emailService;
-    private PasswordResetRepository passwordResetRepository;
-    private PasswordEncoder passwordEncoder;
+    private final UserRepository userRepository;
     private static final int EXPIRATION = 60 * 24;
-
-    public AuthServiceImpl(ModelMapper modelMapper, CustomerRepository customerRepository,
-                           UserRepository userRepository, OwnerRepository ownerRepository,
-                           EmailService emailService, PasswordResetRepository passwordResetRepository,
-                           PasswordEncoder passwordEncoder) {
-
-        this.modelMapper = modelMapper;
-        this.customerRepository = customerRepository;
-        this.userRepository = userRepository;
-        this.ownerRepository = ownerRepository;
-        this.emailService = emailService;
-        this.passwordResetRepository = passwordResetRepository;
-        this.passwordEncoder = passwordEncoder;
-    }
+    private final ModelMapper modelMapper;
+    private final CustomerRepository customerRepository;
+    private final OwnerRepository ownerRepository;
+    private final AuthenticationManager authenticationManager;
+    private final UserDetailsService userDetailsService;
+    private final JWTUtil jwtUtil;
+    private final PasswordResetRepository passwordResetRepository;
+    private final EmailService emailService;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public void registerCustomer(RegisterRequest registerRequest) {
@@ -86,7 +76,15 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public LoginResponse login(LoginRequest loginRequest) {
-        return new LoginResponse(loginRequest.getEmail(), loginRequest.getPassword());
+        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
+                loginRequest.getEmail(),
+                loginRequest.getPassword()
+        ));
+        UserDetails userDetails = userDetailsService.loadUserByUsername(loginRequest.getEmail());
+        String accessToken = jwtUtil.generateAccessToken(userDetails);
+        String refreshToken = jwtUtil.generateRefreshToken(userDetails);
+
+        return new LoginResponse(accessToken, refreshToken);
     }
 
     @Override
@@ -143,9 +141,6 @@ public class AuthServiceImpl implements AuthService {
         cal.setTimeInMillis(new Date().getTime());
         cal.add(Calendar.MINUTE, EXPIRATION);
         passwordResetToken.setExpiryDate(new Date(cal.getTime().getTime()));
-
-
-        System.out.println("createPasswordResetTokenForUser");
         passwordResetRepository.save(passwordResetToken);
     }
 
@@ -158,5 +153,13 @@ public class AuthServiceImpl implements AuthService {
     public void changeUserPassword(User user, String password) {
         user.setPassword(passwordEncoder.encode(password));
         userRepository.save(user);
+    }
+
+    public void resendVerificationToken(String email) {
+        User user = userRepository.findByEmail(email);
+
+        generateAndSetTokenDetails(user);
+        userRepository.save(user);
+        sendVerificationEmail(user);
     }
 }

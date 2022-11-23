@@ -23,5 +23,6 @@ public interface AuthService {
     Optional<User> getUserByPasswordResetToken(String token);
 
     void changeUserPassword(User user, String password);
+    void resendVerificationToken(String email);
 
 }

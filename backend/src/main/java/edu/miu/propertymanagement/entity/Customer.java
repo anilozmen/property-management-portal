@@ -6,6 +6,6 @@ import javax.persistence.*;
 
 @Data
 @Entity
-@DiscriminatorValue("3")
+@DiscriminatorValue("CUSTOMER")
 public class Customer extends User {
 }
