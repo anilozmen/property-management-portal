@@ -2,7 +2,6 @@ package edu.miu.propertymanagement.config;
 
 import edu.miu.propertymanagement.filter.JWTFilter;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -47,6 +46,7 @@ public class SecurityConfig {
                 .antMatchers("/api/v1/authenticate/**").permitAll()
                 .antMatchers("/api/v1/admin/**").hasAuthority("ADMIN")
                 .antMatchers(HttpMethod.POST, "/api/v1/properties").hasAuthority("OWNER")
+                .antMatchers("/api/v1/properties/saved").hasAuthority("CUSTOMER")
                 .anyRequest()
                 .authenticated()
                 .and()
