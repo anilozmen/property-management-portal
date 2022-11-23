@@ -1,14 +1,26 @@
 package edu.miu.propertymanagement.service.impl;
 
-import org.modelmapper.ModelMapper;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import edu.miu.propertymanagement.entity.*;
-import edu.miu.propertymanagement.entity.dto.request.*;
-import edu.miu.propertymanagement.entity.dto.response.*;
-import edu.miu.propertymanagement.repository.*;
-import edu.miu.propertymanagement.service.*;
+import edu.miu.propertymanagement.entity.Customer;
+import edu.miu.propertymanagement.entity.Owner;
+import edu.miu.propertymanagement.entity.PasswordResetToken;
+import edu.miu.propertymanagement.entity.User;
+import edu.miu.propertymanagement.entity.dto.request.EmailVerificationRequest;
+import edu.miu.propertymanagement.entity.dto.request.LoginRequest;
+import edu.miu.propertymanagement.entity.dto.request.RegisterRequest;
+import edu.miu.propertymanagement.entity.dto.response.EmailVerificationResponse;
+import edu.miu.propertymanagement.entity.dto.response.LoginResponse;
+import edu.miu.propertymanagement.exceptions.UserNotExistsException;
+import edu.miu.propertymanagement.exceptions.UserNotVerifiedException;
+import edu.miu.propertymanagement.repository.CustomerRepository;
+import edu.miu.propertymanagement.repository.OwnerRepository;
+import edu.miu.propertymanagement.repository.PasswordResetRepository;
+import edu.miu.propertymanagement.repository.UserRepository;
+import edu.miu.propertymanagement.service.AuthService;
+import edu.miu.propertymanagement.service.EmailService;
+import edu.miu.propertymanagement.service.UserService;
 import edu.miu.propertymanagement.util.JWTUtil;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -16,10 +28,14 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Optional;
+import java.util.Random;
 
 @Service
 @RequiredArgsConstructor
@@ -41,6 +57,7 @@ public class AuthServiceImpl implements AuthService {
     private final UserDetailsService userDetailsService;
     private final JWTUtil jwtUtil;
 
+    private final UserService userService;
     private final PasswordResetRepository passwordResetRepository;
     private final EmailService emailService;
     private final PasswordEncoder passwordEncoder;
@@ -88,7 +105,21 @@ public class AuthServiceImpl implements AuthService {
                 loginRequest.getEmail(),
                 loginRequest.getPassword()
         ));
+
         UserDetails userDetails = userDetailsService.loadUserByUsername(loginRequest.getEmail());
+
+        String email = userDetails.getUsername();
+
+        User user = userService.getUserById(email);
+
+        if (user == null || user.isDeleted()) {
+            throw new UserNotExistsException();
+        }
+       
+        if (!user.isEmailVerified()) {
+            throw new UserNotVerifiedException();
+        }
+
         String accessToken = jwtUtil.generateAccessToken(userDetails);
         String refreshToken = jwtUtil.generateRefreshToken(userDetails);
 
