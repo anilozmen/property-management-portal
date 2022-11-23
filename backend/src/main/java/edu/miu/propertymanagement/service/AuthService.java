@@ -7,6 +7,7 @@ import edu.miu.propertymanagement.entity.dto.request.LoginRequest;
 import edu.miu.propertymanagement.entity.dto.request.RegisterRequest;
 import edu.miu.propertymanagement.entity.dto.response.EmailVerificationResponse;
 import edu.miu.propertymanagement.entity.dto.response.LoginResponse;
+import edu.miu.propertymanagement.entity.dto.response.PasswordResetResponse;
 
 import java.util.Optional;
 
@@ -14,7 +15,7 @@ public interface AuthService {
     void registerCustomer(RegisterRequest registerRequest);
     void registerOwner(RegisterRequest registerRequest);
     LoginResponse login(LoginRequest loginRequest);
-    void resetPassword(String email);
+    PasswordResetResponse resetPassword(String email);
 
     EmailVerificationResponse verifyEmail(EmailVerificationRequest emailVerificationRequest);
 
