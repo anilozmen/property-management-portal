@@ -9,11 +9,13 @@ import java.util.Collection;
 import java.util.List;
 
 public class ApplicationUserDetail implements UserDetails {
+    private final long id;
     private final String username;
     private final String password;
     private final String role;
 
     public ApplicationUserDetail(User user) {
+        id = user.getId();
         username = user.getEmail();
         password = user.getPassword();
         role = user.getUserType();
@@ -25,6 +27,10 @@ public class ApplicationUserDetail implements UserDetails {
         authorities.add(() -> role);
 
         return authorities;
+    }
+
+    public long getId() {
+        return id;
     }
 
     @Override
