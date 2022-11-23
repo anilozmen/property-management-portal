@@ -2,6 +2,7 @@ package edu.miu.propertymanagement.service.impl;
 
 import edu.miu.propertymanagement.entity.Customer;
 import edu.miu.propertymanagement.entity.Owner;
+import edu.miu.propertymanagement.entity.PasswordResetToken;
 import edu.miu.propertymanagement.entity.User;
 import edu.miu.propertymanagement.entity.dto.request.EmailVerificationRequest;
 import edu.miu.propertymanagement.entity.dto.request.LoginRequest;
@@ -12,13 +13,13 @@ import edu.miu.propertymanagement.exceptions.UserNotExistsException;
 import edu.miu.propertymanagement.exceptions.UserNotVerifiedException;
 import edu.miu.propertymanagement.repository.CustomerRepository;
 import edu.miu.propertymanagement.repository.OwnerRepository;
+import edu.miu.propertymanagement.repository.PasswordResetRepository;
 import edu.miu.propertymanagement.repository.UserRepository;
 import edu.miu.propertymanagement.service.AuthService;
 import edu.miu.propertymanagement.service.EmailService;
 import edu.miu.propertymanagement.service.UserService;
 import edu.miu.propertymanagement.util.JWTUtil;
 import lombok.RequiredArgsConstructor;
-
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.CrudRepository;
@@ -27,9 +28,13 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Optional;
 import java.util.Random;
 
 @Service
@@ -39,11 +44,12 @@ public class AuthServiceImpl implements AuthService {
     private final int MAX_VERIFICATION_ATTEMPTS = 6;
     private final int VERIFICATION_TOKEN_LIFE = 30;
 
-    private ModelMapper modelMapper;
-    private CustomerRepository customerRepository;
-    private UserRepository userRepository;
-    private OwnerRepository ownerRepository;
-    private EmailService emailService;
+    private final UserRepository userRepository;
+    private static final int EXPIRATION = 60 * 24;
+    private final ModelMapper modelMapper;
+    private final CustomerRepository customerRepository;
+    private final OwnerRepository ownerRepository;
+
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
@@ -52,6 +58,10 @@ public class AuthServiceImpl implements AuthService {
     private final JWTUtil jwtUtil;
 
     private final UserService userService;
+    private final PasswordResetRepository passwordResetRepository;
+    private final EmailService emailService;
+    private final PasswordEncoder passwordEncoder;
+
 
     @Override
     public void registerCustomer(RegisterRequest registerRequest) {
@@ -118,7 +128,19 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public void resetPassword(String email) {
-        System.out.println(email);
+        User user = userRepository.findByEmail(email);
+
+        if (user != null) {
+            Random random = new Random();
+            String token = String.valueOf(random.nextInt(100000, 1000000));
+            createPasswordResetTokenForUser(user, token);
+            emailService.send(
+                    email,
+                    "Reset Password",
+                    "http://localhost:8080/api/v1/changePassword?token=" + token
+            );
+
+        }
     }
 
     @Override
@@ -149,6 +171,29 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
+    public void createPasswordResetTokenForUser(User user, String token) {
+        PasswordResetToken passwordResetToken = new PasswordResetToken();
+        passwordResetToken.setToken(token);
+        passwordResetToken.setUser(user);
+
+        Calendar cal = Calendar.getInstance();
+        cal.setTimeInMillis(new Date().getTime());
+        cal.add(Calendar.MINUTE, EXPIRATION);
+        passwordResetToken.setExpiryDate(new Date(cal.getTime().getTime()));
+        passwordResetRepository.save(passwordResetToken);
+    }
+
+    @Override
+    public Optional<User> getUserByPasswordResetToken(String token) {
+        return Optional.ofNullable(passwordResetRepository.findByToken(token).getUser());
+    }
+
+    @Override
+    public void changeUserPassword(User user, String password) {
+        user.setPassword(passwordEncoder.encode(password));
+        userRepository.save(user);
+    }
+
     public void resendVerificationToken(String email) {
         User user = userRepository.findByEmail(email);
 
