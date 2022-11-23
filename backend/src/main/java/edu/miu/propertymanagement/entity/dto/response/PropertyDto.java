@@ -13,7 +13,7 @@ public class PropertyDto {
 
     private long id;
     private String name;
-    private Owner owner;
+//    private Owner owner;
     private String description;
     private Address address;
     private BigDecimal price;

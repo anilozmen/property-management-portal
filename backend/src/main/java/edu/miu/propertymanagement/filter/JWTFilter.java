@@ -34,8 +34,7 @@ public class JWTFilter extends OncePerRequestFilter {
         String requestMethod = request.getMethod();
         String requestPath = request.getServletPath();
         boolean isRefreshRequest = requestMethod.equals("POST") && requestPath.equals("/api/v1/authenticate/refresh");
-        boolean isNoAuthRequest = requestMethod.equals("POST") && (requestPath.equals("/api/v1/authenticate/register") ||
-                requestPath.equals("/api/v1/authenticate/login") || requestPath.equals("/api/v1/authenticate/reset-password") || requestPath.equals("/api/v1/authenticate/change-password"));
+        boolean isNoAuthRequest = requestPath.startsWith("/api/v1/authenticate/");
 
         if (authorizationHeader == null || !authorizationHeader.startsWith("Bearer ")){
             if(!isNoAuthRequest){
