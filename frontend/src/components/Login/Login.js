@@ -2,6 +2,7 @@ import { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { hasSessionData } from '../../services/token';
+import { Link } from 'react-router-dom';
 
 import { loginAsyncAction } from "../../reducers/login";
 
@@ -66,6 +67,12 @@ function Login() {
                     {loginError ?
                       <div>User email and password do not match!</div>
                       : ''}
+
+                    <div className="col-md-12 text-right mb-3">
+                      <Link className='nav-link' to="/reset-password">
+                        Forgot Password?
+                      </Link>
+                    </div>
 
                     <div className="col-md-12 text-right">
                       <button type="submit" className="btn btn-a" disabled={isLoggingIn}>Login</button>

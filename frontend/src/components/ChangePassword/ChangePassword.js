@@ -9,6 +9,10 @@ const ChangePassword = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
+        if (!searchParams.get('changeToken')) {
+            navigate("/");
+        }
+
         document.title = "Change Password";
     }, []);
 
@@ -35,18 +39,32 @@ const ChangePassword = () => {
     }
 
     return (
-        <div>
-            <h3>Change Password</h3>
-            <form onSubmit={handleSubmit} ref={formRef}>
-                <div>
-                    <label htmlFor={'password'}>New Password</label>
-                    <input type={'password'} name={'password'} required />
+        <section className="contact mt-5 mb-4">
+            <div className="container">
+                <div className="row">
+                    <div className="col-sm-12 section-t8">
+                        <div className="row">
+                            <div className="col-md-12">
+                                <h1 className="mb-4">Change Password</h1>
+                                <form className="form-a contactForm" onSubmit={handleSubmit} ref={formRef}>
+                                    <div className="row">
+                                        <div className="col-md-12 mb-3">
+                                            <div className="form-group">
+                                                <label htmlFor={'password'} className="form-label">New Password: </label>
+                                                <input id={'password'} name="password" type="password" className="form-control form-control-lg form-control-a" required />
+                                            </div>
+                                        </div>
+                                        <div className="col-md-12 text-right">
+                                            <button type="submit" className="btn btn-a">Update Password</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div>
-                    <button type="submit">Update Password</button>
-                </div>
-            </form>
-        </div>
+            </div>
+        </section>
     );
 }
 
