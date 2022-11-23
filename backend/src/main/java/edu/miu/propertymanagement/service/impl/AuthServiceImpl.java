@@ -111,7 +111,7 @@ public class AuthServiceImpl implements AuthService {
 
         String email = userDetails.getUsername();
 
-        User user = userService.getUserById(email);
+        User user = userService.getUserByEmailId(email);
 
         if (user == null || user.isDeleted()) {
             throw new UserNotExistsException();

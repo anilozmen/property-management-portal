@@ -47,6 +47,8 @@ public class SecurityConfig {
                 .antMatchers("/api/v1/authenticate/**").permitAll()
                 .antMatchers("/api/v1/admin/**").hasAuthority("ADMIN")
                 .antMatchers(HttpMethod.POST, "/api/v1/properties").hasAuthority("OWNER")
+                .antMatchers(HttpMethod.POST, "/api/v1/messages").hasAuthority("CUSTOMER")
+                .antMatchers(HttpMethod.PUT, "/api/v1/messages/**").hasAuthority("OWNER")
                 .anyRequest()
                 .authenticated()
                 .and()

@@ -27,6 +27,8 @@ public class Message {
     @OneToOne(fetch = FetchType.LAZY)
     User receiver;
 
+    String message;
+    
     String reply;
 
     LocalDateTime createdDate;

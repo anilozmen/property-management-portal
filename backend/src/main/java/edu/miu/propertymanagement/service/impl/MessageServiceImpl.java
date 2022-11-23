@@ -3,6 +3,7 @@ package edu.miu.propertymanagement.service.impl;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -12,6 +13,7 @@ import edu.miu.propertymanagement.entity.dto.response.MessageDto;
 import edu.miu.propertymanagement.mapper.MessageMapper;
 import edu.miu.propertymanagement.repository.MessageRepository;
 import edu.miu.propertymanagement.service.MessageService;
+import edu.miu.propertymanagement.service.PropertyService;
 import edu.miu.propertymanagement.service.UserService;
 import lombok.RequiredArgsConstructor;
 
@@ -22,6 +24,8 @@ public class MessageServiceImpl implements MessageService {
     private final MessageRepository messageRepository;
 
     private final UserService userService;
+
+    private final PropertyService propertyService;
 
 
     @Override
@@ -54,12 +58,19 @@ public class MessageServiceImpl implements MessageService {
         messageRepository.deleteById(id);
     }
 
+    @Override
+    public MessageDto getMessageById(long id) {
+        return MessageMapper.mapMessageToDto(messageRepository.findById(id).orElse(null));
+    }
+
     private Message mapMessageDtoToEntity(MessageDto messageDto) {
         Message message = new Message();
         message.setReply(messageDto.getReply());
-//        message.setProperty();
+        message.setMessage(messageDto.getMessage());
+        message.setProperty(propertyService.getPropertyById(messageDto.getPropertyId()));
         message.setReceiver(userService.findById(messageDto.getReceiverId()));
         message.setSender(userService.findById(messageDto.getSenderId()));
+        message.setCreatedDate(messageDto.getCreatedDate());
         return message;
     }
 

@@ -4,7 +4,7 @@ import edu.miu.propertymanagement.entity.User;
 import edu.miu.propertymanagement.service.impl.ApplicationUserDetail;
 
 public interface UserService {
-    User getUserById(String id);
+    User getUserByEmailId(String id);
     ApplicationUserDetail getLoggedInUser();
     
     User findById(long id);
