@@ -27,8 +27,8 @@ export const loginAsyncAction = (loginData, successCallback) => (dispatch) => {
 
     axios.post('/authenticate/login', loginData)
         .then(response => {
-            const {accessToken, refreshToken} = response.data;
-            setTokens({accessToken, refreshToken});
+            const {accessToken, refreshToken, userType} = response.data;
+            setTokens({accessToken, refreshToken, userType});
             successCallback();
         })
         .catch(err => {
