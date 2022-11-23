@@ -1,6 +1,5 @@
 package edu.miu.propertymanagement.service.impl;
 
-
 import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import edu.miu.propertymanagement.entity.*;
@@ -11,14 +10,13 @@ import edu.miu.propertymanagement.service.*;
 import edu.miu.propertymanagement.util.JWTUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
+import org.springframework.data.repository.CrudRepository;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDateTime;
 import java.util.*;
@@ -29,32 +27,42 @@ public class AuthServiceImpl implements AuthService {
 
     private final int MAX_VERIFICATION_ATTEMPTS = 6;
     private final int VERIFICATION_TOKEN_LIFE = 30;
+
     private final UserRepository userRepository;
     private static final int EXPIRATION = 60 * 24;
     private final ModelMapper modelMapper;
     private final CustomerRepository customerRepository;
     private final OwnerRepository ownerRepository;
+
+    @Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
+
     private final AuthenticationManager authenticationManager;
     private final UserDetailsService userDetailsService;
     private final JWTUtil jwtUtil;
+
     private final PasswordResetRepository passwordResetRepository;
     private final EmailService emailService;
     private final PasswordEncoder passwordEncoder;
 
+
     @Override
     public void registerCustomer(RegisterRequest registerRequest) {
-        Customer customer = modelMapper.map(registerRequest, Customer.class);
-        generateAndSetTokenDetails(customer);
-        customerRepository.save(customer);
-        sendVerificationEmail(customer);
+        registerInternal(registerRequest, customerRepository, Customer.class);
     }
 
     @Override
     public void registerOwner(RegisterRequest registerRequest) {
-        Owner owner = modelMapper.map(registerRequest, Owner.class);
-        generateAndSetTokenDetails(owner);
-        ownerRepository.save(owner);
-        sendVerificationEmail(owner);
+        registerInternal(registerRequest, ownerRepository, Owner.class);
+    }
+
+    private void registerInternal(RegisterRequest registerRequest, CrudRepository repository, Class<? extends User> type) {
+        registerRequest.setPassword(bCryptPasswordEncoder.encode(registerRequest.getPassword()));
+        User user = modelMapper.map(registerRequest, type);
+
+        generateAndSetTokenDetails(user);
+        repository.save(user);
+        sendVerificationEmail(user);
     }
 
     public void generateAndSetTokenDetails(User user) {

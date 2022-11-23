@@ -1,17 +1,19 @@
 package edu.miu.propertymanagement.controller;
 
-
 import edu.miu.propertymanagement.entity.User;
 import edu.miu.propertymanagement.entity.dto.request.*;
+
 import edu.miu.propertymanagement.entity.dto.response.EmailVerificationResponse;
 import edu.miu.propertymanagement.entity.dto.response.LoginResponse;
 import edu.miu.propertymanagement.exceptions.ErrorException;
 import edu.miu.propertymanagement.service.AuthService;
 import edu.miu.propertymanagement.service.PasswordResetService;
 import lombok.RequiredArgsConstructor;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
 
 import javax.validation.Valid;
 import java.util.Optional;
@@ -74,6 +76,7 @@ public class AuthController {
     public EmailVerificationResponse verifyEmail(@RequestBody EmailVerificationRequest emailVerificationRequest) {
         return authService.verifyEmail(emailVerificationRequest);
     }
+
     @GetMapping("/verify-email")
     public void verifyEmail(@RequestParam String email) {
         authService.resendVerificationToken(email);
