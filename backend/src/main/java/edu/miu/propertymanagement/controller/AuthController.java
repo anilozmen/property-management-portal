@@ -1,18 +1,22 @@
 package edu.miu.propertymanagement.controller;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import edu.miu.propertymanagement.entity.User;
+import edu.miu.propertymanagement.entity.dto.request.*;
 
-import edu.miu.propertymanagement.entity.dto.request.EmailVerificationRequest;
-import edu.miu.propertymanagement.entity.dto.request.LoginRequest;
-import edu.miu.propertymanagement.entity.dto.request.RegisterRequest;
 import edu.miu.propertymanagement.entity.dto.response.EmailVerificationResponse;
 import edu.miu.propertymanagement.entity.dto.response.LoginResponse;
 import edu.miu.propertymanagement.exceptions.ErrorException;
 import edu.miu.propertymanagement.service.AuthService;
+import edu.miu.propertymanagement.service.PasswordResetService;
 import lombok.RequiredArgsConstructor;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
+
+
 import javax.validation.Valid;
+import java.util.Optional;
 
 @RestController
 @Validated
@@ -21,6 +25,7 @@ import javax.validation.Valid;
 @CrossOrigin(origins = "http://localhost:3000")
 public class AuthController {
     private final AuthService authService;
+    private final PasswordResetService passwordResetService;
 
     @PostMapping("/register")
     @ResponseStatus(HttpStatus.CREATED)
@@ -46,14 +51,32 @@ public class AuthController {
 
     @PostMapping("/reset-password")
     @ResponseStatus(HttpStatus.OK)
-    public void resetPassword(@RequestBody String email) {
-        authService.resetPassword(email);
+    public void resetPassword(@RequestBody PasswordResetRequest passwordResetRequest) {
+        authService.resetPassword(passwordResetRequest.getEmail());
+    }
+
+    @PostMapping("/change-password")
+    @ResponseStatus(HttpStatus.OK)
+    public void changePassword(@RequestBody ChangePasswordRequest changePasswordRequest) {
+        String result = passwordResetService.validatePasswordResetToken(changePasswordRequest.getToken());
+
+        if (result == null) {
+
+            Optional user = authService.getUserByPasswordResetToken(changePasswordRequest.getToken());
+
+            if (user.isPresent()) {
+                User mUser = (User) user.get();
+                authService.changeUserPassword(mUser, changePasswordRequest.getNewPassword());
+            }
+
+        }
     }
 
     @PostMapping("/verify-email")
     public EmailVerificationResponse verifyEmail(@RequestBody EmailVerificationRequest emailVerificationRequest) {
         return authService.verifyEmail(emailVerificationRequest);
     }
+
     @GetMapping("/verify-email")
     public void verifyEmail(@RequestParam String email) {
         authService.resendVerificationToken(email);
