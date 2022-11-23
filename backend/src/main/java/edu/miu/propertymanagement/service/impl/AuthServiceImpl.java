@@ -111,7 +111,7 @@ public class AuthServiceImpl implements AuthService {
 
         String email = userDetails.getUsername();
 
-        User user = userService.getUserById(email);
+        User user = userService.getUserByEmailId(email);
 
         if (user == null || user.isDeleted()) {
             throw new UserNotExistsException();
@@ -124,7 +124,7 @@ public class AuthServiceImpl implements AuthService {
         String accessToken = jwtUtil.generateAccessToken(userDetails);
         String refreshToken = jwtUtil.generateRefreshToken(userDetails);
 
-        return new LoginResponse(accessToken, refreshToken);
+        return new LoginResponse(accessToken, refreshToken, user.getUserType());
     }
 
     @Override

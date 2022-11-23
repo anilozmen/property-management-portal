@@ -6,6 +6,7 @@ import edu.miu.propertymanagement.service.PropertyService;
 import edu.miu.propertymanagement.service.UserService;
 import edu.miu.propertymanagement.service.impl.ApplicationUserDetail;
 import lombok.RequiredArgsConstructor;
+
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,11 +25,13 @@ public class PropertyController {
     @GetMapping
     public List<PropertyDto> findAll() {
         ApplicationUserDetail user = userService.getLoggedInUser();
-        if (user.isOwner())
-            return propertyService.findByOwnerId(user.getId());
-        if (user.isAdmin())
-            return propertyService.findAll();
-
+        if (user != null) {
+            if (user.isOwner())
+                return propertyService.findByOwnerId(user.getId());
+            if (user.isAdmin())
+                return propertyService.findAll();
+        }
+        
         return propertyService.findListingProperties();
     }
 
