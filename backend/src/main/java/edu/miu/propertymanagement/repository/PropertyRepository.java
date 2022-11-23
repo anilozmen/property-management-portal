@@ -9,4 +9,8 @@ import java.util.List;
 @Repository
 public interface PropertyRepository extends CrudRepository<Property, Long> {
     List<Property> findAll();
+
+    List<Property> findByOwnerId(long id);
+
+    List<Property> findByPropertyStatusNameIn(String ...statuses);
 }

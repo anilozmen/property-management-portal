@@ -34,15 +34,15 @@ public class ApplicationUserDetail implements UserDetails {
     }
 
     public boolean isOwner() {
-        return role == "OWNER";
+        return role.equals("OWNER");
     }
 
     public boolean isAdmin() {
-        return role == "ADMIN";
+        return role.equals("ADMIN");
     }
 
     public boolean isCustomer() {
-        return role == "CUSTOMER";
+        return role.equals("CUSTOMER");
     }
 
     @Override

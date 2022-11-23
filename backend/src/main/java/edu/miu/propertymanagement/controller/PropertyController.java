@@ -23,7 +23,6 @@ public class PropertyController {
     @GetMapping
     public List<PropertyDto> findAll() {
         ApplicationUserDetail user = userService.getLoggedInUser();
-
         if (user.isOwner())
             return propertyService.findByOwnerId(user.getId());
         if (user.isAdmin())
