@@ -17,17 +17,22 @@ VALUES (5, 'SOMEWHERE IN XXX', null, 'Sarasota', 'Florida', '33133', false);
 INSERT INTO address (id, address_1, address_2, city, state, zip_code, deleted)
 VALUES (6, 'SOMEWHERE IN YYY', null, 'Sarasota', 'Florida', '33133', false);
 
-SELECT pg_catalog.setval('public.address_id_seq', 6, true);
+INSERT INTO address (id, address_1, address_2, city, state, zip_code, deleted)
+VALUES (7, 'SOMEWHERE IN ZZZ', null, 'Sarasota', 'Florida', '33133', false);
+
+SELECT pg_catalog.setval('public.address_id_seq', 7, true);
 
 -- USERS
-INSERT INTO users (id, first_name, last_name, email, password, address_id, phone_number, user_type, deleted)
-VALUES (1, 'John', 'Doe', 'john@miu.edu', '$2a$12$IKEQb00u5QpZMx4v5zMweu.3wrq0pS7XLCHO4yHZ.BW/yvWu1feo2', 1, '+1 641 111 11 11', 'ADMIN', false); --123
-INSERT INTO users (id, is_email_verified, first_name, last_name, email, password, address_id, phone_number, user_type, deleted)
-VALUES (2, true, 'Jessica', 'Doe', 'jessica@miu.edu', '$2a$12$IKEQb00u5QpZMx4v5zMweu.3wrq0pS7XLCHO4yHZ.BW/yvWu1feo2', 2, '+1 641 222 22 22', 'OWNER', false); --123
-INSERT INTO users (id, first_name, last_name, email, password, address_id, phone_number, user_type, deleted)
-VALUES (3, 'Jerry', 'Doe', 'jerry@miu.edu', '$2a$12$IKEQb00u5QpZMx4v5zMweu.3wrq0pS7XLCHO4yHZ.BW/yvWu1feo2', 3, '+1 641 333 33 33', 'CUSTOMER', true); --123
+INSERT INTO users (id, first_name, last_name, email, password, address_id, phone_number, user_type, deleted, is_email_verified)
+VALUES (1, 'John', 'Doe', 'john@miu.edu', '$2a$12$IKEQb00u5QpZMx4v5zMweu.3wrq0pS7XLCHO4yHZ.BW/yvWu1feo2', 1, '+1 641 111 11 11', 'ADMIN', false, true); --123
+INSERT INTO users (id, first_name, last_name, email, password, address_id, phone_number, user_type, deleted, is_email_verified)
+VALUES (2, 'Jessica', 'Doe', 'jessica@miu.edu', '$2a$12$IKEQb00u5QpZMx4v5zMweu.3wrq0pS7XLCHO4yHZ.BW/yvWu1feo2', 2, '+1 641 222 22 22', 'OWNER', false, true); --123
+INSERT INTO users (id, first_name, last_name, email, password, address_id, phone_number, user_type, deleted, is_email_verified)
+VALUES (3, 'Jerry', 'Doe', 'jerry@miu.edu', '$2a$12$IKEQb00u5QpZMx4v5zMweu.3wrq0pS7XLCHO4yHZ.BW/yvWu1feo2', 3, '+1 641 333 33 33', 'CUSTOMER', true, true); --123
+INSERT INTO users (id, first_name, last_name, email, password, address_id, phone_number, user_type, deleted, is_email_verified)
+VALUES (4, 'Customer', 'Doe', 'customer@miu.edu', '$2a$12$IKEQb00u5QpZMx4v5zMweu.3wrq0pS7XLCHO4yHZ.BW/yvWu1feo2', 7, '+1 641 444 44 44', 'CUSTOMER', false, true); --123
 
-SELECT pg_catalog.setval('public.users_id_seq', 3, true);
+SELECT pg_catalog.setval('public.users_id_seq', 4, true);
 
 -- -- LISTING TYPE
 -- INSERT INTO listing_type (id, name, deleted)
@@ -61,3 +66,17 @@ INSERT INTO property (id, description, name, price, view_count, address_id, list
 VALUES (3, 'PROPERTY 3 DESCRIPTION', 'PROPERTY 3 NAME', 20, 120, 6, 'RENT', 2, 'AVAILABLE', 'APARTMENT', false);
 
 SELECT pg_catalog.setval('public.property_id_seq', 3, true);
+
+
+INSERT INTO offer (id, message, status, amount, customer_id, property_id)
+VALUES (1, 'I would like to buy this please', 'CREATED', 35, 3, 1);
+INSERT INTO offer (id, message, status, amount, customer_id, property_id)
+VALUES (2, 'I would like to buy this please', 'CANCELLED', 35, 3, 1);
+INSERT INTO offer (id, message, status, amount, customer_id, property_id)
+VALUES (3, 'I would like to buy this please', 'REJECTED', 35, 3, 1);
+INSERT INTO offer (id, message, status, amount, customer_id, property_id)
+VALUES (4, 'I would like to buy this please', 'APPROVED', 35, 3, 3);
+INSERT INTO offer (id, message, status, amount, customer_id, property_id)
+VALUES (5, 'CUSTOMER, I am. Buy this, I want to.', 'CREATED', 35, 4, 3);
+
+SELECT pg_catalog.setval('public.offer_id_seq', 5, true);

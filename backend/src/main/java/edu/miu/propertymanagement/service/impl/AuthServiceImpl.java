@@ -7,7 +7,7 @@ import edu.miu.propertymanagement.entity.User;
 import edu.miu.propertymanagement.entity.dto.request.EmailVerificationRequest;
 import edu.miu.propertymanagement.entity.dto.request.LoginRequest;
 import edu.miu.propertymanagement.entity.dto.request.RegisterRequest;
-import edu.miu.propertymanagement.entity.dto.response.EmailVerificationResponse;
+import edu.miu.propertymanagement.entity.dto.response.GenericActivityResponse;
 import edu.miu.propertymanagement.entity.dto.response.LoginResponse;
 import edu.miu.propertymanagement.entity.dto.response.PasswordResetResponse;
 import edu.miu.propertymanagement.exceptions.UserNotExistsException;
@@ -151,14 +151,14 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public EmailVerificationResponse verifyEmail(EmailVerificationRequest emailVerificationRequest) {
+    public GenericActivityResponse verifyEmail(EmailVerificationRequest emailVerificationRequest) {
         User user = userRepository.findByEmail(emailVerificationRequest.getEmail());
 
         if (user.getEmailVerificationAttempts() >= MAX_VERIFICATION_ATTEMPTS)
-            return new EmailVerificationResponse(false, "Too many incorrect attempts");
+            return new GenericActivityResponse(false, "Too many incorrect attempts");
 
         if (user.getEmailVerificationTokenExpiry().isBefore(LocalDateTime.now()))
-            return new EmailVerificationResponse(false, "Expired token. Please send a new one");
+            return new GenericActivityResponse(false, "Expired token. Please send a new one");
 
         boolean tokenMatch = user
                 .getEmailVerificationToken()
@@ -168,13 +168,13 @@ public class AuthServiceImpl implements AuthService {
             user.setEmailVerificationAttempts(user.getEmailVerificationAttempts() + 1);
 
             userRepository.save(user);
-            return new EmailVerificationResponse(false, "Invalid token");
+            return new GenericActivityResponse(false, "Invalid token");
         }
 
         user.setEmailVerified(true);
 
         userRepository.save(user);
-        return new EmailVerificationResponse(true, "Verification successful");
+        return new GenericActivityResponse(true, "Verification successful");
     }
 
     @Override

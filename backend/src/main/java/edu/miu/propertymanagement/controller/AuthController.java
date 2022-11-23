@@ -3,7 +3,7 @@ package edu.miu.propertymanagement.controller;
 import edu.miu.propertymanagement.entity.User;
 import edu.miu.propertymanagement.entity.dto.request.*;
 
-import edu.miu.propertymanagement.entity.dto.response.EmailVerificationResponse;
+import edu.miu.propertymanagement.entity.dto.response.GenericActivityResponse;
 import edu.miu.propertymanagement.entity.dto.response.LoginResponse;
 import edu.miu.propertymanagement.entity.dto.response.PasswordResetResponse;
 import edu.miu.propertymanagement.exceptions.ErrorException;
@@ -74,7 +74,7 @@ public class AuthController {
     }
 
     @PostMapping("/verify-email")
-    public EmailVerificationResponse verifyEmail(@RequestBody EmailVerificationRequest emailVerificationRequest) {
+    public GenericActivityResponse verifyEmail(@RequestBody EmailVerificationRequest emailVerificationRequest) {
         return authService.verifyEmail(emailVerificationRequest);
     }
 

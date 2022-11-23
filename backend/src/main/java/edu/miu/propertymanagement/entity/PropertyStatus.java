@@ -1,5 +1,5 @@
 package edu.miu.propertymanagement.entity;
 
 public enum PropertyStatus {
-    AVAILABLE, PENDING, CONTINGENT;
+    AVAILABLE, PENDING, CONTINGENT, COMPLETED;
 }
