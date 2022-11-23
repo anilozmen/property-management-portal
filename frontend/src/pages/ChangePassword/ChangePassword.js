@@ -23,7 +23,6 @@ const ChangePassword = () => {
 
         const formData = {
             token: searchParams.get('changeToken'),
-            oldPassword: form['old_password'].value,
             newPassword: form['password'].value,
         };
 
@@ -31,13 +30,6 @@ const ChangePassword = () => {
             navigate("/login")
         }).catch(error => {
             console.log(error.response.data);
-            const errorData = error.response.data.error;
-            const validationErrors = errorData.validationErrors;
-            console.log(validationErrors);
-            //todo: handle error properly .. show snackbar with proper error message, we might get from server.
-            if (validationErrors) {
-                alert(validationErrors);
-            }
         })
 
     }
@@ -46,10 +38,6 @@ const ChangePassword = () => {
         <div>
             <h3>Change Password</h3>
             <form onSubmit={handleSubmit} ref={formRef}>
-                <div>
-                    <label htmlFor={'old_password'}>Old Password</label>
-                    <input type={'password'} name={'old_password'} required />
-                </div>
                 <div>
                     <label htmlFor={'password'}>New Password</label>
                     <input type={'password'} name={'password'} required />
