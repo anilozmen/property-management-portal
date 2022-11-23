@@ -24,17 +24,11 @@ const ResetPassword = () => {
       email: form['email'].value,
     };
 
+
     axios.post('authenticate/reset-password', formData).then(response => {
         navigate(`/change-password?changeToken=${response.data.token}`);
     }).catch(error => {
         console.log(error.response.data);
-        const errorData = error.response.data.error;
-        const validationErrors = errorData.validationErrors;
-        console.log(validationErrors);
-        //todo: handle error properly .. show snackbar with proper error message, we might get from server.
-        if (validationErrors) {
-            alert(validationErrors);
-        }
     })
 
   }
