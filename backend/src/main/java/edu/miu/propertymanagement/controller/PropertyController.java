@@ -1,5 +1,6 @@
 package edu.miu.propertymanagement.controller;
 
+import edu.miu.propertymanagement.entity.dto.request.PropertyCreationDto;
 import edu.miu.propertymanagement.entity.dto.response.PropertyDto;
 import edu.miu.propertymanagement.service.PropertyService;
 import edu.miu.propertymanagement.service.UserService;
@@ -29,5 +30,10 @@ public class PropertyController {
             return propertyService.findAll();
 
         return propertyService.findListingProperties();
+    }
+
+    @PostMapping
+    public void createProperty(@RequestBody PropertyCreationDto propertyCreationDto) {
+        propertyService.save(propertyCreationDto);
     }
 }

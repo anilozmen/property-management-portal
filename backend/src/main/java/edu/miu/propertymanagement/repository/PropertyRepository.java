@@ -12,5 +12,5 @@ public interface PropertyRepository extends CrudRepository<Property, Long> {
 
     List<Property> findByOwnerId(long id);
 
-    List<Property> findByPropertyStatusNameIn(String ...statuses);
+    List<Property> findByPropertyStatusIn(String ...statuses);
 }
