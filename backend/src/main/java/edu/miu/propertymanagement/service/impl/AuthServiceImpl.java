@@ -9,6 +9,7 @@ import edu.miu.propertymanagement.entity.dto.request.LoginRequest;
 import edu.miu.propertymanagement.entity.dto.request.RegisterRequest;
 import edu.miu.propertymanagement.entity.dto.response.EmailVerificationResponse;
 import edu.miu.propertymanagement.entity.dto.response.LoginResponse;
+import edu.miu.propertymanagement.entity.dto.response.PasswordResetResponse;
 import edu.miu.propertymanagement.exceptions.UserNotExistsException;
 import edu.miu.propertymanagement.exceptions.UserNotVerifiedException;
 import edu.miu.propertymanagement.repository.CustomerRepository;
