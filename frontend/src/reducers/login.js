@@ -1,6 +1,7 @@
-import {createSlice} from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-import {setTokens} from "../services/token";
+import { setTokens } from "../services/token";
+import { setRole } from "./user";
 
 const initialState = {
     isLoggingIn: false,
@@ -20,19 +21,20 @@ const login = createSlice({
     }
 });
 
-const {setIsLoggingin, error} = login.actions;
+const { setIsLoggingin, error } = login.actions;
 
 export const loginAsyncAction = (loginData, successCallback) => (dispatch) => {
     dispatch(setIsLoggingin(true));
 
     axios.post('/authenticate/login', loginData)
         .then(response => {
-            const {accessToken, refreshToken, userType} = response.data;
-            setTokens({accessToken, refreshToken, userType});
+            const { accessToken, refreshToken, userType } = response.data;
+            setTokens({ accessToken, refreshToken, userType });
+            dispatch(setRole());
             successCallback();
         })
         .catch(err => {
-            console.log(err); 
+            console.log(err);
             dispatch(error(err.response.data.error.message));
             alert(err.response.data.error.message);
         })
