@@ -4,8 +4,9 @@ import Layout from '../Layout/Layout';
 import { moneyFormat } from '../../services/helper';
 import axios from "axios";
 import Messages from "../Messages/Messages";
-import { getUserType, getAccessToken } from '../../services/token';
 import { OWNER } from "../../constants/roles";
+import {getUserType, getAccessToken} from '../../services/token';
+import PropertyAmenities from "../PropertyAmenities/PropertyAmenities";
 
 const PropertyDetail = () => {
 
@@ -37,7 +38,7 @@ const PropertyDetail = () => {
             <Layout>
                 <div className="title-single-box">
                     <h1 className="title-single">{propertyDetail.name}</h1>
-                    <span className="color-text-a">City, State, Zipcode</span>
+                    {propertyDetail.address && <span className="color-text-a">{propertyDetail.address.address1} {propertyDetail.address.address2}, {propertyDetail.address.city}, {propertyDetail.address.state}, {propertyDetail.address.zipCode}</span>}
                 </div>
                 <section className="property-single nav-arrow-b">
                     <div className="container">
@@ -76,12 +77,16 @@ const PropertyDetail = () => {
                                                     <li className="d-flex justify-content-between">
                                                         <strong>Location:</strong>
                                                         <span>
-                                                            City, State, zipCode
+                                                            {propertyDetail.address && <div>{propertyDetail.address.address1} {propertyDetail.address.address2}, {propertyDetail.address.city}, {propertyDetail.address.state}, {propertyDetail.address.zipCode}</div>}
                                                         </span>
                                                     </li>
                                                     <li className="d-flex justify-content-between">
                                                         <strong>Property Type:</strong>
                                                         <span>{propertyDetail.propertyType}</span>
+                                                    </li>
+                                                    <li className="d-flex justify-content-between">
+                                                        <strong>Listing Type:</strong>
+                                                        <span>{propertyDetail.listingType}</span>
                                                     </li>
                                                     <li className="d-flex justify-content-between">
                                                         <strong>Status:</strong>
@@ -111,19 +116,7 @@ const PropertyDetail = () => {
                                                 </div>
                                             </div>
                                         </div>
-                                        <div className="amenities-list color-text-a">
-                                            <ul className="list-a no-margin">
-                                                <li>Balcony</li>
-                                                <li>Outdoor Kitchen</li>
-                                                <li>Cable Tv</li>
-                                                <li>Deck</li>
-                                                <li>Tennis Courts</li>
-                                                <li>Internet</li>
-                                                <li>Parking</li>
-                                                <li>Sun Room</li>
-                                                <li>Concrete Flooring</li>
-                                            </ul>
-                                        </div>
+                                        <PropertyAmenities propertyAttributes={propertyDetail.propertyAttributes}/>
                                     </div>
                                 </div>
                             </div>
@@ -136,7 +129,9 @@ const PropertyDetail = () => {
 
     }
 
-    return propertyDetailsDisplay;
+    return (
+        <div>{propertyDetailsDisplay}</div>
+    );
 };
 
 
