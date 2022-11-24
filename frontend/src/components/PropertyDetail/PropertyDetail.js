@@ -5,6 +5,7 @@ import {moneyFormat} from '../../services/helper';
 import axios from "axios";
 import Messages from "../Messages/Messages";
 import {getUserType, getAccessToken} from '../../services/token';
+import PropertyAmenities from "../PropertyAmenities/PropertyAmenities";
 
 const PropertyDetail = () => {
 
@@ -115,19 +116,7 @@ const PropertyDetail = () => {
                                                 </div>
                                             </div>
                                         </div>
-                                        <div className="amenities-list color-text-a">
-                                            <ul className="list-a no-margin">
-                                                <li>Balcony</li>
-                                                <li>Outdoor Kitchen</li>
-                                                <li>Cable Tv</li>
-                                                <li>Deck</li>
-                                                <li>Tennis Courts</li>
-                                                <li>Internet</li>
-                                                <li>Parking</li>
-                                                <li>Sun Room</li>
-                                                <li>Concrete Flooring</li>
-                                            </ul>
-                                        </div>
+                                        <PropertyAmenities propertyAttributes={propertyDetail.propertyAttributes}/>
                                     </div>
                                 </div>
                             </div>
