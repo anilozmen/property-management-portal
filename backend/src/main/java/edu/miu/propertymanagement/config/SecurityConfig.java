@@ -48,7 +48,7 @@ public class SecurityConfig {
                 .antMatchers(HttpMethod.GET, "/api/v1/properties/*").permitAll()
                 .antMatchers(HttpMethod.POST, "/api/v1/properties").hasAuthority("OWNER")
                 .antMatchers(HttpMethod.POST, "/api/v1/properties/*/offers").hasAuthority("CUSTOMER")
-                .antMatchers(HttpMethod.POST, "/api/v1/properties/*/offers").hasAnyAuthority("OWNER", "CUSTOMER")
+                .antMatchers(HttpMethod.GET, "/api/v1/properties/*/offers").hasAnyAuthority("OWNER", "CUSTOMER")
                 .antMatchers(HttpMethod.PUT, "/api/v1/properties/*/offers/*").hasAnyAuthority("OWNER", "CUSTOMER")
                 .antMatchers("/api/v1/offers/").hasAnyAuthority("CUSTOMER", "ADMIN")
                 .antMatchers("/api/v1/properties/saved").hasAuthority("CUSTOMER")
