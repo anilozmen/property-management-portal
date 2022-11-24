@@ -9,13 +9,12 @@ export default function Message({isOwner = false, message, sendMessage}) {
     return (<div>
         <div className='question'>{message.message}</div>
         {message.reply && <div className='reply'>{message.reply}</div>}
-        {!message.reply && isOwner && <div><input name={'reply'} ref={inputRef}/>
-            <button onClick={() => {
-                sendMessage(inputRef.current.value, message);
-            }
-            }>submit
-            </button>
-        </div>}
+        {!message.reply && isOwner && <form onSubmit={(event) => {
+            event.preventDefault();
+            sendMessage(inputRef.current.value, message);
+        }}><input name={'reply'} ref={inputRef}/>
+            <button>submit</button>
+        </form>}
     </div>);
 }
 

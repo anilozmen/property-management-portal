@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 
 const Property = (props) => {
 
+    const propertyAttributes = props.propertyAttributes;
+    
     return (
         <div className="col-md-4">
             <div className="card-box-a card-shadow">
@@ -30,21 +32,19 @@ const Property = (props) => {
                             <ul className="card-info d-flex justify-content-around">
                                 <li>
                                     <h4 className="card-info-title">Area</h4>
-                                    <span>340m
-                                        <sup>2</sup>
-                                    </span>
+                                    <span>{propertyAttributes && propertyAttributes.area || "N/A" }</span>
                                 </li>
                                 <li>
                                     <h4 className="card-info-title">Beds</h4>
-                                    <span>2</span>
+                                    <span>{propertyAttributes && propertyAttributes.noOfBedRooms || "N/A" }</span>
                                 </li>
                                 <li>
                                     <h4 className="card-info-title">Baths</h4>
-                                    <span>4</span>
+                                    <span>{propertyAttributes && propertyAttributes.noOfRestrooms || "N/A" }</span>
                                 </li>
                                 <li>
                                     <h4 className="card-info-title">Garages</h4>
-                                    <span>1</span>
+                                    <span>{propertyAttributes && propertyAttributes.hasGarage? "Yes" : "No" }</span>
                                 </li>
                             </ul>
                         </div>
