@@ -1,6 +1,9 @@
 package edu.miu.propertymanagement;
 
+import edu.miu.propertymanagement.entity.Offer;
+import edu.miu.propertymanagement.entity.dto.response.OfferDto;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.PropertyMap;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -14,6 +17,16 @@ public class PropertyManagementApplication {
 
     @Bean
     public ModelMapper modelMapper() {
-        return new ModelMapper();
+        ModelMapper modelMapper = new ModelMapper();
+
+        modelMapper.getConfiguration().setAmbiguityIgnored(true);
+
+        modelMapper.typeMap(Offer.class, OfferDto.class)
+                .addMappings(mapper -> {
+                    mapper.map(src -> src.getProperty().getPropertyType(), OfferDto::setPropertyType);
+                    mapper.map(src -> src.getProperty().getPropertyImages(), OfferDto::setPropertyImage);
+                });
+
+        return modelMapper;
     }
 }

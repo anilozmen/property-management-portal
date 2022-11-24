@@ -1,7 +1,5 @@
 package edu.miu.propertymanagement.entity.dto.request;
 
-import javax.persistence.Transient;
-
 import edu.miu.propertymanagement.entity.Address;
 import lombok.*;
 
