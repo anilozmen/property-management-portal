@@ -4,10 +4,11 @@ import { Link } from "react-router-dom";
 const Property = (props) => {
 
     const propertyAttributes = props.propertyAttributes;
-    
+
     return (
         <div className="col-md-4">
             <div className="card-box-a card-shadow">
+                {props.propertyHead || null}
                 <div className="img-box-a">
                     <img src="https://via.placeholder.com/700" alt="{props.name}" className="img-a img-fluid" />
                 </div>
@@ -22,7 +23,7 @@ const Property = (props) => {
                             <div className="price-box d-flex">
                                 <span className="price-a">rent | {moneyFormat(props.price)}</span>
                             </div>
-                            <Link to={`${props.id}`} key={props.id} className="link-a">
+                            <Link to={`/properties/${props.id}`} key={props.id} className="link-a">
                                 Click here to view
                                 <span className="ion-ios-arrow-forward"></span>
                             </Link>
@@ -32,19 +33,19 @@ const Property = (props) => {
                             <ul className="card-info d-flex justify-content-around">
                                 <li>
                                     <h4 className="card-info-title">Area</h4>
-                                    <span>{propertyAttributes && propertyAttributes.area || "N/A" }</span>
+                                    <span>{propertyAttributes && propertyAttributes.area || "N/A"}</span>
                                 </li>
                                 <li>
                                     <h4 className="card-info-title">Beds</h4>
-                                    <span>{propertyAttributes && propertyAttributes.noOfBedRooms || "N/A" }</span>
+                                    <span>{propertyAttributes && propertyAttributes.noOfBedRooms || "N/A"}</span>
                                 </li>
                                 <li>
                                     <h4 className="card-info-title">Baths</h4>
-                                    <span>{propertyAttributes && propertyAttributes.noOfRestrooms || "N/A" }</span>
+                                    <span>{propertyAttributes && propertyAttributes.noOfRestrooms || "N/A"}</span>
                                 </li>
                                 <li>
                                     <h4 className="card-info-title">Garages</h4>
-                                    <span>{propertyAttributes && propertyAttributes.hasGarage? "Yes" : "No" }</span>
+                                    <span>{propertyAttributes && propertyAttributes.hasGarage ? "Yes" : "No"}</span>
                                 </li>
                             </ul>
                         </div>

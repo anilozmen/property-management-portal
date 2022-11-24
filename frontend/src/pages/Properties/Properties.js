@@ -2,7 +2,6 @@ import Layout from "../../components/Layout/Layout";
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import Property from "../../components/Property/Property";
-import PropertyDetail from "../../components/PropertyDetail/PropertyDetail";
 
 
 const Properties = () => {
@@ -54,8 +53,7 @@ const Properties = () => {
             <section className="property-grid grid">
                 <div className="container">
                     <div className="row">
-                        {properties && properties.length !== 0? properties : <div>No properties added yet !!!</div>}
-                        <PropertyDetail />
+                        {properties && properties.length !== 0 ? properties : <div>No properties added yet !!!</div>}
                     </div>
                 </div>
             </section>

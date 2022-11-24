@@ -1,0 +1,12 @@
+.saved-property-remove {
+  position: absolute;
+  z-index: 100;
+  right: 0;
+  top: 0;
+  padding: 8px;
+  cursor: pointer;
+}
+
+.saved-property-remove:hover {
+  color: #b71c1c;
+}

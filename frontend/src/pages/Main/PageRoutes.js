@@ -7,8 +7,9 @@ import Register from "../../components/Register/Register";
 import Properties from "../Properties/Properties";
 import PropertyDetail from "../../components/PropertyDetail/PropertyDetail";
 import ProtectedComponent from "../../components/ProtectedComponent/ProtectedComponent";
-import { OWNER } from "../../constants/roles";
+import { CUSTOMER, OWNER } from "../../constants/roles";
 import AddNewProperty from "../../components/AddNewProperty/AddNewProperty";
+import SavedProperties from "../SavedProperties/SavedProperties";
 
 
 const PageRoutes = (props) => {
@@ -25,6 +26,10 @@ const PageRoutes = (props) => {
             <Route
                 path="properties/new"
                 element={<ProtectedComponent requiredRole={OWNER} component={<AddNewProperty />} />}
+            />
+            <Route
+                path="properties/saved"
+                element={<ProtectedComponent requiredRole={CUSTOMER} component={<SavedProperties />} />}
             />
         </Routes>
 
