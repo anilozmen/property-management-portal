@@ -48,16 +48,7 @@ class MessageController {
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
     public void addMessage(@RequestBody CustomerMessageRequest customerMessageRequest) {
-        ApplicationUserDetail userDetail = userService.getLoggedInUser();
-
-        MessageDto messageDto = new MessageDto();
-        messageDto.setMessage(customerMessageRequest.getMessage());
-        messageDto.setPropertyId(customerMessageRequest.getPropertyId());
-        messageDto.setSenderId(userDetail.getId());
-        messageDto.setReceiverId(propertyService.getOwnerByProperty(customerMessageRequest.getPropertyId()));
-        messageDto.setCreatedDate(LocalDateTime.now());
-
-        messageService.addMessage(messageDto);
+        messageService.addMessage(customerMessageRequest);
     }
 
     @ResponseStatus(HttpStatus.CREATED)

@@ -3,6 +3,7 @@ package edu.miu.propertymanagement.service;
 import java.util.List;
 
 import edu.miu.propertymanagement.entity.Message;
+import edu.miu.propertymanagement.entity.dto.request.CustomerMessageRequest;
 import edu.miu.propertymanagement.entity.dto.response.MessageDto;
 
 public interface MessageService {
@@ -10,7 +11,7 @@ public interface MessageService {
     
     List<MessageDto> getAllMessageForProperty(long id,long userId);
     
-    void addMessage(MessageDto message);
+    void addMessage(CustomerMessageRequest message);
     
     void editMessage(MessageDto message,long id);
     
