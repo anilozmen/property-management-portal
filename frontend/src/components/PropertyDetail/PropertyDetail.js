@@ -21,6 +21,7 @@ const PropertyDetail = () => {
             if (params.id) {
                 axios.get('properties/' + params.id)
                     .then(response => {
+                        console.log(`properties ${params.id} is --------`, response.data);
                         setPropertyDetail(response.data)
                     })
                     .catch(err => console.log(err.message))
@@ -36,7 +37,7 @@ const PropertyDetail = () => {
             <Layout>
                 <div className="title-single-box">
                     <h1 className="title-single">{propertyDetail.name}</h1>
-                    <span className="color-text-a">City, State, Zipcode</span>
+                    {propertyDetail.address && <span className="color-text-a">{propertyDetail.address.address1} {propertyDetail.address.address2}, {propertyDetail.address.city}, {propertyDetail.address.state}, {propertyDetail.address.zipCode}</span>}
                 </div>
                 <section className="property-single nav-arrow-b">
                     <div className="container">
@@ -75,12 +76,16 @@ const PropertyDetail = () => {
                                                     <li className="d-flex justify-content-between">
                                                         <strong>Location:</strong>
                                                         <span>
-                                                            City, State, zipCode
+                                                            {propertyDetail.address && <div>{propertyDetail.address.address1} {propertyDetail.address.address2}, {propertyDetail.address.city}, {propertyDetail.address.state}, {propertyDetail.address.zipCode}</div>}
                                                         </span>
                                                     </li>
                                                     <li className="d-flex justify-content-between">
                                                         <strong>Property Type:</strong>
                                                         <span>{propertyDetail.propertyType}</span>
+                                                    </li>
+                                                    <li className="d-flex justify-content-between">
+                                                        <strong>Listing Type:</strong>
+                                                        <span>{propertyDetail.listingType}</span>
                                                     </li>
                                                     <li className="d-flex justify-content-between">
                                                         <strong>Status:</strong>
@@ -135,7 +140,9 @@ const PropertyDetail = () => {
 
     }
 
-    return propertyDetailsDisplay;
+    return (
+        <div>{propertyDetailsDisplay}</div>
+    );
 };
 
 
