@@ -1,36 +1,24 @@
 package edu.miu.propertymanagement.controller.exception_controller;
 
-import com.fasterxml.jackson.core.JsonParseException;
-
+import edu.miu.propertymanagement.entity.dto.response.ErrorResponse;
+import edu.miu.propertymanagement.entity.dto.response.ValidationErrorResponse;
+import edu.miu.propertymanagement.exceptions.ErrorException;
+import edu.miu.propertymanagement.exceptions.UserDeactivatedException;
+import edu.miu.propertymanagement.exceptions.UserNotExistsException;
+import edu.miu.propertymanagement.exceptions.UserNotVerifiedException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
-import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import org.springframework.web.server.ResponseStatusException;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.logging.ErrorManager;
-import java.util.stream.Collectors;
-
-import javax.naming.AuthenticationException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
-
-import edu.miu.propertymanagement.entity.dto.response.*;
-import edu.miu.propertymanagement.exceptions.ErrorException;
-import edu.miu.propertymanagement.exceptions.UserNotExistsException;
-import edu.miu.propertymanagement.exceptions.UserNotVerifiedException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestControllerAdvice
 public class AuthExceptionController {
@@ -71,6 +59,11 @@ public class AuthExceptionController {
 
         ErrorResponse errorResponse = new ErrorResponse("User doesnt exists.. please create ");
         return ResponseEntity.status(400).body(errorResponse);
+    }
+
+    public ResponseEntity<ErrorResponse> exceptionUserDeactivatedExceptionHandler(UserDeactivatedException exception) {
+        ErrorResponse errorResponse = new ErrorResponse("The Account is disabled. You are not allow to access it.");
+        return ResponseEntity.status(401).body(errorResponse);
     }
     
 

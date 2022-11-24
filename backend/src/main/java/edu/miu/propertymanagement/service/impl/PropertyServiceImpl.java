@@ -2,8 +2,8 @@ package edu.miu.propertymanagement.service.impl;
 
 import edu.miu.propertymanagement.entity.*;
 import edu.miu.propertymanagement.entity.dto.request.PropertyCreationDto;
+import edu.miu.propertymanagement.entity.dto.request.PropertyFilterRequest;
 import edu.miu.propertymanagement.entity.dto.response.ListingPropertyDto;
-import edu.miu.propertymanagement.entity.dto.response.MessageDto;
 import edu.miu.propertymanagement.entity.dto.response.PropertyDto;
 import edu.miu.propertymanagement.repository.PropertyRepository;
 import edu.miu.propertymanagement.service.PropertyService;
@@ -11,10 +11,16 @@ import edu.miu.propertymanagement.util.ListMapper;
 import lombok.RequiredArgsConstructor;
 
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 @RequiredArgsConstructor
@@ -25,18 +31,18 @@ public class PropertyServiceImpl implements PropertyService {
     private final ModelMapper modelMapper;
 
     @Override
-    public List<ListingPropertyDto> findAll() {
-        return listMapper.map(propertyRepository.findAll(), ListingPropertyDto.class);
+    public List<ListingPropertyDto> findAll(PropertyFilterRequest propertyFilterRequest) {
+        return listMapper.map(filterPropertyBuilder(propertyRepository.findAll(), propertyFilterRequest), ListingPropertyDto.class);
     }
 
     @Override
-    public List<ListingPropertyDto> findByOwnerId(long id) {
-        return listMapper.map(propertyRepository.findByOwnerId(id), ListingPropertyDto.class);
+    public List<ListingPropertyDto> findByOwnerId(long id, PropertyFilterRequest propertyFilterRequest) {
+        return listMapper.map(filterPropertyBuilder(propertyRepository.findByOwnerId(id), propertyFilterRequest), ListingPropertyDto.class);
     }
 
     @Override
-    public List<ListingPropertyDto> findListingProperties() {
-        return listMapper.map(propertyRepository.findByPropertyStatusIn(PropertyStatus.AVAILABLE, PropertyStatus.PENDING), ListingPropertyDto.class);
+    public List<ListingPropertyDto> findListingProperties(PropertyFilterRequest propertyFilterRequest) {
+        return listMapper.map(filterPropertyBuilder(propertyRepository.findByPropertyStatusIn(PropertyStatus.AVAILABLE, PropertyStatus.PENDING), propertyFilterRequest), ListingPropertyDto.class);
     }
 
     @Override
@@ -46,8 +52,7 @@ public class PropertyServiceImpl implements PropertyService {
         Property property = new Property();
         PropertyAttributes propertyAttributes = propertyCreationDto.getPropertyAttributes();
 
-        if(propertyAttributes == null)
-            propertyAttributes = new PropertyAttributes();
+        if (propertyAttributes == null) propertyAttributes = new PropertyAttributes();
 
         owner.setId(loggedInOwnerDetail.getId());
         property.setOwner(owner);
@@ -75,6 +80,48 @@ public class PropertyServiceImpl implements PropertyService {
 
     @Override
     public PropertyDto getPropertyDetailsById(long id) {
+        increaseCounterByOne(id);
         return modelMapper.map(getPropertyById(id), PropertyDto.class);
+    }
+
+    @Override
+    public List<ListingPropertyDto> findRentedPropertiesBySize() {
+        Pageable lastTen = PageRequest.of(0, 10, Sort.by("id").descending());
+
+        List<Property> properties = propertyRepository.findPropertiesByListingTypeAndPropertyStatus(ListingType.RENT, PropertyStatus.COMPLETED, lastTen);
+        return listMapper.map(properties, ListingPropertyDto.class);
+    }
+
+    @Override
+    public void increaseCounterByOne(long id) {
+        Property property = propertyRepository.findById(id).orElse(null);
+        property.setViewCount(property.getViewCount() + 1);
+        propertyRepository.save(property);
+    }
+
+    private List<Property> filterPropertyBuilder(List<Property> properties, PropertyFilterRequest propertyFilterRequest) {
+        Stream<Property> propertiesStream = properties.stream();
+
+        if (propertyFilterRequest.getListingType() != null) {
+            propertiesStream = propertiesStream.filter(property -> property.getListingType().toString().equals(propertyFilterRequest.getListingType()));
+        }
+
+        if (propertyFilterRequest.getPropertyType() != null) {
+            propertiesStream = propertiesStream.filter(property -> property.getPropertyType().toString().equals(propertyFilterRequest.getPropertyType()));
+        }
+
+        if (propertyFilterRequest.getPriceGreaterThan() != null) {
+            propertiesStream = propertiesStream.filter(property -> {
+                return property.getPrice().compareTo(BigDecimal.valueOf(propertyFilterRequest.getPriceGreaterThan())) >= 0;
+            });
+        }
+
+        if (propertyFilterRequest.getPriceLessThan() != null) {
+            propertiesStream = propertiesStream.filter(property -> {
+                return property.getPrice().compareTo(BigDecimal.valueOf(propertyFilterRequest.getPriceLessThan())) < 1;
+            });
+        }
+
+        return propertiesStream.collect(Collectors.toList());
     }
 }

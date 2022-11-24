@@ -4,6 +4,7 @@ import ResetPassword from '../../components/ResetPassword/ResetPassword';
 import ChangePassword from '../../components/ChangePassword/ChangePassword';
 
 import Register from "../../components/Register/Register";
+import VerifyEmail from "../../components/VerifyEmail/VerifyEmail";
 import Properties from "../Properties/Properties";
 import PropertyDetail from "../../components/PropertyDetail/PropertyDetail";
 import ProtectedComponent from "../../components/ProtectedComponent/ProtectedComponent";
@@ -21,6 +22,7 @@ const PageRoutes = (props) => {
             <Route path='login' element={<Login />} />
             <Route path='reset-password' element={<ResetPassword />} />
             <Route path='change-password' element={<ChangePassword />} />
+            <Route path='verify-email' element={<VerifyEmail />} />
             <Route path='properties' element={<Properties />} />
             <Route path="properties/:id" element={<PropertyDetail />} />
             <Route
