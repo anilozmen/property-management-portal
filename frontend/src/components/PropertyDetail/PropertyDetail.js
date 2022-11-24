@@ -1,9 +1,10 @@
-import {useEffect, useMemo, useState} from "react";
-import {useNavigate, useParams} from "react-router";
+import { useEffect, useMemo, useState } from "react";
+import { useNavigate, useParams } from "react-router";
 import Layout from '../Layout/Layout';
-import {moneyFormat} from '../../services/helper';
+import { moneyFormat } from '../../services/helper';
 import axios from "axios";
 import Messages from "../Messages/Messages";
+import { OWNER } from "../../constants/roles";
 import {getUserType, getAccessToken} from '../../services/token';
 import PropertyAmenities from "../PropertyAmenities/PropertyAmenities";
 
@@ -22,7 +23,6 @@ const PropertyDetail = () => {
             if (params.id) {
                 axios.get('properties/' + params.id)
                     .then(response => {
-                        console.log(`properties ${params.id} is --------`, response.data);
                         setPropertyDetail(response.data)
                     })
                     .catch(err => console.log(err.message))
@@ -46,9 +46,9 @@ const PropertyDetail = () => {
                             <div className="col-sm-12">
                                 <div className="owl-carousel owl-arrow gallery-property text-center">
                                     <div className="carousel-item-a row">
-                                        <img className='col-sm-8' src="https://via.placeholder.com/700" alt=""/>
+                                        <img className='col-sm-8' src="https://via.placeholder.com/700" alt="" />
                                         <div className='col-sm-4'>
-                                            {userLoggedIn() && <Messages isOwner={userType === "OWNER"} propertyId={params.id}/>}
+                                            {userLoggedIn() && <Messages isOwner={userType === OWNER} propertyId={params.id} />}
                                         </div>
                                     </div>
 
