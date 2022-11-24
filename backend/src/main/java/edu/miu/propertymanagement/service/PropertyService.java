@@ -20,4 +20,6 @@ public interface PropertyService {
     Long getOwnerByProperty(long propertyId);
 
     PropertyDto getPropertyDetailsById(long id);
+    
+    void increaseCounterByOne(long id);
 }

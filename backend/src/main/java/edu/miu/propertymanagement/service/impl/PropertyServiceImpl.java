@@ -46,7 +46,7 @@ public class PropertyServiceImpl implements PropertyService {
         Property property = new Property();
         PropertyAttributes propertyAttributes = propertyCreationDto.getPropertyAttributes();
 
-        if(propertyAttributes == null)
+        if (propertyAttributes == null)
             propertyAttributes = new PropertyAttributes();
 
         owner.setId(loggedInOwnerDetail.getId());
@@ -75,6 +75,14 @@ public class PropertyServiceImpl implements PropertyService {
 
     @Override
     public PropertyDto getPropertyDetailsById(long id) {
+        increaseCounterByOne(id);
         return modelMapper.map(getPropertyById(id), PropertyDto.class);
+    }
+
+    @Override
+    public void increaseCounterByOne(long id) {
+        Property property = propertyRepository.findById(id).orElse(null);
+        property.setViewCount(property.getViewCount() + 1);
+        propertyRepository.save(property);
     }
 }

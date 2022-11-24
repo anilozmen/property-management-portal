@@ -23,6 +23,7 @@ const PropertyDetail = () => {
             if (params.id) {
                 axios.get('properties/' + params.id)
                     .then(response => {
+                        console.log(response.data);
                         setPropertyDetail(response.data)
                     })
                     .catch(err => console.log(err.message))
