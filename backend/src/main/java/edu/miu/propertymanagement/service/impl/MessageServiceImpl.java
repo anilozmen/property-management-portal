@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import edu.miu.propertymanagement.entity.Message;
+import edu.miu.propertymanagement.entity.dto.request.CustomerMessageRequest;
 import edu.miu.propertymanagement.entity.dto.response.MessageDto;
 import edu.miu.propertymanagement.mapper.MessageMapper;
 import edu.miu.propertymanagement.repository.MessageRepository;
@@ -36,12 +37,21 @@ public class MessageServiceImpl implements MessageService {
 
     @Override
     public List<MessageDto> getAllMessageForProperty(long id, long userId) {
-        List<Message> messages = messageRepository.getAllMessageForProperty(id,userId);
+        List<Message> messages = messageRepository.getAllMessageForProperty(id, userId);
         return MessageMapper.mapMessageListToDtoList(messages);
     }
 
     @Override
-    public void addMessage(MessageDto messageDto) {
+    public void addMessage(CustomerMessageRequest customerMessageRequest) {
+        ApplicationUserDetail userDetail = userService.getLoggedInUser();
+
+        MessageDto messageDto = new MessageDto();
+        messageDto.setMessage(customerMessageRequest.getMessage());
+        messageDto.setPropertyId(customerMessageRequest.getPropertyId());
+        messageDto.setSenderId(userDetail.getId());
+        messageDto.setReceiverId(propertyService.getOwnerByProperty(customerMessageRequest.getPropertyId()));
+        messageDto.setCreatedDate(LocalDateTime.now());
+
         Message message = mapMessageDtoToEntity(messageDto);
         messageRepository.save(message);
     }
@@ -71,7 +81,7 @@ public class MessageServiceImpl implements MessageService {
                 propertyId,
                 userDetail.getId(),
                 loggedInUserId
-                
+
         ));
     }
 

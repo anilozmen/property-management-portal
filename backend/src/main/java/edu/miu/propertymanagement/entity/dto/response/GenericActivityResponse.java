@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class EmailVerificationResponse {
+public class GenericActivityResponse {
     public boolean success;
     public String message;
 }

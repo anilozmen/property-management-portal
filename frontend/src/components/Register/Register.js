@@ -3,6 +3,7 @@ import { useEffect, useRef } from "react";
 import axios from "axios";
 import { useNavigate } from 'react-router-dom';
 import { hasSessionData } from '../../services/token';
+import ContentContainer from '../Layout/Layout';
 
 export default function Register() {
     const formRef = useRef();
@@ -54,107 +55,96 @@ export default function Register() {
     }
 
     return (
-        <section className="contact mt-5">
-            <div className="container">
+        <ContentContainer>
+            <h1 className="mb-4">Register</h1>
+            <form className="form-a contactForm" ref={formRef}>
                 <div className="row">
-                    <div className="col-sm-12 section-t8">
-                        <div className="row">
-                            <div className="col-md-12">
-                                <h1 className="mb-4">Register</h1>
-                                <form className="form-a contactForm" ref={formRef}>
-                                    <div className="row">
-                                        <div className="col-md-12 mb-3">
-                                            <div className="form-group">
-                                                <label htmlFor={'email'} className="form-label">Email Address: </label>
-                                                <input id={'email'} name={'name'} type={'email'} className="form-control form-control-lg form-control-a" minLength={5} required />
-                                            </div>
-                                        </div>
-                                        <div className="col-md-12 mb-3">
-                                            <div className="form-group">
-                                                <label htmlFor={'password'} className="form-label">Password: </label>
-                                                <input type={'password'} name={'password'} id={'password'} className="form-control form-control-lg form-control-a" minLength={3} required />
-                                            </div>
-                                        </div>
-
-
-                                        <div className="col-md-12 mb-3">
-                                            <div className="form-group">
-                                                <label htmlFor={'fname'} className="form-label">First Name: </label>
-                                                <input name={'fname'} id={'fname'} type={'text'} className="form-control form-control-lg form-control-a" />
-                                            </div>
-                                        </div>
-
-                                        <div className="col-md-12 mb-3">
-                                            <div className="form-group">
-                                                <label htmlFor={'lname'} className="form-label">Last Name: </label>
-                                                <input name={'lname'} id={'lname'} type={'text'} className="form-control form-control-lg form-control-a" />
-                                            </div>
-                                        </div>
-
-                                        <div className="col-md-12 mb-3">
-                                            <div className="form-group">
-                                                <label htmlFor={'street_address_1'} className="form-label">Street Address 1: </label>
-                                                <input name={'street_address_1'} id={'street_address_1'} type={'text'} className="form-control form-control-lg form-control-a" />
-                                            </div>
-                                        </div>
-
-                                        <div className="col-md-12 mb-3">
-                                            <div className="form-group">
-                                                <label htmlFor={'street_address_2'} className="form-label">Street Address 2: </label>
-                                                <input name={'street_address_2'} id={'street_address_2'} type={'text'} className="form-control form-control-lg form-control-a" />
-                                            </div>
-                                        </div>
-
-                                        <div className="col-md-12 mb-3">
-                                            <div className="form-group">
-                                                <label htmlFor={'city'} className="form-label">City: </label>
-                                                <input name={'city'} id={'city'} type={'text'} className="form-control form-control-lg form-control-a" />
-                                            </div>
-                                        </div>
-
-                                        <div className="col-md-12 mb-3">
-                                            <div className="form-group">
-                                                <label htmlFor={'state'} className="form-label">State: </label>
-                                                <input name={'state'} id={'state'} type={'text'} className="form-control form-control-lg form-control-a" />
-                                            </div>
-                                        </div>
-
-                                        <div className="col-md-12 mb-3">
-                                            <div className="form-group">
-                                                <label htmlFor={'zipcode'} className="form-label">Zip Code: </label>
-                                                <input name={'zipcode'} type={'text'} id={'zipcode'} className="form-control form-control-lg form-control-a" />
-                                            </div>
-                                        </div>
-
-                                        <div className="col-md-12 mb-3">
-                                            <div className="form-group">
-                                                <label htmlFor={'phoneNumber'} className="form-label">Phone Number: </label>
-                                                <input name={'phoneNumber'} id={'phoneNumber'} type={'text'} className="form-control form-control-lg form-control-a" />
-                                            </div>
-                                        </div>
-
-
-                                        <div className="col-md-12 mb-3">
-                                            <div className="form-group">
-                                                <label htmlFor={'userType'} className="form-label">Account type: </label>
-                                                <select className="form-control form-control-lg form-control-a" name={'userType'} id={'userType'}>
-                                                    <option value={'customer'}>Customer</option>
-                                                    <option value={'owner'}>Owner</option>
-                                                </select>
-                                            </div>
-                                        </div>
-
-                                        <div className="col-md-12 text-right mb-4">
-                                            <button type="submit" className="btn btn-a" onClick={onRegisterClick}>Register</button>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-
+                    <div className="col-md-12 mb-3">
+                        <div className="form-group">
+                            <label htmlFor={'email'} className="form-label">Email Address: </label>
+                            <input id={'email'} name={'name'} type={'email'} className="form-control form-control-lg form-control-a" minLength={5} required />
                         </div>
                     </div>
+                    <div className="col-md-12 mb-3">
+                        <div className="form-group">
+                            <label htmlFor={'password'} className="form-label">Password: </label>
+                            <input type={'password'} name={'password'} id={'password'} className="form-control form-control-lg form-control-a" minLength={3} required />
+                        </div>
+                    </div>
+
+
+                    <div className="col-md-12 mb-3">
+                        <div className="form-group">
+                            <label htmlFor={'fname'} className="form-label">First Name: </label>
+                            <input name={'fname'} id={'fname'} type={'text'} className="form-control form-control-lg form-control-a" />
+                        </div>
+                    </div>
+
+                    <div className="col-md-12 mb-3">
+                        <div className="form-group">
+                            <label htmlFor={'lname'} className="form-label">Last Name: </label>
+                            <input name={'lname'} id={'lname'} type={'text'} className="form-control form-control-lg form-control-a" />
+                        </div>
+                    </div>
+
+                    <div className="col-md-12 mb-3">
+                        <div className="form-group">
+                            <label htmlFor={'street_address_1'} className="form-label">Street Address 1: </label>
+                            <input name={'street_address_1'} id={'street_address_1'} type={'text'} className="form-control form-control-lg form-control-a" />
+                        </div>
+                    </div>
+
+                    <div className="col-md-12 mb-3">
+                        <div className="form-group">
+                            <label htmlFor={'street_address_2'} className="form-label">Street Address 2: </label>
+                            <input name={'street_address_2'} id={'street_address_2'} type={'text'} className="form-control form-control-lg form-control-a" />
+                        </div>
+                    </div>
+
+                    <div className="col-md-12 mb-3">
+                        <div className="form-group">
+                            <label htmlFor={'city'} className="form-label">City: </label>
+                            <input name={'city'} id={'city'} type={'text'} className="form-control form-control-lg form-control-a" />
+                        </div>
+                    </div>
+
+                    <div className="col-md-12 mb-3">
+                        <div className="form-group">
+                            <label htmlFor={'state'} className="form-label">State: </label>
+                            <input name={'state'} id={'state'} type={'text'} className="form-control form-control-lg form-control-a" />
+                        </div>
+                    </div>
+
+                    <div className="col-md-12 mb-3">
+                        <div className="form-group">
+                            <label htmlFor={'zipcode'} className="form-label">Zip Code: </label>
+                            <input name={'zipcode'} type={'text'} id={'zipcode'} className="form-control form-control-lg form-control-a" />
+                        </div>
+                    </div>
+
+                    <div className="col-md-12 mb-3">
+                        <div className="form-group">
+                            <label htmlFor={'phoneNumber'} className="form-label">Phone Number: </label>
+                            <input name={'phoneNumber'} id={'phoneNumber'} type={'text'} className="form-control form-control-lg form-control-a" />
+                        </div>
+                    </div>
+
+
+                    <div className="col-md-12 mb-3">
+                        <div className="form-group">
+                            <label htmlFor={'userType'} className="form-label">Account type: </label>
+                            <select className="form-control form-control-lg form-control-a" name={'userType'} id={'userType'}>
+                                <option value={'customer'}>Customer</option>
+                                <option value={'owner'}>Owner</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div className="col-md-12 text-right mb-4">
+                        <button type="submit" className="btn btn-a" onClick={onRegisterClick}>Register</button>
+                    </div>
                 </div>
-            </div>
-        </section>
+            </form>
+        </ContentContainer>
     );
 }

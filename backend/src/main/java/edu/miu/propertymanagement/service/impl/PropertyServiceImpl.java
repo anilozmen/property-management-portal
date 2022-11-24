@@ -26,17 +26,17 @@ public class PropertyServiceImpl implements PropertyService {
 
     @Override
     public List<ListingPropertyDto> findAll() {
-        return listMapper.mapList(propertyRepository.findAll(), ListingPropertyDto.class);
+        return listMapper.map(propertyRepository.findAll(), ListingPropertyDto.class);
     }
 
     @Override
     public List<ListingPropertyDto> findByOwnerId(long id) {
-        return listMapper.mapList(propertyRepository.findByOwnerId(id), ListingPropertyDto.class);
+        return listMapper.map(propertyRepository.findByOwnerId(id), ListingPropertyDto.class);
     }
 
     @Override
     public List<ListingPropertyDto> findListingProperties() {
-        return listMapper.mapList(propertyRepository.findByPropertyStatusIn(PropertyStatus.AVAILABLE, PropertyStatus.PENDING), ListingPropertyDto.class);
+        return listMapper.map(propertyRepository.findByPropertyStatusIn(PropertyStatus.AVAILABLE, PropertyStatus.PENDING), ListingPropertyDto.class);
     }
 
     @Override

@@ -5,7 +5,7 @@ import edu.miu.propertymanagement.entity.User;
 import edu.miu.propertymanagement.entity.dto.request.EmailVerificationRequest;
 import edu.miu.propertymanagement.entity.dto.request.LoginRequest;
 import edu.miu.propertymanagement.entity.dto.request.RegisterRequest;
-import edu.miu.propertymanagement.entity.dto.response.EmailVerificationResponse;
+import edu.miu.propertymanagement.entity.dto.response.GenericActivityResponse;
 import edu.miu.propertymanagement.entity.dto.response.LoginResponse;
 import edu.miu.propertymanagement.entity.dto.response.PasswordResetResponse;
 
@@ -17,7 +17,7 @@ public interface AuthService {
     LoginResponse login(LoginRequest loginRequest);
     PasswordResetResponse resetPassword(String email);
 
-    EmailVerificationResponse verifyEmail(EmailVerificationRequest emailVerificationRequest);
+    GenericActivityResponse verifyEmail(EmailVerificationRequest emailVerificationRequest);
 
     void createPasswordResetTokenForUser(User user, String token);
 
