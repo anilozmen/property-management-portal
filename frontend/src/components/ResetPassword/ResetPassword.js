@@ -8,16 +8,17 @@ const ResetPassword = () => {
   const formRef = useRef(null);
   const navigate = useNavigate();
   const [errorMessageState, setErrorMessageState] = useState(null);
+  const [successMessageState, setSuccessMessageState] = useState(null);
   const [errorMessageVisibilityState, setErrorMessageVisibilityState] = useState(false);
+  const [successMessageVisibilityState, setSuccessMessageVisibilityState] = useState(false);
 
   useEffect(() => {
     document.title = "Reset Password";
-  }, [errorMessageState]);
+  }, [errorMessageState, successMessageState]);
 
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log("XXX");
 
     const form = formRef.current;
 
@@ -30,7 +31,9 @@ const ResetPassword = () => {
 
 
     axios.post('authenticate/reset-password', formData).then(response => {
-      navigate(`/change-password?changeToken=${response.data.token}`);
+      // navigate(`/change-password?changeToken=${response.data.token}`);
+      setSuccessMessageState("Please check your email for the link to reset your password");
+      setSuccessMessageVisibilityState(true);
     }).catch(error => {
       setErrorMessageState(error.response.data.error.message);
       setErrorMessageVisibilityState(true);
@@ -48,6 +51,7 @@ const ResetPassword = () => {
               <label htmlFor={'email'} className="form-label">Email Address: </label>
               <input id={'email'} name="email" type="email" className="form-control form-control-lg form-control-a" minLength={5} required />
             </div>
+            <div id="sendmessage" style={{ display: successMessageVisibilityState ? 'block' : 'none' }}>{successMessageState}</div>
             <div id="errormessage" style={{ display: errorMessageVisibilityState ? 'block' : 'none' }}>{errorMessageState}</div>
           </div>
           <div className="col-md-12 text-right">
