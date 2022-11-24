@@ -41,7 +41,7 @@ VALUES (4, 'Madhav', 'Thapa', 'madhav@miu.edu', '$2a$12$IKEQb00u5QpZMx4v5zMweu.3
 
 INSERT INTO users (id, first_name, last_name, email, password, address_id, phone_number, user_type, deleted,
                    is_email_verified)
-VALUES (5, 'Anil', 'Ozmen', 'anil@miu.edu', '$2a$12$IKEQb00u5QpZMx4v5zMweu.3wrq0pS7XLCHO4yHZ.BW/yvWu1feo2', 3,
+VALUES (5, 'Anil', 'Ozmen', 'anil.ozmen@miu.edu', '$2a$12$IKEQb00u5QpZMx4v5zMweu.3wrq0pS7XLCHO4yHZ.BW/yvWu1feo2', 3,
         '+1 641 333 33 33', 'CUSTOMER', false, true); --123
 INSERT INTO users (id, first_name, last_name, email, password, address_id, phone_number, user_type, deleted,
                    is_email_verified)

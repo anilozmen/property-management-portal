@@ -141,7 +141,7 @@ public class AuthServiceImpl implements AuthService {
             emailService.send(
                     email,
                     "Reset Password",
-                    "http://localhost:8080/api/v1/changePassword?token=" + token
+                    "http://localhost:3000/change-password?changeToken=" + token
             );
 
             return new PasswordResetResponse(token);
