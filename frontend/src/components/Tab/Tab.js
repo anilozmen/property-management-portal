@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { TabHeaderEntry } from "./TabHeaderEntry";
+import "./Tab.css";
 
 const Tab = ({ tabDetails }) => {
   const [activeTab, setActiveTab] = useState(0);
@@ -24,16 +26,5 @@ const Tab = ({ tabDetails }) => {
     </div>
   );
 };
-
-function TabHeaderEntry({ onClick, title, isActive }) {
-  let className = "nav-link";
-  if (isActive) className += " active";
-
-  return (
-    <li className="nav-item" onClick={onClick}>
-      <span className={className}>{title}</span>
-    </li>
-  );
-}
 
 export default Tab;
