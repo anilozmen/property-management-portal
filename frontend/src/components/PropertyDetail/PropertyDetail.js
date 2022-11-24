@@ -4,11 +4,9 @@ import Layout from '../Layout/Layout';
 import { moneyFormat } from '../../services/helper';
 import axios from "axios";
 import Messages from "../Messages/Messages";
-import { ADMIN, CUSTOMER, OWNER } from "../../constants/roles";
+import { OWNER } from "../../constants/roles";
 import {getUserType, getAccessToken} from '../../services/token';
 import PropertyAmenities from "../PropertyAmenities/PropertyAmenities";
-import Offer from "../Offer/Offer";
-import ProtectedComponent from "../ProtectedComponent/ProtectedComponent";
 
 const PropertyDetail = () => {
 
@@ -125,11 +123,6 @@ const PropertyDetail = () => {
                         </div>
                     </div>
                 </section>
-                <ProtectedComponent 
-                  isPage={false}
-                  requiredRoles={[CUSTOMER, OWNER]} 
-                  component= {<Offer propertyId={params.id} />}
-                />
             </Layout>
         );
 
