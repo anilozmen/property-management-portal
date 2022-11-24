@@ -62,6 +62,7 @@ export default function Messages({isOwner, propertyId}) {
     function sendReplyOwner(event) {
         event.preventDefault();
         sendMessage(inputRef.current.value);
+        inputRef.current.value = "";
     }
 
     return (<div>

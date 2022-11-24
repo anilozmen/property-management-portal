@@ -1,5 +1,6 @@
 package edu.miu.propertymanagement.filter;
 
+import edu.miu.propertymanagement.exceptions.UserDeactivatedException;
 import edu.miu.propertymanagement.util.JWTUtil;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.JwtException;
@@ -42,6 +43,7 @@ public class JWTFilter extends OncePerRequestFilter {
         if (authorizationHeader == null || !authorizationHeader.startsWith("Bearer ")) {
             if (!isNoAuthRequest) {
                 response.sendError(401);
+                filterChain.doFilter(request, response);
                 return;
             }
         } else {
@@ -53,15 +55,28 @@ public class JWTFilter extends OncePerRequestFilter {
             } catch (ExpiredJwtException e) {
                 if (!isRefreshRequest) {
                     response.sendError(401, "TOKEN_EXPIRED");
+                    filterChain.doFilter(request, response);
                     return;
                 }
             } catch (JwtException e) {
                 System.out.println(e.getMessage());
                 response.sendError(401);
+                filterChain.doFilter(request, response);
                 return;
             }
 
-            UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+
+            UserDetails userDetails = null;
+
+            try {
+
+                userDetails = userDetailsService.loadUserByUsername(username);
+
+            } catch (UserDeactivatedException e) {
+                response.sendError(401, e.getMessage());
+                filterChain.doFilter(request, response);
+                return;
+            }
 
             if (userDetails != null && SecurityContextHolder.getContext().getAuthentication() == null) {
                 UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
