@@ -3,14 +3,15 @@ package edu.miu.propertymanagement.service.impl;
 import edu.miu.propertymanagement.entity.*;
 import edu.miu.propertymanagement.entity.dto.request.PropertyCreationDto;
 import edu.miu.propertymanagement.entity.dto.response.ListingPropertyDto;
-import edu.miu.propertymanagement.entity.dto.response.MessageDto;
 import edu.miu.propertymanagement.entity.dto.response.PropertyDto;
 import edu.miu.propertymanagement.repository.PropertyRepository;
 import edu.miu.propertymanagement.service.PropertyService;
 import edu.miu.propertymanagement.util.ListMapper;
 import lombok.RequiredArgsConstructor;
-
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
@@ -77,6 +78,16 @@ public class PropertyServiceImpl implements PropertyService {
     public PropertyDto getPropertyDetailsById(long id) {
         increaseCounterByOne(id);
         return modelMapper.map(getPropertyById(id), PropertyDto.class);
+    }
+
+    @Override
+    public List<ListingPropertyDto> findRentedPropertiesBySize() {
+        Pageable lastTen = PageRequest.of(0, 10, Sort.by("id").descending());
+
+        List<Property> properties = propertyRepository.findPropertiesByListingTypeAndPropertyStatus(
+                ListingType.RENT, PropertyStatus.COMPLETED, lastTen
+        );
+        return listMapper.map(properties, ListingPropertyDto.class);
     }
 
     @Override

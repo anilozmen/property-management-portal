@@ -1,12 +1,13 @@
-import { useEffect, useMemo, useState } from "react";
-import { useNavigate, useParams } from "react-router";
+import {useEffect, useMemo, useState} from "react";
+import {useNavigate, useParams} from "react-router";
 import Layout from '../Layout/Layout';
-import { moneyFormat } from '../../services/helper';
+import {moneyFormat} from '../../services/helper';
 import axios from "axios";
 import Messages from "../Messages/Messages";
-import { OWNER } from "../../constants/roles";
+import {OWNER} from "../../constants/roles";
 import {getUserType, getAccessToken} from '../../services/token';
 import PropertyAmenities from "../PropertyAmenities/PropertyAmenities";
+import './PropertyDetail.css';
 
 const PropertyDetail = () => {
 
@@ -39,7 +40,8 @@ const PropertyDetail = () => {
             <Layout>
                 <div className="title-single-box">
                     <h1 className="title-single">{propertyDetail.name}</h1>
-                    {propertyDetail.address && <span className="color-text-a">{propertyDetail.address.address1} {propertyDetail.address.address2}, {propertyDetail.address.city}, {propertyDetail.address.state}, {propertyDetail.address.zipCode}</span>}
+                    {propertyDetail.address && <span
+                        className="color-text-a">{propertyDetail.address.address1} {propertyDetail.address.address2}, {propertyDetail.address.city}, {propertyDetail.address.state}, {propertyDetail.address.zipCode}</span>}
                 </div>
                 <section className="property-single nav-arrow-b">
                     <div className="container">
@@ -47,9 +49,13 @@ const PropertyDetail = () => {
                             <div className="col-sm-12">
                                 <div className="owl-carousel owl-arrow gallery-property text-center">
                                     <div className="carousel-item-a row">
-                                        <img className='col-sm-8' src="https://via.placeholder.com/700" alt="" />
+                                        <div className={'property-image'}>
+                                        <img src="https://via.placeholder.com/700" alt=""/>
+                                        <div className={'property-view-count'}>{propertyDetail.viewCount} views</div>
+                                        </div>
                                         <div className='col-sm-4'>
-                                            {userLoggedIn() && <Messages isOwner={userType === OWNER} propertyId={params.id} />}
+                                            {userLoggedIn() &&
+                                                <Messages isOwner={userType === OWNER} propertyId={params.id}/>}
                                         </div>
                                     </div>
 
@@ -78,7 +84,8 @@ const PropertyDetail = () => {
                                                     <li className="d-flex justify-content-between">
                                                         <strong>Location:</strong>
                                                         <span>
-                                                            {propertyDetail.address && <div>{propertyDetail.address.address1} {propertyDetail.address.address2}, {propertyDetail.address.city}, {propertyDetail.address.state}, {propertyDetail.address.zipCode}</div>}
+                                                            {propertyDetail.address &&
+                                                                <div>{propertyDetail.address.address1} {propertyDetail.address.address2}, {propertyDetail.address.city}, {propertyDetail.address.state}, {propertyDetail.address.zipCode}</div>}
                                                         </span>
                                                     </li>
                                                     <li className="d-flex justify-content-between">

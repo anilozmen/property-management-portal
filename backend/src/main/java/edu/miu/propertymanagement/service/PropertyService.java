@@ -1,8 +1,6 @@
 package edu.miu.propertymanagement.service;
 
-import edu.miu.propertymanagement.entity.Owner;
 import edu.miu.propertymanagement.entity.Property;
-import edu.miu.propertymanagement.entity.User;
 import edu.miu.propertymanagement.entity.dto.request.PropertyCreationDto;
 import edu.miu.propertymanagement.entity.dto.response.ListingPropertyDto;
 import edu.miu.propertymanagement.entity.dto.response.PropertyDto;
@@ -20,6 +18,8 @@ public interface PropertyService {
     Long getOwnerByProperty(long propertyId);
 
     PropertyDto getPropertyDetailsById(long id);
+
+    List<ListingPropertyDto> findRentedPropertiesBySize();
     
     void increaseCounterByOne(long id);
 }
