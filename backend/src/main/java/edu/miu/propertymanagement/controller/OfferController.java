@@ -1,5 +1,6 @@
 package edu.miu.propertymanagement.controller;
 
+import edu.miu.propertymanagement.entity.Offer;
 import edu.miu.propertymanagement.entity.OfferStatus;
 import edu.miu.propertymanagement.entity.dto.request.ChangeOfferStatusRequest;
 import edu.miu.propertymanagement.entity.dto.request.CreateOfferRequest;
@@ -45,5 +46,18 @@ public class OfferController {
     @PutMapping("/properties/{property_id}/offers/{id}")
     public GenericActivityResponse changeStatus(@RequestBody ChangeOfferStatusRequest request, @PathVariable int id) {
         return offerService.changeStatus(id, request);
+    }
+
+    @GetMapping("/properties/{propertyId}/offers")
+    public List<OfferDto> findPropertyOffers(@PathVariable long propertyId) {
+        ApplicationUserDetail user = userService.getLoggedInUser();
+
+        if (user.isOwner()) {
+            return offerService.findByPropertyId(propertyId);
+        } else if (user.isCustomer()) {
+            return offerService.findCustomerOffersByPropertyId(propertyId);
+        }
+
+        return null;
     }
 }

@@ -8,7 +8,7 @@ import java.util.List;
 
 @Repository
 public interface OfferRepository extends CrudRepository<Offer, Long> {
-
+    List<Offer> findByCustomerIdAndPropertyId(long id, long propertyId);
     List<Offer> findByCustomerId(long id);
     List<Offer> findAll();
 }

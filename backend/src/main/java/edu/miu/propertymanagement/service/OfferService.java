@@ -15,4 +15,8 @@ public interface OfferService {
     GenericActivityResponse create(CreateOfferRequest offerRequest, long propertyId);
 
     GenericActivityResponse changeStatus(long id, ChangeOfferStatusRequest status);
+
+    List<OfferDto> findByPropertyId(long propertyId);
+
+    List<OfferDto> findCustomerOffersByPropertyId(long propertyId);
 }

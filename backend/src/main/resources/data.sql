@@ -93,7 +93,7 @@ VALUES (3, 'I would like to buy this please', 'REJECTED', 35, 3, 1);
 INSERT INTO offer (id, message, status, amount, customer_id, property_id)
 VALUES (4, 'I would like to buy this please', 'APPROVED', 35, 3, 3);
 INSERT INTO offer (id, message, status, amount, customer_id, property_id)
-VALUES (5, 'CUSTOMER, I am. Buy this, I want to.', 'CREATED', 35, 4, 3);
+VALUES (5, 'CUSTOMER, I am. Buy this, I want to.', 'CREATED', 35, 5, 3);
 
 SELECT pg_catalog.setval('public.offer_id_seq', 5, true);
 

@@ -39,6 +39,29 @@ public class OfferServiceImpl implements OfferService {
         return listMapper.map(offerRepository.findAll(), OfferDto.class);
     }
 
+
+    @Override
+    public List<OfferDto> findByPropertyId(long propertyId) {
+        Property property = propertyRepository.findById(propertyId).get();
+
+        verifyLoggedInOwnerAccess(property);
+        return listMapper.map(property.getOffers(), OfferDto.class);
+    }
+
+    @Override
+    public List<OfferDto> findCustomerOffersByPropertyId(long propertyId) {
+        ApplicationUserDetail user = userService.getLoggedInUser();
+
+        return listMapper.map(offerRepository.findByCustomerIdAndPropertyId(user.getId(), propertyId), OfferDto.class);
+    }
+
+    private void verifyLoggedInOwnerAccess(Property property) {
+        long userId = userService.getLoggedInUser().getId();
+
+        if (property.getOwner().getId() != userId)
+            throw new ErrorException("Could not find property");
+    }
+
     @Override
     public GenericActivityResponse create(CreateOfferRequest offerRequest, long propertyId) {
         Offer offer = modelMapper.map(offerRequest, Offer.class);
