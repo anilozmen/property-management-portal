@@ -26,7 +26,6 @@ public class Property {
     private long id;
 
     @NotBlank(message = "Property Name cannot be blank")
-    @NonNull
     @Column(nullable = false)
     private String name;
 
@@ -34,7 +33,6 @@ public class Property {
     private Owner owner;
 
     @NotBlank(message = "Property Description cannot be blank")
-    @NonNull
     @Column(nullable = false)
     private String description;
 
