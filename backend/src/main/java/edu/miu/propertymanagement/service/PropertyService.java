@@ -20,4 +20,6 @@ public interface PropertyService {
     PropertyDto getPropertyDetailsById(long id);
 
     List<ListingPropertyDto> findRentedPropertiesBySize();
+    
+    void increaseCounterByOne(long id);
 }

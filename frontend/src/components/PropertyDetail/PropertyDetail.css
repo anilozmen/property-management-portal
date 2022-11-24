@@ -1,0 +1,13 @@
+.property-image {
+    position: relative;
+}
+
+.property-view-count {
+    float: right;
+    position: absolute;
+    right: 0;
+    top: 0;
+    background-color: cornflowerblue;
+    color: white;
+    padding: 4px;
+}

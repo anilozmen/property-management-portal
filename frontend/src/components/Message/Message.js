@@ -12,6 +12,7 @@ export default function Message({isOwner = false, message, sendMessage}) {
         {!message.reply && isOwner && <form onSubmit={(event) => {
             event.preventDefault();
             sendMessage(inputRef.current.value, message);
+            inputRef.current.value = "";
         }}><input name={'reply'} ref={inputRef}/>
             <button>submit</button>
         </form>}
