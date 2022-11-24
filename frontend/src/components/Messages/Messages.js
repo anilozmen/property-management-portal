@@ -17,7 +17,7 @@ export default function Messages({isOwner, propertyId}) {
             setMessages(response.data);
         })
             .catch(error => {
-                console.log('what just happened');
+                console.log(error.message);
                 alert('something went wrong...');
             })
     };
@@ -59,17 +59,19 @@ export default function Messages({isOwner, propertyId}) {
         }
     }
 
+    function sendReplyOwner(event) {
+        event.preventDefault();
+        sendMessage(inputRef.current.value);
+    }
+
     return (<div>
         <div className={'messages'}>
             {messagesView}
         </div>
-        {!isOwner && <div><input ref={inputRef}/>
-            <button onClick={() => {
-                sendMessage(inputRef.current.value);
-            }
-            }>submit
+        {!isOwner && <form onSubmit={sendReplyOwner}><input ref={inputRef}/>
+            <button onClick={sendReplyOwner}>submit
             </button>
-        </div>}
+        </form>}
     </div>);
 }
 
