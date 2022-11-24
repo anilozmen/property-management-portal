@@ -1,11 +1,12 @@
 import './Messages.css';
-import {useEffect, useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import axios from "axios";
 import Message from "../Message/Message";
 
 export default function Messages({isOwner, propertyId}) {
 
     const [messages, setMessages] = useState([]);
+    const inputRef = useRef();
 
     const fetchMessages = () => {
         axios.get('/messages', {
@@ -39,7 +40,7 @@ export default function Messages({isOwner, propertyId}) {
         if (!isOwner) {
             axios.post('/messages', {
                 message: myMessage,
-                propertyId: message.propertyId
+                propertyId: propertyId
             }).then(response => {
                 fetchMessages();
             }).catch(error => {
@@ -58,9 +59,17 @@ export default function Messages({isOwner, propertyId}) {
         }
     }
 
-    return (<div className={'messages'}>
-        {messagesView}
-
+    return (<div>
+        <div className={'messages'}>
+            {messagesView}
+        </div>
+        {!isOwner && <div><input ref={inputRef}/>
+            <button onClick={() => {
+                sendMessage(inputRef.current.value);
+            }
+            }>submit
+            </button>
+        </div>}
     </div>);
 }
 

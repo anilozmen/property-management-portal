@@ -109,4 +109,4 @@ VALUES (3, 'message from customer anil to madhav property 2','message back to an
 INSERT INTO messages (id, message, property_id, receiver_id, sender_id)
 VALUES (4, 'message to owner madhav from anil customer property 2', 2, 4, 5);
 
-SELECT pg_catalog.setval('public.property_id_seq', 3, true);
+SELECT pg_catalog.setval('public.messages_id_seq', 4, true);
