@@ -26,11 +26,18 @@ public class PropertyController {
     private final UserService userService;
 
     @GetMapping
-    public List<ListingPropertyDto> findAll(@RequestParam(name = "listing_type", required = false) String listingType) {
+    public List<ListingPropertyDto> findAll(@RequestParam(name = "listing_type", required = false) String listingType,
+                                            @RequestParam(name = "property_type", required = false) String propertyType,
+                                            @RequestParam(name = "price_lt", required = false) Double priceLt,
+                                            @RequestParam(name = "price_gt", required = false) Double priceGt
+                                            ) {
         ApplicationUserDetail user = userService.getLoggedInUser();
 
         PropertyFilterRequest propertyFilterRequest = new PropertyFilterRequest();
         propertyFilterRequest.setListingType(listingType);
+        propertyFilterRequest.setListingType(listingType);
+        propertyFilterRequest.setPriceGreaterThan(priceGt);
+        propertyFilterRequest.setPriceLessThan(priceLt);
 
         if (user != null) {
             if (user.isOwner())

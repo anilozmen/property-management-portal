@@ -17,6 +17,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -51,8 +52,7 @@ public class PropertyServiceImpl implements PropertyService {
         Property property = new Property();
         PropertyAttributes propertyAttributes = propertyCreationDto.getPropertyAttributes();
 
-        if (propertyAttributes == null)
-            propertyAttributes = new PropertyAttributes();
+        if (propertyAttributes == null) propertyAttributes = new PropertyAttributes();
 
         owner.setId(loggedInOwnerDetail.getId());
         property.setOwner(owner);
@@ -88,9 +88,7 @@ public class PropertyServiceImpl implements PropertyService {
     public List<ListingPropertyDto> findRentedPropertiesBySize() {
         Pageable lastTen = PageRequest.of(0, 10, Sort.by("id").descending());
 
-        List<Property> properties = propertyRepository.findPropertiesByListingTypeAndPropertyStatus(
-                ListingType.RENT, PropertyStatus.COMPLETED, lastTen
-        );
+        List<Property> properties = propertyRepository.findPropertiesByListingTypeAndPropertyStatus(ListingType.RENT, PropertyStatus.COMPLETED, lastTen);
         return listMapper.map(properties, ListingPropertyDto.class);
     }
 
@@ -106,6 +104,22 @@ public class PropertyServiceImpl implements PropertyService {
 
         if (propertyFilterRequest.getListingType() != null) {
             propertiesStream = propertiesStream.filter(property -> property.getListingType().toString().equals(propertyFilterRequest.getListingType()));
+        }
+
+        if (propertyFilterRequest.getPropertyType() != null) {
+            propertiesStream = propertiesStream.filter(property -> property.getPropertyType().toString().equals(propertyFilterRequest.getPropertyType()));
+        }
+
+        if (propertyFilterRequest.getPriceGreaterThan() != null) {
+            propertiesStream = propertiesStream.filter(property -> {
+                return property.getPrice().compareTo(BigDecimal.valueOf(propertyFilterRequest.getPriceGreaterThan())) >= 0;
+            });
+        }
+
+        if (propertyFilterRequest.getPriceLessThan() != null) {
+            propertiesStream = propertiesStream.filter(property -> {
+                return property.getPrice().compareTo(BigDecimal.valueOf(propertyFilterRequest.getPriceLessThan())) < 1;
+            });
         }
 
         return propertiesStream.collect(Collectors.toList());
