@@ -1,17 +1,14 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { CUSTOMER } from "../../constants/roles";
 import ProtectedComponent from "../ProtectedComponent/ProtectedComponent";
+import { AddOffer } from "./AddOffer";
 import "./Offer.css";
 import { OfferEntry } from "./OfferEntry";
 
-export const changeStatus = (status, propertyId, offerId) => {
-  return axios.put(`properties/${propertyId}/offers/${offerId}`, {
-    status: status.toUpperCase(),
-  });
-};
-
 const Offer = ({ propertyId }) => {
   const [offers, setOffers] = useState([]);
+  useEffect(() => fetchOffers(), []);
 
   const fetchOffers = () => {
     axios
@@ -25,13 +22,15 @@ const Offer = ({ propertyId }) => {
       });
   };
 
-  useEffect(() => fetchOffers(), []);
-
-
   return (
     <React.Fragment>
-        {/* <ProtectedComponent isPage={false} component={<button onClick={addOffer}>Send an offer</button>} />
-        <ProtectedComponent isPage={false} component={<AddOffer propertyId={propertyId} />} /> */}
+      {offers.filter((o) => o.status === "CREATED").length === 0 && (
+        <ProtectedComponent
+          isPage={false}
+          requiredRole={CUSTOMER}
+          component={<AddOffer propertyId={propertyId} />}
+        />
+      )}
       {offers.map((o, i) => (
         <OfferEntry key={i} offer={o} propertyId={propertyId} />
       ))}
