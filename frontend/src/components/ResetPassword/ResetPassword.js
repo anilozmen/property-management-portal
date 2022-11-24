@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Layout from '../Layout/Layout';
 import axios from "axios";
 
 const ResetPassword = () => {
@@ -38,34 +39,23 @@ const ResetPassword = () => {
   }
 
   return (
-    <section className="contact mt-5 mb-4">
-      <div className="container">
+    <Layout>
+      <h1 className="mb-4">Reset Password</h1>
+      <form className="form-a contactForm" onSubmit={handleSubmit} ref={formRef}>
         <div className="row">
-          <div className="col-sm-12 section-t8">
-            <div className="row">
-              <div className="col-md-12">
-                <h1 className="mb-4">Reset Password</h1>
-                <form className="form-a contactForm" onSubmit={handleSubmit} ref={formRef}>
-                  <div className="row">
-                    <div className="col-md-12 mb-3">
-                      <div className="form-group">
-                        <label htmlFor={'email'} className="form-label">Email Address: </label>
-                        <input id={'email'} name="email" type="email" className="form-control form-control-lg form-control-a" minLength={5} required />
-                      </div>
-                      <div id="errormessage" style={ {display: errorMessageVisibilityState ? 'block' : 'none'}  }>{errorMessageState}</div>
-                    </div>
-                    <div className="col-md-12 text-right">
-                    
-                      <button type="submit" className="btn btn-a">Update Password</button>
-                    </div>
-                  </div>
-                </form>
-              </div>
+          <div className="col-md-12 mb-3">
+            <div className="form-group">
+              <label htmlFor={'email'} className="form-label">Email Address: </label>
+              <input id={'email'} name="email" type="email" className="form-control form-control-lg form-control-a" minLength={5} required />
             </div>
+            <div id="errormessage" style={{ display: errorMessageVisibilityState ? 'block' : 'none' }}>{errorMessageState}</div>
+          </div>
+          <div className="col-md-12 text-right">
+            <button type="submit" className="btn btn-a">Update Password</button>
           </div>
         </div>
-      </div>
-    </section>
+      </form>
+    </Layout>
 
   );
 }
