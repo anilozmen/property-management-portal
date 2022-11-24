@@ -3,14 +3,14 @@ import {useEffect, useState} from "react";
 import axios from "axios";
 import Message from "../Message/Message";
 
-export default function Messages() {
+export default function Messages({isOwner, propertyId}) {
 
     const [messages, setMessages] = useState([]);
 
     const fetchMessages = () => {
         axios.get('/messages', {
             params: {
-                "property_id": 1
+                "property_id": propertyId
             }
         }).then(response => {
             setMessages(response.data);
@@ -24,14 +24,19 @@ export default function Messages() {
     useEffect(() => {
         fetchMessages();
     }, []);
-    
+
 
     const messagesView = messages.map(message => {
-        return <Message message={message}/>;
+        return <div key={message.id}><Message message={message} isOwner={isOwner}/></div>;
     });
 
-    return (<div>
+    function sendMessage() {
+
+    }
+
+    return (<div className={'messages'}>
         {messagesView}
+
     </div>);
 }
 

@@ -30,12 +30,11 @@ const Homepage = () => {
                             <div className="title-box">
                                 <h2 className="title-a">Homepage</h2>
                             </div>
-                            
+
                             {currentUserType() === "CUSTOMER" && <CustomerDashBoard/>}
                             {currentUserType() === "OWNER" && <OwnerDashBoard/>}
                             {currentUserType() == null && accessToken == null && <CustomerDashBoard/>}
                             
-                            <Messages/>
                             
                         </div>
                     </div>
