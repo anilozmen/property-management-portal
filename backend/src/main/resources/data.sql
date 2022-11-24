@@ -73,13 +73,13 @@ SELECT pg_catalog.setval('public.users_id_seq', 5, true);
 -- PROPERTY
 INSERT INTO property (id, description, name, price, view_count, address_id, listing_type, owner_id, property_status,
                       property_type, deleted)
-VALUES (1, 'PROPERTY 1 DESCRIPTION', 'PROPERTY 1 NAME', 35.5, 0, 4, 'SALE', 2, 'AVAILABLE', 'HOUSE', false);
+VALUES (1, 'PROPERTY 1 DESCRIPTION', 'PROPERTY 1 NAME', 35.5, 0, 4, 'SALE', 4, 'AVAILABLE', 'HOUSE', false);
 INSERT INTO property (id, description, name, price, view_count, address_id, listing_type, owner_id, property_status,
                       property_type, deleted)
-VALUES (2, 'PROPERTY 2 DESCRIPTION', 'PROPERTY 2 NAME', 50.5, 356, 5, 'SALE', 2, 'AVAILABLE', 'CONDO', false);
+VALUES (2, 'PROPERTY 2 DESCRIPTION', 'PROPERTY 2 NAME', 50.5, 356, 5, 'SALE', 4, 'AVAILABLE', 'CONDO', false);
 INSERT INTO property (id, description, name, price, view_count, address_id, listing_type, owner_id, property_status,
                       property_type, deleted)
-VALUES (3, 'PROPERTY 3 DESCRIPTION', 'PROPERTY 3 NAME', 20, 120, 6, 'RENT', 2, 'AVAILABLE', 'APARTMENT', false);
+VALUES (3, 'PROPERTY 3 DESCRIPTION', 'PROPERTY 3 NAME', 20, 120, 6, 'RENT', 4, 'AVAILABLE', 'APARTMENT', false);
 
 SELECT pg_catalog.setval('public.property_id_seq', 3, true);
 
