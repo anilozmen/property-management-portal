@@ -66,4 +66,9 @@ public class PropertyServiceImpl implements PropertyService {
     public Long getOwnerByProperty(long propertyId) {
         return propertyRepository.getOwnerByProperty(propertyId);
     }
+
+    @Override
+    public PropertyDto getPropertyDetailsById(long id) {
+        return modelMapper.map(getPropertyById(id), PropertyDto.class);
+    }
 }
