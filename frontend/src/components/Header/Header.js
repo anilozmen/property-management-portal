@@ -1,14 +1,17 @@
 import { Link } from 'react-router-dom';
 import { hasSessionData, removeTokens } from '../../services/token';
 import { useNavigate } from 'react-router';
+import { useDispatch } from 'react-redux';
+import { setRole } from '../../reducers/user';
 
 const Header = () => {
-
     const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     const logoutHandler = (e) => {
         e.preventDefault();
         removeTokens();
+        dispatch(setRole());
         navigate('/login');
     }
 

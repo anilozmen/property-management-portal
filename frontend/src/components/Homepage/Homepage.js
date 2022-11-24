@@ -1,8 +1,9 @@
-import {getAccessToken, getUserType} from '../../services/token';
-import {useEffect, useMemo} from "react";
+import { getAccessToken, getUserType } from '../../services/token';
+import { useEffect, useMemo } from "react";
 import CustomerDashBoard from "../../pages/CustomerDashBoard/CustomerDashBoard";
 import OwnerDashBoard from "../../pages/OwnerDashBoard/OwnerDashBoard";
 import Messages from "../Messages/Messages";
+import { CUSTOMER, OWNER } from '../../constants/roles';
 
 const Homepage = () => {
 
@@ -31,11 +32,11 @@ const Homepage = () => {
                                 <h2 className="title-a">Homepage</h2>
                             </div>
 
-                            {currentUserType() === "CUSTOMER" && <CustomerDashBoard/>}
-                            {currentUserType() === "OWNER" && <OwnerDashBoard/>}
-                            {currentUserType() == null && accessToken == null && <CustomerDashBoard/>}
-                            
-                            
+                            {currentUserType() === CUSTOMER && <CustomerDashBoard />}
+                            {currentUserType() === OWNER && <OwnerDashBoard />}
+                            {currentUserType() == null && accessToken == null && <CustomerDashBoard />}
+
+
                         </div>
                     </div>
                 </div>
