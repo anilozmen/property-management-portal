@@ -1,0 +1,22 @@
+.btn-action {
+    padding: 10px;
+}
+
+.offer-status {
+    border-radius: 5px;
+    padding: 3px 6px;
+    color: white;
+    font-style: italic;
+}
+
+.created {
+    background-color:  blue;
+}
+
+.cancelled, .rejected {
+    background-color:  red;
+}
+
+.approved {
+    background-color:  green;
+}
