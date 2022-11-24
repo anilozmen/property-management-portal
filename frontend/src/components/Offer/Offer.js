@@ -1,26 +1,21 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { CUSTOMER } from "../../constants/roles";
+import { fetchOffersAsyncAction } from "../../reducers/offer";
 import ProtectedComponent from "../ProtectedComponent/ProtectedComponent";
 import { AddOffer } from "./AddOffer";
 import "./Offer.css";
 import { OfferEntry } from "./OfferEntry";
 
 const Offer = ({ propertyId }) => {
-  const [offers, setOffers] = useState([]);
-  useEffect(() => fetchOffers(), []);
+  const { data: offers } = useSelector((state) => state.offer);
 
-  const fetchOffers = () => {
-    axios
-      .get(`/properties/${propertyId}/offers`)
-      .then((response) => {
-        setOffers(response.data);
-      })
-      .catch((error) => {
-        console.log(error);
-        alert("Couldn't fetch offers");
-      });
-  };
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchOffersAsyncAction(propertyId));
+  }, []);
 
   return (
     <React.Fragment>
