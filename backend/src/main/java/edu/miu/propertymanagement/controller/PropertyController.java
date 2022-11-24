@@ -1,6 +1,7 @@
 package edu.miu.propertymanagement.controller;
 
 import edu.miu.propertymanagement.entity.dto.request.PropertyCreationDto;
+import edu.miu.propertymanagement.entity.dto.request.PropertyFilterRequest;
 import edu.miu.propertymanagement.entity.dto.response.ListingPropertyDto;
 import edu.miu.propertymanagement.entity.dto.response.PropertyDto;
 import edu.miu.propertymanagement.service.PropertyService;
@@ -8,6 +9,7 @@ import edu.miu.propertymanagement.service.UserService;
 import edu.miu.propertymanagement.service.impl.ApplicationUserDetail;
 import lombok.RequiredArgsConstructor;
 
+import org.apache.logging.log4j.util.PropertyFilePropertySource;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,16 +26,20 @@ public class PropertyController {
     private final UserService userService;
 
     @GetMapping
-    public List<ListingPropertyDto> findAll() {
+    public List<ListingPropertyDto> findAll(@RequestParam(name = "listing_type", required = false) String listingType) {
         ApplicationUserDetail user = userService.getLoggedInUser();
+
+        PropertyFilterRequest propertyFilterRequest = new PropertyFilterRequest();
+        propertyFilterRequest.setListingType(listingType);
+
         if (user != null) {
             if (user.isOwner())
-                return propertyService.findByOwnerId(user.getId());
+                return propertyService.findByOwnerId(user.getId(), propertyFilterRequest);
             if (user.isAdmin())
-                return propertyService.findAll();
+                return propertyService.findAll(propertyFilterRequest);
         }
-        
-        return propertyService.findListingProperties();
+
+        return propertyService.findListingProperties(propertyFilterRequest);
     }
 
     @PostMapping

@@ -2,12 +2,14 @@ package edu.miu.propertymanagement.service.impl;
 
 import edu.miu.propertymanagement.entity.*;
 import edu.miu.propertymanagement.entity.dto.request.PropertyCreationDto;
+import edu.miu.propertymanagement.entity.dto.request.PropertyFilterRequest;
 import edu.miu.propertymanagement.entity.dto.response.ListingPropertyDto;
 import edu.miu.propertymanagement.entity.dto.response.PropertyDto;
 import edu.miu.propertymanagement.repository.PropertyRepository;
 import edu.miu.propertymanagement.service.PropertyService;
 import edu.miu.propertymanagement.util.ListMapper;
 import lombok.RequiredArgsConstructor;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -16,6 +18,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 @RequiredArgsConstructor
@@ -26,18 +30,18 @@ public class PropertyServiceImpl implements PropertyService {
     private final ModelMapper modelMapper;
 
     @Override
-    public List<ListingPropertyDto> findAll() {
-        return listMapper.map(propertyRepository.findAll(), ListingPropertyDto.class);
+    public List<ListingPropertyDto> findAll(PropertyFilterRequest propertyFilterRequest) {
+        return listMapper.map(filterPropertyBuilder(propertyRepository.findAll(), propertyFilterRequest), ListingPropertyDto.class);
     }
 
     @Override
-    public List<ListingPropertyDto> findByOwnerId(long id) {
-        return listMapper.map(propertyRepository.findByOwnerId(id), ListingPropertyDto.class);
+    public List<ListingPropertyDto> findByOwnerId(long id, PropertyFilterRequest propertyFilterRequest) {
+        return listMapper.map(filterPropertyBuilder(propertyRepository.findByOwnerId(id), propertyFilterRequest), ListingPropertyDto.class);
     }
 
     @Override
-    public List<ListingPropertyDto> findListingProperties() {
-        return listMapper.map(propertyRepository.findByPropertyStatusIn(PropertyStatus.AVAILABLE, PropertyStatus.PENDING), ListingPropertyDto.class);
+    public List<ListingPropertyDto> findListingProperties(PropertyFilterRequest propertyFilterRequest) {
+        return listMapper.map(filterPropertyBuilder(propertyRepository.findByPropertyStatusIn(PropertyStatus.AVAILABLE, PropertyStatus.PENDING), propertyFilterRequest), ListingPropertyDto.class);
     }
 
     @Override
@@ -95,5 +99,15 @@ public class PropertyServiceImpl implements PropertyService {
         Property property = propertyRepository.findById(id).orElse(null);
         property.setViewCount(property.getViewCount() + 1);
         propertyRepository.save(property);
+    }
+
+    private List<Property> filterPropertyBuilder(List<Property> properties, PropertyFilterRequest propertyFilterRequest) {
+        Stream<Property> propertiesStream = properties.stream();
+
+        if (propertyFilterRequest.getListingType() != null) {
+            propertiesStream = propertiesStream.filter(property -> property.getListingType().toString().equals(propertyFilterRequest.getListingType()));
+        }
+
+        return propertiesStream.collect(Collectors.toList());
     }
 }
