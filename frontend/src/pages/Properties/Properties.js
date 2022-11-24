@@ -54,7 +54,7 @@ const Properties = () => {
             <section className="property-grid grid">
                 <div className="container">
                     <div className="row">
-                        {properties}
+                        {properties && properties.length !== 0? properties : <div>No properties added yet !!!</div>}
                         <PropertyDetail />
                     </div>
                 </div>

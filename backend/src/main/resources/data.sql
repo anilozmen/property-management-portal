@@ -17,7 +17,10 @@ VALUES (5, 'SOMEWHERE IN XXX', null, 'Sarasota', 'Florida', '33133', false);
 INSERT INTO address (id, address_1, address_2, city, state, zip_code, deleted)
 VALUES (6, 'SOMEWHERE IN YYY', null, 'Sarasota', 'Florida', '33133', false);
 
-SELECT pg_catalog.setval('public.address_id_seq', 6, true);
+INSERT INTO address (id, address_1, address_2, city, state, zip_code, deleted)
+VALUES (7, 'SOMEWHERE IN ZZZ', null, 'Sarasota', 'Florida', '33133', false);
+
+SELECT pg_catalog.setval('public.address_id_seq', 7, true);
 
 -- USERS
 INSERT INTO users (id, first_name, last_name, email, password, address_id, phone_number, user_type, deleted)
@@ -70,15 +73,29 @@ SELECT pg_catalog.setval('public.users_id_seq', 5, true);
 -- PROPERTY
 INSERT INTO property (id, description, name, price, view_count, address_id, listing_type, owner_id, property_status,
                       property_type, deleted)
-VALUES (1, 'PROPERTY 1 DESCRIPTION', 'PROPERTY 1 NAME', 35.5, 0, 4, 'SALE', 2, 'AVAILABLE', 'HOUSE', false);
+VALUES (1, 'PROPERTY 1 DESCRIPTION', 'PROPERTY 1 NAME', 35.5, 0, 4, 'SALE', 4, 'AVAILABLE', 'HOUSE', false);
 INSERT INTO property (id, description, name, price, view_count, address_id, listing_type, owner_id, property_status,
                       property_type, deleted)
-VALUES (2, 'PROPERTY 2 DESCRIPTION', 'PROPERTY 2 NAME', 50.5, 356, 5, 'SALE', 2, 'AVAILABLE', 'CONDO', false);
+VALUES (2, 'PROPERTY 2 DESCRIPTION', 'PROPERTY 2 NAME', 50.5, 356, 5, 'SALE', 4, 'AVAILABLE', 'CONDO', false);
 INSERT INTO property (id, description, name, price, view_count, address_id, listing_type, owner_id, property_status,
                       property_type, deleted)
-VALUES (3, 'PROPERTY 3 DESCRIPTION', 'PROPERTY 3 NAME', 20, 120, 6, 'RENT', 2, 'AVAILABLE', 'APARTMENT', false);
+VALUES (3, 'PROPERTY 3 DESCRIPTION', 'PROPERTY 3 NAME', 20, 120, 6, 'RENT', 4, 'AVAILABLE', 'APARTMENT', false);
 
 SELECT pg_catalog.setval('public.property_id_seq', 3, true);
+
+
+INSERT INTO offer (id, message, status, amount, customer_id, property_id)
+VALUES (1, 'I would like to buy this please', 'CREATED', 35, 3, 1);
+INSERT INTO offer (id, message, status, amount, customer_id, property_id)
+VALUES (2, 'I would like to buy this please', 'CANCELLED', 35, 3, 1);
+INSERT INTO offer (id, message, status, amount, customer_id, property_id)
+VALUES (3, 'I would like to buy this please', 'REJECTED', 35, 3, 1);
+INSERT INTO offer (id, message, status, amount, customer_id, property_id)
+VALUES (4, 'I would like to buy this please', 'APPROVED', 35, 3, 3);
+INSERT INTO offer (id, message, status, amount, customer_id, property_id)
+VALUES (5, 'CUSTOMER, I am. Buy this, I want to.', 'CREATED', 35, 5, 3);
+
+SELECT pg_catalog.setval('public.offer_id_seq', 5, true);
 
 
 -- MESSAGES
@@ -92,4 +109,4 @@ VALUES (3, 'message from customer anil to madhav property 2','message back to an
 INSERT INTO messages (id, message, property_id, receiver_id, sender_id)
 VALUES (4, 'message to owner madhav from anil customer property 2', 2, 4, 5);
 
-SELECT pg_catalog.setval('public.property_id_seq', 3, true);
+SELECT pg_catalog.setval('public.messages_id_seq', 4, true);

@@ -1,7 +1,7 @@
 package edu.miu.propertymanagement.controller;
 
-import edu.miu.propertymanagement.entity.Property;
 import edu.miu.propertymanagement.entity.dto.request.PropertyCreationDto;
+import edu.miu.propertymanagement.entity.dto.response.ListingPropertyDto;
 import edu.miu.propertymanagement.entity.dto.response.PropertyDto;
 import edu.miu.propertymanagement.service.PropertyService;
 import edu.miu.propertymanagement.service.UserService;
@@ -24,7 +24,7 @@ public class PropertyController {
     private final UserService userService;
 
     @GetMapping
-    public List<PropertyDto> findAll() {
+    public List<ListingPropertyDto> findAll() {
         ApplicationUserDetail user = userService.getLoggedInUser();
         if (user != null) {
             if (user.isOwner())

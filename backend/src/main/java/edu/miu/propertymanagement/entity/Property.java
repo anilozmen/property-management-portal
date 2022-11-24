@@ -1,5 +1,6 @@
 package edu.miu.propertymanagement.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.*;
 import org.hibernate.annotations.*;
 
@@ -60,6 +61,11 @@ public class Property {
     @JoinColumn(name = "id_property")
     private List<PropertyImages> propertyImages;
 
+    @OneToMany(mappedBy = "property")
+    private List<Offer> offers;
+
     private boolean deleted = Boolean.FALSE;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    private PropertyAttributes propertyAttributes;
 }

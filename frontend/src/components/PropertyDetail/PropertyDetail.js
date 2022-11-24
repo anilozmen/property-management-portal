@@ -1,14 +1,20 @@
-import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router";
+import {useEffect, useMemo, useState} from "react";
+import {useNavigate, useParams} from "react-router";
 import Layout from '../Layout/Layout';
-import { moneyFormat } from '../../services/helper';
+import {moneyFormat} from '../../services/helper';
 import axios from "axios";
+import Messages from "../Messages/Messages";
+import {getUserType, getAccessToken} from '../../services/token';
 
 const PropertyDetail = () => {
 
     const params = useParams();
     const navigate = useNavigate();
-    const [propertyDetail, setPropertyDetail] = useState({})
+    const [propertyDetail, setPropertyDetail] = useState({});
+    const userType = useMemo(() => getUserType(), [getUserType()]);
+    const userLoggedIn = useMemo(() => () => {
+        return getAccessToken() !== null;
+    }, []);
 
     useEffect(
         () => {
@@ -30,15 +36,18 @@ const PropertyDetail = () => {
             <Layout>
                 <div className="title-single-box">
                     <h1 className="title-single">{propertyDetail.name}</h1>
-                    <span className="color-text-a">{propertyDetail.address.city}, {propertyDetail.address.state} {propertyDetail.address.zipCode}</span>
+                    <span className="color-text-a">City, State, Zipcode</span>
                 </div>
                 <section className="property-single nav-arrow-b">
                     <div className="container">
                         <div className="row">
                             <div className="col-sm-12">
                                 <div className="owl-carousel owl-arrow gallery-property text-center">
-                                    <div className="carousel-item-a">
-                                        <img src="https://via.placeholder.com/700" alt="" />
+                                    <div className="carousel-item-a row">
+                                        <img className='col-sm-8' src="https://via.placeholder.com/700" alt=""/>
+                                        <div className='col-sm-4'>
+                                            {userLoggedIn() && <Messages isOwner={userType === "OWNER"} propertyId={params.id}/>}
+                                        </div>
                                     </div>
 
                                 </div>
@@ -47,7 +56,7 @@ const PropertyDetail = () => {
                                         <div className="property-price d-flex justify-content-center foo">
                                             <div className="card-header-c d-flex">
                                                 <div className="card-box-ico">
-                                                    <h5 className="title-c">{moneyFormat(propertyDetail.price)}</h5>
+                                                    <h5 className="title-c">{moneyFormat(propertyDetail.price || 0.0)}</h5>
                                                 </div>
 
                                             </div>
@@ -66,7 +75,7 @@ const PropertyDetail = () => {
                                                     <li className="d-flex justify-content-between">
                                                         <strong>Location:</strong>
                                                         <span>
-                                                            {propertyDetail.address.city}, {propertyDetail.address.state} {propertyDetail.address.zipCode}
+                                                            City, State, zipCode
                                                         </span>
                                                     </li>
                                                     <li className="d-flex justify-content-between">
