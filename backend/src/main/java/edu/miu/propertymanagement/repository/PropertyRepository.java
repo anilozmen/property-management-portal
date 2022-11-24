@@ -9,11 +9,12 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.stream.Stream;
 
 @Repository
 public interface PropertyRepository extends CrudRepository<Property, Long> {
     List<Property> findAll();
-
+    
     List<Property> findByOwnerId(long id);
 
     List<Property> findByPropertyStatusIn(PropertyStatus...statuses);
