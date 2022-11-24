@@ -1,10 +1,12 @@
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import { hasSessionData, removeTokens } from '../../services/token';
 import { useNavigate } from 'react-router';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setRole } from '../../reducers/user';
+import { OWNER } from '../../constants/roles';
 
 const Header = () => {
+    const userRole = useSelector(state => state.user.role);
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
@@ -33,11 +35,13 @@ const Header = () => {
                 <div className="navbar-collapse collapse justify-content-center" id="navbarDefault">
                     <ul className="navbar-nav">
                         <li className="nav-item">
-                            <Link className='nav-link' to="/">Home</Link>
+                            <NavLink end className='nav-link' to="/properties">Properties</NavLink>
                         </li>
-                        <li className="nav-item">
-                            <Link className='nav-link' to="/properties">Properties</Link>
-                        </li>
+                        {userRole === OWNER && (
+                            <li className="nav-item">
+                                <NavLink end className='nav-link' to="/properties/new">Add Property</NavLink>
+                            </li>
+                        )}
 
                         {!hasSessionData() && <li className="nav-item">
                             <Link className='nav-link' to="/login">

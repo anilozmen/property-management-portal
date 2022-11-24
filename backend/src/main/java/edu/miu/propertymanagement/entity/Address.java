@@ -29,7 +29,6 @@ public class Address {
     @Column(nullable = false, name = "address_1")
     private String address1;
 
-    @NotBlank(message = "Address 2 cannot be blank")
     @Column(name = "address_2")
     private String address2;
 

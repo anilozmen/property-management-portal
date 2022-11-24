@@ -6,6 +6,9 @@ import ChangePassword from '../../components/ChangePassword/ChangePassword';
 import Register from "../../components/Register/Register";
 import Properties from "../Properties/Properties";
 import PropertyDetail from "../../components/PropertyDetail/PropertyDetail";
+import ProtectedComponent from "../../components/ProtectedComponent/ProtectedComponent";
+import { OWNER } from "../../constants/roles";
+import AddNewProperty from "../../components/AddNewProperty/AddNewProperty";
 
 
 const PageRoutes = (props) => {
@@ -17,8 +20,12 @@ const PageRoutes = (props) => {
             <Route path='login' element={<Login />} />
             <Route path='reset-password' element={<ResetPassword />} />
             <Route path='change-password' element={<ChangePassword />} />
-            <Route path='properties' element={<Properties />}/>
+            <Route path='properties' element={<Properties />} />
             <Route path="properties/:id" element={<PropertyDetail />} />
+            <Route
+                path="properties/new"
+                element={<ProtectedComponent requiredRole={OWNER} component={<AddNewProperty />} />}
+            />
         </Routes>
 
     );
