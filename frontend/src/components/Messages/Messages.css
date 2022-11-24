@@ -1,1 +1,7 @@
- 
+.messages {
+    height: 400px;
+    width: auto;
+    display: grid;
+    grid-template-columns: 1fr;
+    overflow: scroll;
+}
