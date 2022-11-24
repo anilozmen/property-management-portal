@@ -11,9 +11,4 @@ public class PropertyManagementApplication {
     public static void main(String[] args) {
         SpringApplication.run(PropertyManagementApplication.class, args);
     }
-
-    @Bean
-    public ModelMapper modelMapper() {
-        return new ModelMapper();
-    }
 }

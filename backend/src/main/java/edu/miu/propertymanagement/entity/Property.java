@@ -62,4 +62,6 @@ public class Property {
 
     private boolean deleted = Boolean.FALSE;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    private PropertyAttributes propertyAttributes;
 }

@@ -1,7 +1,10 @@
 package edu.miu.propertymanagement.entity.dto.response;
 
 import edu.miu.propertymanagement.entity.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.modelmapper.ModelMapper;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -9,18 +12,12 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class PropertyDto {
-
+public class ListingPropertyDto {
     private long id;
     private String name;
-//    private Owner owner;
-    private String description;
-    private Address address;
     private BigDecimal price;
     private PropertyType propertyType;
-    private PropertyStatus propertyStatus;
     private ListingType listingType;
-    private long viewCount;
-    private PropertyAttributes propertyAttributes;
+    private PropertyAttributesBasicDto propertyAttributesBasicDto;
     private List<PropertyImages> propertyImages;
 }

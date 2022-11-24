@@ -2,6 +2,7 @@ package edu.miu.propertymanagement.entity.dto.request;
 
 import edu.miu.propertymanagement.entity.Address;
 import edu.miu.propertymanagement.entity.ListingType;
+import edu.miu.propertymanagement.entity.PropertyAttributes;
 import edu.miu.propertymanagement.entity.PropertyType;
 import edu.miu.propertymanagement.entity.dto.response.AddressDto;
 import lombok.AllArgsConstructor;
@@ -20,4 +21,5 @@ public class PropertyCreationDto {
     Address address;
     ListingType listingType;
     PropertyType propertyType;
+    PropertyAttributes propertyAttributes;
 }

@@ -2,6 +2,7 @@ package edu.miu.propertymanagement.service.impl;
 
 import edu.miu.propertymanagement.entity.*;
 import edu.miu.propertymanagement.entity.dto.request.PropertyCreationDto;
+import edu.miu.propertymanagement.entity.dto.response.ListingPropertyDto;
 import edu.miu.propertymanagement.entity.dto.response.MessageDto;
 import edu.miu.propertymanagement.entity.dto.response.PropertyDto;
 import edu.miu.propertymanagement.repository.PropertyRepository;
@@ -24,18 +25,18 @@ public class PropertyServiceImpl implements PropertyService {
     private final ModelMapper modelMapper;
 
     @Override
-    public List<PropertyDto> findAll() {
-        return listMapper.mapList(propertyRepository.findAll(), PropertyDto.class);
+    public List<ListingPropertyDto> findAll() {
+        return listMapper.mapList(propertyRepository.findAll(), ListingPropertyDto.class);
     }
 
     @Override
-    public List<PropertyDto> findByOwnerId(long id) {
-        return listMapper.mapList(propertyRepository.findByOwnerId(id), PropertyDto.class);
+    public List<ListingPropertyDto> findByOwnerId(long id) {
+        return listMapper.mapList(propertyRepository.findByOwnerId(id), ListingPropertyDto.class);
     }
 
     @Override
-    public List<PropertyDto> findListingProperties() {
-        return listMapper.mapList(propertyRepository.findByPropertyStatusIn(PropertyStatus.AVAILABLE, PropertyStatus.PENDING), PropertyDto.class);
+    public List<ListingPropertyDto> findListingProperties() {
+        return listMapper.mapList(propertyRepository.findByPropertyStatusIn(PropertyStatus.AVAILABLE, PropertyStatus.PENDING), ListingPropertyDto.class);
     }
 
     @Override
@@ -43,6 +44,10 @@ public class PropertyServiceImpl implements PropertyService {
         ApplicationUserDetail loggedInOwnerDetail = (ApplicationUserDetail) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Owner owner = new Owner();
         Property property = new Property();
+        PropertyAttributes propertyAttributes = propertyCreationDto.getPropertyAttributes();
+
+        if(propertyAttributes == null)
+            propertyAttributes = new PropertyAttributes();
 
         owner.setId(loggedInOwnerDetail.getId());
         property.setOwner(owner);
@@ -53,6 +58,7 @@ public class PropertyServiceImpl implements PropertyService {
         property.setAddress(propertyCreationDto.getAddress());
         property.setListingType(propertyCreationDto.getListingType());
         property.setPropertyType(propertyCreationDto.getPropertyType());
+        property.setPropertyAttributes(propertyAttributes);
 
         propertyRepository.save(property);
     }
