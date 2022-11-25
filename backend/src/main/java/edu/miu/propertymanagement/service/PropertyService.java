@@ -23,4 +23,6 @@ public interface PropertyService {
     List<ListingPropertyDto> findRentedPropertiesBySize();
     
     void increaseCounterByOne(long id);
+
+    void convertOwnerPropertiesToAvailable(long userId);
 }

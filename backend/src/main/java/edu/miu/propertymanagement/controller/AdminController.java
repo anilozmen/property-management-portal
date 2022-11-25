@@ -54,7 +54,7 @@ public class AdminController {
     @PutMapping("/users/{id}")
     @ResponseStatus(HttpStatus.CREATED)
     public void updateUserById(@Valid @RequestBody UserRequestDto userDto, @PathVariable long id) {
-        userService.updateUserById(userDto.isDeleted(), id);
+        userService.updateUserById(userDto, id);
     }
-
+    
 }
