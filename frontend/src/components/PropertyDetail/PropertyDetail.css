@@ -11,3 +11,11 @@
     color: white;
     padding: 4px;
 }
+
+.no-property-found {
+    margin-top: 200px;
+    margin-bottom: 200px;
+    text-align: center;
+    font-size: 40px;
+    font-weight: lighter;
+}

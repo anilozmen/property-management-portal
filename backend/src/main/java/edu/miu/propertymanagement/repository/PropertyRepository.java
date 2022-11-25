@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Stream;
 
 @Repository
@@ -33,9 +34,21 @@ public interface PropertyRepository extends CrudRepository<Property, Long> {
                                                                 PropertyStatus propertyStatus,
                                                                 Pageable pageable);
 
+    List<Property> findPropertiesByPropertyStatus(PropertyStatus propertyStatus, Pageable pageable);
+    
     @Transactional
     @Modifying
     @Query("update property p set p.propertyStatus ='AVAILABLE' where p.owner.id = ?1 and p.propertyStatus='UNPUBLISHED'")
     void convertOwnerPropertiesToAvailable(long ownerId);
 
+    @Transactional
+    @Modifying
+    @Query("update property p set p.propertyStatus='UNPUBLISHED' where p.owner.id= ?1 and p.propertyStatus <> 'COMPLETED'")
+    void convertOwnerPropertiesToUnpublishedWhereNotCompleted(long userId);
+
+    @Query("select p from property p where p.propertyStatus <> 'UNPUBLISHED' and p.id=:id")
+    Optional<Property> findPropertyIfNotUnpublished(long id);
+
+    @Query("select p.propertyStatus from property p where p.id=:propertyId")
+    String getPropertyStatus(long propertyId);
 }

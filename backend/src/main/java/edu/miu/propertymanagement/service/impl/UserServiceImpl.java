@@ -74,6 +74,13 @@ class UserServiceImpl implements UserService {
         if (user != null) {
             if (userRequestDto.getDeleted() != null) {
                 user.setDeleted(userRequestDto.getDeleted());
+                
+                if(userRequestDto.getDeleted()) {
+                    propertyService.convertOwnerPropertiesToUnpublishedWhereNotCompleted(id);
+                }
+                else {
+                    propertyService.convertOwnerPropertiesToAvailable(id);
+                }
             }
 
             if (userRequestDto.getActivated() != null) {

@@ -8,6 +8,7 @@ import edu.miu.propertymanagement.entity.dto.response.ListingPropertyDto;
 import edu.miu.propertymanagement.entity.dto.response.PropertyDto;
 import edu.miu.propertymanagement.exceptions.ErrorException;
 import edu.miu.propertymanagement.repository.OfferRepository;
+import edu.miu.propertymanagement.exceptions.PropertyNotFoundException;
 import edu.miu.propertymanagement.repository.PropertyRepository;
 import edu.miu.propertymanagement.service.PropertyService;
 import edu.miu.propertymanagement.util.ListMapper;
@@ -80,6 +81,20 @@ public class PropertyServiceImpl implements PropertyService {
 
     @Override
     public Property getPropertyById(long id) {
+        ApplicationUserDetail userDetail = getLoggedInUser();
+
+        boolean isViewer = userDetail == null || userDetail.isCustomer();
+
+        if (isViewer) {
+            Property property = propertyRepository.findPropertyIfNotUnpublished(id).orElse(null);
+
+            if (property == null) {
+                return null;
+            }
+
+            increaseCounterByOne(id);
+        }
+
         return propertyRepository.findById(id).orElse(null);
     }
 
@@ -90,20 +105,20 @@ public class PropertyServiceImpl implements PropertyService {
 
     @Override
     public PropertyDto getPropertyDetailsById(long id) {
-        ApplicationUserDetail userDetail = getLoggedInUser();
+        Property property = getPropertyById(id);
 
-        if (userDetail == null || !userDetail.isAdmin()) {
-            increaseCounterByOne(id);
+        if (property == null) {
+            throw new PropertyNotFoundException();
         }
 
-        return modelMapper.map(getPropertyById(id), PropertyDto.class);
+        return modelMapper.map(property, PropertyDto.class);
     }
 
     @Override
     public List<ListingPropertyDto> findRentedPropertiesBySize() {
         Pageable lastTen = PageRequest.of(0, 10, Sort.by("id").descending());
 
-        List<Property> properties = propertyRepository.findPropertiesByListingTypeAndPropertyStatus(ListingType.RENT, PropertyStatus.COMPLETED, lastTen);
+        List<Property> properties = propertyRepository.findPropertiesByPropertyStatus(PropertyStatus.COMPLETED, lastTen);
         return listMapper.map(properties, ListingPropertyDto.class);
     }
 
@@ -162,7 +177,7 @@ public class PropertyServiceImpl implements PropertyService {
     }
 
     @Override
-    public GenericActivityResponse cancel(long id) {
+    public GenericActivityResponse cancelContingency(long id) {
         Property property = propertyRepository.findById(id).get();
 
         try {
@@ -184,8 +199,13 @@ public class PropertyServiceImpl implements PropertyService {
             offerRepository.save(offer);
         }
 
+        if (property.getOffers().stream().anyMatch(o -> o.getStatus() == OfferStatus.CREATED))
+            property.setPropertyStatus(PropertyStatus.PENDING);
+         else
+             property.setPropertyStatus(PropertyStatus.AVAILABLE);
+
         propertyRepository.save(property);
-        return new GenericActivityResponse(true, "Completed");
+        return new GenericActivityResponse(true, "Cancelled");
         //@TODO add notification
     }
 
@@ -201,6 +221,14 @@ public class PropertyServiceImpl implements PropertyService {
 
     }
 
+    public void convertOwnerPropertiesToUnpublishedWhereNotCompleted(long userId) {
+        propertyRepository.convertOwnerPropertiesToUnpublishedWhereNotCompleted(userId);
+    }
+
+    @Override
+    public boolean isPropertyUnpublished(long propertyId) {
+        return propertyRepository.getPropertyStatus(propertyId).equals(PropertyStatus.UNPUBLISHED.toString());
+    }
 
     private ApplicationUserDetail getLoggedInUser() {
         try {

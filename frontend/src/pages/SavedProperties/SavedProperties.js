@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import IntroTitle from "../../components/IntroTitle/IntroTitle";
 import Property from "../../components/Property/Property";
 import { fetchSavedPropertyIds } from "../../reducers/savedPropertyIdsForCustomer";
@@ -8,9 +9,10 @@ import "./SavedProperties.css";
 
 const SavedProperties = props => {
   const [properties, setProperties] = useState([]);
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    fetchSavedPropertyIds();
+    dispatch(fetchSavedPropertyIds());
     fetchProperties();
   }, []);
 

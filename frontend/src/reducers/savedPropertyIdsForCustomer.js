@@ -3,24 +3,24 @@ import axios from "axios";
 
 const savedPropertyIds = createSlice({
   name: 'savedPropertyIds',
-  initialState: {},
+  initialState: { mapping: {} },
   reducers: {
     setSavedPropertyIds: (state, action) => {
       if (!action.payload || !Array.isArray(action.payload)) {
-        state = {};
+        state.mapping = {};
         return;
       }
 
-      state = action.payload
+      state.mapping = action.payload
         .reduce((acc, curr) => Object.assign(acc, { [curr]: true }), {});
     },
     addInSavedPropertyIds: (state, action) => {
       if (action.payload !== null || action.payload !== undefined)
-        state[action.payload] = true;
+        state.mapping[action.payload] = true;
     },
     deleteFromSavedPropertyIds: (state, action) => {
       if (action.payload !== null || action.payload !== undefined)
-        state[action.payload] = false;
+        state.mapping[action.payload] = false;
     }
   }
 });

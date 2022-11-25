@@ -1,17 +1,17 @@
-import { moneyFormat } from '../../services/helper';
-import { Link } from "react-router-dom";
-import { useDispatch, useSelector } from 'react-redux';
-
+import {moneyFormat} from '../../services/helper';
+import {Link} from "react-router-dom";
+import {useDispatch, useSelector} from 'react-redux';
 import "../../pages/SavedProperties/SavedProperties.css";
 
 import ProtectedComponent from "../ProtectedComponent/ProtectedComponent";
-import { CUSTOMER } from '../../constants/roles';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHeart } from '@fortawesome/free-solid-svg-icons';
-import { addInSavedPropertyIdsAsync, deleteFromSavedPropertyIdsAsync } from '../../reducers/savedPropertyIdsForCustomer';
+import {CUSTOMER} from '../../constants/roles';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import {faHeart} from '@fortawesome/free-solid-svg-icons';
+import {addInSavedPropertyIdsAsync, deleteFromSavedPropertyIdsAsync} from '../../reducers/savedPropertyIdsForCustomer';
+import './Property.css';
 
 const Property = (props) => {
-    const isSaved = useSelector(state => !!state.savedPropertyIds[props.id]);
+    const isSaved = useSelector(state => !!state.savedPropertyIds.mapping[props.id]);
     const propertyAttributes = props.propertyAttributes;
     const dispatch = useDispatch();
 
@@ -34,24 +34,26 @@ const Property = (props) => {
                     requiredRole={CUSTOMER}
                     isPage={false}
                     component={
-                        <div className={`customer-property-action ${isSaved ? 'saved' : ''}`} onClick={() => handleAddToSavedList(props.id)}>
-                            <FontAwesomeIcon icon={faHeart} size="2x" />
+                        <div className={`customer-property-action ${isSaved ? 'saved' : ''}`}
+                             onClick={() => handleAddToSavedList(props.id)}>
+                            <FontAwesomeIcon icon={faHeart} size="2x"/>
                         </div>
                     }
                 />
                 <div className="img-box-a">
-                    <img src="https://via.placeholder.com/700" alt="{props.name}" className="img-a img-fluid" />
+                    <img src="https://via.placeholder.com/700" alt="{props.name}" className="img-a img-fluid"/>
                 </div>
                 <div className="card-overlay">
                     <div className="card-overlay-a-content">
                         <div className="card-header-a">
                             <h2 className="card-title-a">
-                                <Link to={`/properties/${props.id}`} key={props.id} >{props.name}</Link>
+                                <Link to={`/properties/${props.id}`} key={props.id}>{props.name}</Link>
                             </h2>
                         </div>
                         <div className="card-body-a">
                             <div className="price-box d-flex">
-                                <span className="price-a">rent | {moneyFormat(props.price)}</span>
+                                <span
+                                    className="price-a">{GetListingType(props.listingType, props.propertyStatus)} | {moneyFormat(props.price)}</span>
                             </div>
                             <Link to={`/properties/${props.id}`} key={props.id} className="link-a">
                                 Click here to view
@@ -85,5 +87,18 @@ const Property = (props) => {
         </div>
     );
 };
+
+function GetListingType(listingType, propertyStatus) {
+    console.log(listingType, propertyStatus);
+    if (!listingType || !propertyStatus) {
+        return <div>{listingType}</div>;
+    }
+
+    if (propertyStatus === "COMPLETED") {
+        return <div style={{display: "inline"}}
+                    className={'completed-transaction'}>{listingType === "RENT" ? "RENTED" : "SOLD"}</div>;
+    }
+}
+
 
 export default Property;

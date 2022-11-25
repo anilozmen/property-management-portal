@@ -18,6 +18,7 @@ public class ListingPropertyDto {
     private BigDecimal price;
     private PropertyType propertyType;
     private ListingType listingType;
+    private PropertyStatus propertyStatus;
     private PropertyAttributesBasicDto propertyAttributesBasicDto;
     private List<PropertyImages> propertyImages;
 }
