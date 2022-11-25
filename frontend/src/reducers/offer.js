@@ -4,6 +4,7 @@ import axios from "axios";
 const initialState = {
   isInProgress: false,
   data: [],
+  propertyId: null,
   error: null,
 };
 
@@ -17,22 +18,27 @@ const offer = createSlice({
     setData: (state, action) => {
       state.data = action.payload;
     },
+    setPropertyId: (state, action) => {
+      state.propertyId = action.payload;
+    },
     setError: (state, action) => (state.error = action.payload),
   },
 });
 
-export const { setIsInProgress, setError, setData } = offer.actions;
+export const { setIsInProgress, setError, setData, setPropertyId } =
+  offer.actions;
 
 export const fetchOffersAsyncAction =
   (propertyId, successCallback, force = true) =>
   (dispatch, getState) => {
     const data = getState().offer.data;
 
-    if (!force && data.length > 0) {
+    if (propertyId === getState().offer.propertyId && !force) {
       dispatch(setData([...data]));
       return;
     }
 
+    dispatch(setPropertyId(propertyId));
     dispatch(setIsInProgress(true));
 
     axios
