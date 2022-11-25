@@ -103,11 +103,11 @@ public class PropertyServiceImpl implements PropertyService {
     @Override
     public PropertyDto getPropertyDetailsById(long id) {
         Property property = getPropertyById(id);
-        
-        if(property == null) {
+
+        if (property == null) {
             throw new PropertyNotFoundException();
         }
-        
+
         return modelMapper.map(property, PropertyDto.class);
     }
 
@@ -115,7 +115,7 @@ public class PropertyServiceImpl implements PropertyService {
     public List<ListingPropertyDto> findRentedPropertiesBySize() {
         Pageable lastTen = PageRequest.of(0, 10, Sort.by("id").descending());
 
-        List<Property> properties = propertyRepository.findPropertiesByListingTypeAndPropertyStatus(ListingType.RENT, PropertyStatus.COMPLETED, lastTen);
+        List<Property> properties = propertyRepository.findPropertiesByPropertyStatus(PropertyStatus.COMPLETED, lastTen);
         return listMapper.map(properties, ListingPropertyDto.class);
     }
 
@@ -160,6 +160,11 @@ public class PropertyServiceImpl implements PropertyService {
     @Override
     public void convertOwnerPropertiesToUnpublishedWhereNotCompleted(long userId) {
         propertyRepository.convertOwnerPropertiesToUnpublishedWhereNotCompleted(userId);
+    }
+
+    @Override
+    public boolean isPropertyUnpublished(long propertyId) {
+        return propertyRepository.getPropertyStatus(propertyId).equals(PropertyStatus.UNPUBLISHED.toString());
     }
 
     private ApplicationUserDetail getLoggedInUser() {

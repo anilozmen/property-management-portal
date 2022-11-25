@@ -33,4 +33,6 @@ public interface PropertyService {
     void convertOwnerPropertiesToUnpublishedWhereNotCompleted(long userId);
 
     void updatePropertyDetailsById(ApplicationUserDetail ownerDetail, long propertyId, PropertyCreationDto propertyCreationDto);
+    
+    boolean isPropertyUnpublished(long propertyId);
 }
