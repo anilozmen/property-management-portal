@@ -8,6 +8,7 @@ import edu.miu.propertymanagement.entity.dto.response.OfferDto;
 import edu.miu.propertymanagement.exceptions.ErrorException;
 import edu.miu.propertymanagement.repository.OfferRepository;
 import edu.miu.propertymanagement.repository.PropertyRepository;
+import edu.miu.propertymanagement.service.NotificationService;
 import edu.miu.propertymanagement.service.OfferService;
 import edu.miu.propertymanagement.service.UserService;
 import edu.miu.propertymanagement.util.ListMapper;
@@ -27,6 +28,7 @@ public class OfferServiceImpl implements OfferService {
     private final ListMapper listMapper;
     private final ModelMapper modelMapper;
     private final UserService userService;
+    private final NotificationService notificationService;
 
 
     @Override
@@ -85,6 +87,7 @@ public class OfferServiceImpl implements OfferService {
         syncPropertyStatusOnCreate(property);
 
         offerRepository.save(offer);
+        notificationService.sendNotificationForOffer(offer);
         return new GenericActivityResponse(true, "Offer created.");
     }
 
@@ -118,6 +121,7 @@ public class OfferServiceImpl implements OfferService {
         offer.setStatus(request.getStatus());
         syncPropertyStatusOnEdit(offer);
         offerRepository.save(offer);
+        notificationService.sendNotificationForOfferStatusChange(offer);
 
         return new GenericActivityResponse(true, "Status updated");
     }

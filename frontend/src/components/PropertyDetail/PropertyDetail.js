@@ -25,6 +25,7 @@ const PropertyDetail = () => {
   );
 
   useEffect(() => {
+    
     if (params.id) {
       axios
         .get("properties/" + params.id)

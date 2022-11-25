@@ -1,18 +1,19 @@
 package edu.miu.propertymanagement.entity;
 
 import lombok.*;
-import org.hibernate.annotations.Filter;
-import org.hibernate.annotations.FilterDef;
-import org.hibernate.annotations.ParamDef;
-import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.*;
+
 import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity
+@Entity(name = "users")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "user_type", discriminatorType = DiscriminatorType.STRING)
 @Table(name = "users")
@@ -48,7 +49,7 @@ public class User {
 
     private boolean deleted = Boolean.FALSE;
 
-    @Column(name="user_type", insertable = false, updatable = false)
+    @Column(name = "user_type", insertable = false, updatable = false)
     private String userType;
 
     @Column(columnDefinition = "boolean default false")
@@ -57,6 +58,9 @@ public class User {
     private String emailVerificationToken;
 
     private LocalDateTime emailVerificationTokenExpiry;
+
+    @ColumnDefault(value = "false")
+    private boolean isActivated;
 
     @Column(columnDefinition = "int default 0")
     private Integer emailVerificationAttempts;

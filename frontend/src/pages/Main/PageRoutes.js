@@ -14,6 +14,8 @@ import SavedProperties from "../SavedProperties/SavedProperties";
 import Admin from "../Admin/Admin";
 import HomeNavigator from "../../components/HomeNavigator/HomeNavigator";
 import Offers from "./Offers";
+import User from "../../components/User/User";
+import OwnerProperties from "../../components/OwnerProperties/OwnerProperties";
 
 
 const PageRoutes = (props) => {
@@ -48,6 +50,16 @@ const PageRoutes = (props) => {
             <Route
                 path="admin"
                 element={<ProtectedComponent requiredRole={ADMIN} component={<Admin />} />}
+            />
+
+            <Route
+                path="admin/users"
+                element={<ProtectedComponent requiredRole={ADMIN} component={<User />} />}
+            />
+
+            <Route
+                path="admin/users/:userId/properties"
+                element={<ProtectedComponent requiredRole={ADMIN} component={<OwnerProperties />} />}
             />
 
         </Routes>
