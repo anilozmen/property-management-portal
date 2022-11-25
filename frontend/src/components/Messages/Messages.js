@@ -61,7 +61,9 @@ export default function Messages({isOwner, propertyId}) {
 
     function sendReplyOwner(event) {
         event.preventDefault();
+        if(inputRef.current.value !== '') {
         sendMessage(inputRef.current.value);
+        }
         inputRef.current.value = "";
     }
 

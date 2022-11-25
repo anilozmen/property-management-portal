@@ -1,6 +1,5 @@
 package edu.miu.propertymanagement.service.impl;
 
-import edu.miu.propertymanagement.entity.Owner;
 import edu.miu.propertymanagement.entity.User;
 import edu.miu.propertymanagement.entity.dto.request.UserRequestDto;
 import edu.miu.propertymanagement.entity.dto.response.UserDetailDto;
@@ -11,7 +10,6 @@ import edu.miu.propertymanagement.service.PropertyService;
 import edu.miu.propertymanagement.service.UserService;
 import edu.miu.propertymanagement.util.ListMapper;
 import lombok.RequiredArgsConstructor;
-
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -30,7 +28,7 @@ class UserServiceImpl implements UserService {
     private final ModelMapper modelMapper;
 
     private final OwnerRepository ownerRepository;
-    
+
     private final PropertyService propertyService;
 
     @Override
@@ -61,7 +59,7 @@ class UserServiceImpl implements UserService {
 
     @Override
     public List<UserDto> getUsers() {
-        List<User> users = userRepository.findAllByOrderByIdDesc();
+        List<User> users = userRepository.findAllByUserTypeIsNotOrderByIdDesc("ADMIN");
         return listMapper.map(users, UserDto.class);
     }
 
@@ -72,25 +70,14 @@ class UserServiceImpl implements UserService {
 
     @Override
     public void updateUserById(UserRequestDto userRequestDto, long id) {
-        ApplicationUserDetail userDetail = getLoggedInUser();
-        boolean isOwnerOrAdmin = userDetail.isOwner() || userDetail.isAdmin();
-
-        if (isOwnerOrAdmin) {
-            updateOwner(userRequestDto, id);
-        } else {
-            updateUser(userRequestDto, id);
-        }
-    }
-    
-    private void updateOwner(UserRequestDto userRequestDto, long id) {
-        Owner owner = ownerRepository.findById(id).orElse(null);
-        if (owner != null) {
+        User user = userRepository.findById(id).orElse(null);
+        if (user != null) {
             if (userRequestDto.getDeleted() != null) {
-                owner.setDeleted(userRequestDto.getDeleted());
+                user.setDeleted(userRequestDto.getDeleted());
             }
 
             if (userRequestDto.getActivated() != null) {
-                owner.setActivated(userRequestDto.getActivated());
+                user.setActivated(userRequestDto.getActivated());
 
                 if (userRequestDto.getActivated()) {
                     propertyService.convertOwnerPropertiesToAvailable(id);
@@ -98,17 +85,8 @@ class UserServiceImpl implements UserService {
 
             }
 
-            ownerRepository.save(owner);
-        }
-    }
-
-    private void updateUser(UserRequestDto userRequestDto, long id) {
-        User user = userRepository.findById(id).orElse(null);
-        if (user != null) {
-            if (userRequestDto.getDeleted() != null) {
-                user.setDeleted(userRequestDto.getDeleted());
-            }
             userRepository.save(user);
         }
     }
+
 }
