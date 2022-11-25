@@ -22,7 +22,7 @@ export default function Admin() {
 
     
     return (<div>
-        {hasLoaded ? <Properties fetched_properties={adminResponse.properties} noProductMessage={''}/> : null}
+        {hasLoaded ? <Properties title={'Recent Transactions Properties'} fetched_properties={adminResponse.properties} noProductMessage={''}/> : null}
 
     </div>);
 }

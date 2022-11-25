@@ -113,7 +113,7 @@ public class PropertyServiceImpl implements PropertyService {
     public List<ListingPropertyDto> findRentedPropertiesBySize() {
         Pageable lastTen = PageRequest.of(0, 10, Sort.by("id").descending());
 
-        List<Property> properties = propertyRepository.findPropertiesByListingTypeAndPropertyStatus(ListingType.RENT, PropertyStatus.COMPLETED, lastTen);
+        List<Property> properties = propertyRepository.findPropertiesByPropertyStatus(PropertyStatus.COMPLETED, lastTen);
         return listMapper.map(properties, ListingPropertyDto.class);
     }
 

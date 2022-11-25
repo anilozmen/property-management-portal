@@ -34,6 +34,8 @@ public interface PropertyRepository extends CrudRepository<Property, Long> {
                                                                 PropertyStatus propertyStatus,
                                                                 Pageable pageable);
 
+    List<Property> findPropertiesByPropertyStatus(PropertyStatus propertyStatus, Pageable pageable);
+    
     @Transactional
     @Modifying
     @Query("update property p set p.propertyStatus ='AVAILABLE' where p.owner.id = ?1 and p.propertyStatus='UNPUBLISHED'")

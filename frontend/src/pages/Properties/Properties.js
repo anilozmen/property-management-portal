@@ -7,7 +7,7 @@ import { CUSTOMER } from "../../constants/roles";
 import { fetchSavedPropertyIds } from "../../reducers/savedPropertyIdsForCustomer";
 
 
-const Properties = ({ fetched_properties, noProductMessage: noProductsMessage = "No properties added yet!!" }) => {
+const Properties = ({ fetched_properties, noProductMessage: noProductsMessage = "No properties added yet!!", title='Properties' }) => {
     const userRole = useSelector(state => state.user.role);
     const [propertyState, setPropertyState] = useState([]);
     const filterRef = useRef(null);
@@ -82,7 +82,7 @@ const Properties = ({ fetched_properties, noProductMessage: noProductsMessage = 
                 <div className="row">
                     <div className="col-md-12 col-lg-8">
                         <div className="title-single-box">
-                            <h1 className="title-single">Properties</h1>
+                            <h1 className="title-single">{title}</h1>
                         </div>
                     </div>
                 </div>
