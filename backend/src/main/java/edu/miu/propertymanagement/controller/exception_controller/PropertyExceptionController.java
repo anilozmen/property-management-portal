@@ -2,6 +2,7 @@ package edu.miu.propertymanagement.controller.exception_controller;
 
 import com.sun.jdi.request.InvalidRequestStateException;
 
+import edu.miu.propertymanagement.exceptions.ForbiddenException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -25,5 +26,10 @@ class PropertyExceptionController {
         return ResponseEntity.status(403).body(new ErrorResponse(
                 "Bad request"
         ));
+    }
+
+    @ExceptionHandler(value = ForbiddenException.class)
+    public ResponseEntity<ErrorResponse> handleUnAuthorizedActionException(ForbiddenException exception) {
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(new ErrorResponse("You are not allowed to perform this action on the property!"));
     }
 }
