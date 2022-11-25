@@ -15,4 +15,5 @@ public class UserDto {
     private String userType;
     private String phoneNumber;
     private boolean isEmailVerified;
+    private boolean deleted;
 }
