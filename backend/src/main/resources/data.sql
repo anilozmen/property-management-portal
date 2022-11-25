@@ -102,7 +102,7 @@ VALUES (4, 'PROPERTY 4 DESCRIPTION', 'PROPERTY 4 NAME', 20, 120, 6, 'RENT', 4, '
 
 INSERT INTO property (id, description, name, price, view_count, address_id, listing_type, owner_id, property_status,
                       property_type, deleted)
-VALUES (5, 'PROPERTY 5 DESCRIPTION', 'PROPERTY  NAME 5', 20, 120, 6, 'RENT', 4, 'COMPLETED', 'APARTMENT', false);
+VALUES (5, 'PROPERTY 5 DESCRIPTION', 'PROPERTY  NAME 5', 20, 120, 6, 'RENT', 2, 'COMPLETED', 'APARTMENT', false);
 
 INSERT INTO property (id, description, name, price, view_count, address_id, listing_type, owner_id, property_status,
                       property_type, deleted)
@@ -118,7 +118,7 @@ VALUES (8, 'PROPERTY 8 DESCRIPTION', 'PROPERTY 8 NAME', 20, 120, 6, 'RENT', 2, '
 
 INSERT INTO property (id, description, name, price, view_count, address_id, listing_type, owner_id, property_status,
                       property_type, deleted)
-VALUES (9, 'PROPERTY 9 DESCRIPTION', 'PROPERTY 9 NAME', 20, 120, 6, 'RENT', 4, 'COMPLETED', 'APARTMENT', false);
+VALUES (9, 'PROPERTY 9 DESCRIPTION', 'PROPERTY 9 NAME', 20, 120, 6, 'RENT', 2, 'COMPLETED', 'APARTMENT', false);
 
 INSERT INTO property (id, description, name, price, view_count, address_id, listing_type, owner_id, property_status,
                       property_type, deleted)
@@ -126,7 +126,7 @@ VALUES (10, 'PROPERTY 10 DESCRIPTION', 'PROPERTY 10 NAME', 20, 120, 6, 'RENT', 4
 
 INSERT INTO property (id, description, name, price, view_count, address_id, listing_type, owner_id, property_status,
                       property_type, deleted)
-VALUES (11, 'PROPERTY 11 DESCRIPTION', 'PROPERTY 11 NAME', 20, 120, 6, 'RENT', 4, 'COMPLETED', 'APARTMENT', false);
+VALUES (11, 'PROPERTY 11 DESCRIPTION', 'PROPERTY 11 NAME', 20, 120, 6, 'RENT', 2, 'COMPLETED', 'APARTMENT', false);
 
 INSERT INTO property (id, description, name, price, view_count, address_id, listing_type, owner_id, property_status,
                       property_type, deleted)
