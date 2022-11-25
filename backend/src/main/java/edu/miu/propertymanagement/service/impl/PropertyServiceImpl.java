@@ -5,6 +5,7 @@ import edu.miu.propertymanagement.entity.dto.request.PropertyCreationDto;
 import edu.miu.propertymanagement.entity.dto.request.PropertyFilterRequest;
 import edu.miu.propertymanagement.entity.dto.response.ListingPropertyDto;
 import edu.miu.propertymanagement.entity.dto.response.PropertyDto;
+import edu.miu.propertymanagement.exceptions.PropertyNotListedException;
 import edu.miu.propertymanagement.repository.PropertyRepository;
 import edu.miu.propertymanagement.service.PropertyService;
 import edu.miu.propertymanagement.service.UserService;
@@ -76,6 +77,20 @@ public class PropertyServiceImpl implements PropertyService {
 
     @Override
     public Property getPropertyById(long id) {
+        ApplicationUserDetail userDetail = getLoggedInUser();
+
+        boolean isViewer = userDetail == null || userDetail.isCustomer();
+
+        if (isViewer) {
+            Property property = propertyRepository.findPropertyIfNotUnpublished(id).orElse(null);
+
+            if (property == null) {
+                throw new PropertyNotListedException();
+            }
+
+            increaseCounterByOne(id);
+        }
+
         return propertyRepository.findById(id).orElse(null);
     }
 
@@ -86,12 +101,6 @@ public class PropertyServiceImpl implements PropertyService {
 
     @Override
     public PropertyDto getPropertyDetailsById(long id) {
-        ApplicationUserDetail userDetail = getLoggedInUser();
-
-        if (userDetail == null || !userDetail.isAdmin()) {
-            increaseCounterByOne(id);
-        }
-
         return modelMapper.map(getPropertyById(id), PropertyDto.class);
     }
 
