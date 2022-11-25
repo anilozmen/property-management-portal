@@ -7,6 +7,7 @@ import edu.miu.propertymanagement.entity.dto.response.ListingPropertyDto;
 import edu.miu.propertymanagement.entity.dto.response.PropertyDto;
 import edu.miu.propertymanagement.repository.PropertyRepository;
 import edu.miu.propertymanagement.service.PropertyService;
+import edu.miu.propertymanagement.service.UserService;
 import edu.miu.propertymanagement.util.ListMapper;
 import lombok.RequiredArgsConstructor;
 
@@ -29,6 +30,8 @@ public class PropertyServiceImpl implements PropertyService {
     private final PropertyRepository propertyRepository;
     private final ListMapper listMapper;
     private final ModelMapper modelMapper;
+
+    private final UserService userService;
 
     @Override
     public List<ListingPropertyDto> findAll(PropertyFilterRequest propertyFilterRequest) {
@@ -80,7 +83,12 @@ public class PropertyServiceImpl implements PropertyService {
 
     @Override
     public PropertyDto getPropertyDetailsById(long id) {
-        increaseCounterByOne(id);
+        ApplicationUserDetail userDetail = userService.getLoggedInUser();
+
+        if (userDetail == null || !userDetail.isAdmin()) {
+            increaseCounterByOne(id);
+        }
+
         return modelMapper.map(getPropertyById(id), PropertyDto.class);
     }
 
