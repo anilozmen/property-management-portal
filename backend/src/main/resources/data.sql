@@ -23,9 +23,9 @@ VALUES (7, 'SOMEWHERE IN ZZZ', null, 'Sarasota', 'Florida', '33133', false);
 SELECT pg_catalog.setval('public.address_id_seq', 7, true);
 
 -- USERS
-INSERT INTO users (id, first_name, last_name, email, password, address_id, phone_number, user_type, deleted)
+INSERT INTO users (id, first_name, last_name, email, password, address_id, phone_number, user_type, deleted, is_email_verified)
 VALUES (1, 'John', 'Doe', 'john@miu.edu', '$2a$12$IKEQb00u5QpZMx4v5zMweu.3wrq0pS7XLCHO4yHZ.BW/yvWu1feo2', 1,
-        '+1 641 111 11 11', 'ADMIN', false); --123
+        '+1 641 111 11 11', 'ADMIN', false, true); --123
 INSERT INTO users (id, is_email_verified, first_name, last_name, email, password, address_id, phone_number, user_type,
                    deleted)
 VALUES (2, true, 'Jessica', 'Doe', 'jessica@miu.edu', '$2a$12$IKEQb00u5QpZMx4v5zMweu.3wrq0pS7XLCHO4yHZ.BW/yvWu1feo2', 2,

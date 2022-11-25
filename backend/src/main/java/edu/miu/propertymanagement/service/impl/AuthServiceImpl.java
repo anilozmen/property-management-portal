@@ -95,9 +95,10 @@ public class AuthServiceImpl implements AuthService {
 
     private void sendVerificationEmail(User user) {
 
-        String mail = "Your verification PIN for the email address: " + user.getEmailVerificationToken();
-
-        emailService.send(user.getEmail(), "Verification Token", mail);
+        String html = "<html><body><p>" + "Your verification PIN for the email address: " + user.getEmailVerificationToken() + "</p>";
+        String html2 = "<p>You can verify your account by using this <a href= 'http://localhost:3000/verify-email'>URL</a></p></body></html>";
+        String html3 = html + html2;
+        emailService.sendWithHTMLBody(user.getEmail(), "Verification Token", html3);
     }
 
     @Override
@@ -138,10 +139,13 @@ public class AuthServiceImpl implements AuthService {
             Random random = new Random();
             String token = String.valueOf(random.nextInt(100000, 1000000));
             createPasswordResetTokenForUser(user, token);
-            emailService.send(
+
+            String html = "<p>You can change your password using the <a href='http://localhost:3000/change-password?changeToken=" + token + "'>URL</a><p>";
+
+            emailService.sendWithHTMLBody(
                     email,
                     "Reset Password",
-                    "http://localhost:3000/change-password?changeToken=" + token
+                    html
             );
 
             return new PasswordResetResponse(token);

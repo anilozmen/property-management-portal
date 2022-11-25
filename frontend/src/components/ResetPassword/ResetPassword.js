@@ -31,7 +31,6 @@ const ResetPassword = () => {
 
 
     axios.post('authenticate/reset-password', formData).then(response => {
-      // navigate(`/change-password?changeToken=${response.data.token}`);
       setSuccessMessageState("Please check your email for the link to reset your password");
       setSuccessMessageVisibilityState(true);
     }).catch(error => {
