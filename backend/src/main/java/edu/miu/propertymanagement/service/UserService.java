@@ -1,6 +1,7 @@
 package edu.miu.propertymanagement.service;
 
 import edu.miu.propertymanagement.entity.User;
+import edu.miu.propertymanagement.entity.dto.request.UserRequestDto;
 import edu.miu.propertymanagement.entity.dto.response.UserDetailDto;
 import edu.miu.propertymanagement.entity.dto.response.UserDto;
 import edu.miu.propertymanagement.service.impl.ApplicationUserDetail;
@@ -20,5 +21,6 @@ public interface UserService {
 
     UserDetailDto getUserById(long id);
 
-    void updateUserById(boolean isDeleted, long id);
+    void updateUserById(UserRequestDto userRequestDto, long id);
+
 }
