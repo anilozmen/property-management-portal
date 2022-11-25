@@ -4,7 +4,7 @@ import Layout from '../Layout/Layout';
 import {moneyFormat} from '../../services/helper';
 import axios from "axios";
 import Messages from "../Messages/Messages";
-import {OWNER} from "../../constants/roles";
+import {ADMIN, OWNER} from "../../constants/roles";
 import {getUserType, getAccessToken} from '../../services/token';
 import PropertyAmenities from "../PropertyAmenities/PropertyAmenities";
 import './PropertyDetail.css';
@@ -50,11 +50,12 @@ const PropertyDetail = () => {
                                 <div className="owl-carousel owl-arrow gallery-property text-center">
                                     <div className="carousel-item-a row">
                                         <div className={'property-image'}>
-                                        <img src="https://via.placeholder.com/700" alt=""/>
-                                        <div className={'property-view-count'}>{propertyDetail.viewCount} views</div>
+                                            <img src="https://via.placeholder.com/700" alt=""/>
+                                            <div className={'property-view-count'}>{propertyDetail.viewCount} views
+                                            </div>
                                         </div>
                                         <div className='col-sm-4'>
-                                            {userLoggedIn() &&
+                                            {userLoggedIn() && userType !== ADMIN &&
                                                 <Messages isOwner={userType === OWNER} propertyId={params.id}/>}
                                         </div>
                                     </div>

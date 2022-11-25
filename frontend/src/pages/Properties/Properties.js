@@ -1,18 +1,18 @@
 import Layout from "../../components/Layout/Layout";
 import axios from 'axios';
-import React, { useEffect, useRef, useState } from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import Property from "../../components/Property/Property";
 import PropertyDetail from "../../components/PropertyDetail/PropertyDetail";
 
 
-
-const Properties = () => {
+const Properties = ({fetched_properties, noProductMessage: noProductsMessage = "No properties added yet!!"}) => {
 
     const [propertyState, setPropertyState] = useState([]);
     const filterRef = useRef(null);
 
     const fetchProperties = (filter = {}) => {
         axios.get("/properties", filter).then(res => {
+            console.log('fetching properties list ----');
             setPropertyState(res.data);
         }).catch(err => {
             console.log(err);
@@ -21,7 +21,9 @@ const Properties = () => {
 
 
     useEffect(() => {
-        fetchProperties();
+        if (!fetched_properties) {
+            fetchProperties();
+        }
     }, []);
 
     const filterSubmit = (event) => {
@@ -29,25 +31,20 @@ const Properties = () => {
 
         const form = filterRef.current;
 
-        if (!filterRef.current)
-            return;
+        if (!filterRef.current) return;
 
         const filterData = {};
 
-        if (['RENT', 'SALE'].includes(form['listingType'].value))
-            filterData.listing_type = form['listingType'].value;
+        if (['RENT', 'SALE'].includes(form['listingType'].value)) filterData.listing_type = form['listingType'].value;
 
-        if (['HOUSE', 'APARTMENT', 'CONDO'].includes(form['propertyType'].value))
-            filterData.property_type = form['propertyType'].value;
+        if (['HOUSE', 'APARTMENT', 'CONDO'].includes(form['propertyType'].value)) filterData.property_type = form['propertyType'].value;
 
         let minPriceVal = parseFloat(form['minPrice'].value);
 
-        if (!isNaN(minPriceVal) && minPriceVal > 0)
-            filterData.price_gt = minPriceVal;
+        if (!isNaN(minPriceVal) && minPriceVal > 0) filterData.price_gt = minPriceVal;
 
         let maxPriceVal = parseFloat(form['maxPrice'].value)
-        if (!isNaN(maxPriceVal) && maxPriceVal > 0)
-            filterData.price_lt = maxPriceVal;
+        if (!isNaN(maxPriceVal) && maxPriceVal > 0) filterData.price_lt = maxPriceVal;
 
         if (filterData.price_gt && filterData.price_lt) {
             if (filterData.price_gt > filterData.price_lt || filterData.price_lt == filterData.price_gt) {
@@ -56,7 +53,7 @@ const Properties = () => {
             }
         }
 
-        fetchProperties({params: filterData});        
+        fetchProperties({params: filterData});
     };
 
     const properties = propertyState.map(property => {
@@ -72,8 +69,7 @@ const Properties = () => {
         )
     });
 
-    return (
-        <div>
+    return (<div>
             <section className="intro-single">
                 <div className="container">
                     <div className="row">
@@ -105,10 +101,12 @@ const Properties = () => {
                             </select>
                         </div>
                         <div className="col-2">
-                            <input type="text" name="minPrice" className="form-control" id="minPrice" placeholder="Min Price" />
+                            <input type="text" name="minPrice" className="form-control" id="minPrice"
+                                   placeholder="Min Price"/>
                         </div>
                         <div className="col-2">
-                            <input type="text" name="maxPrice" className="form-control" id="maxPrice" placeholder="Max Price" />
+                            <input type="text" name="maxPrice" className="form-control" id="maxPrice"
+                                   placeholder="Max Price"/>
                         </div>
                         <div className="col-1">
                             <button type="submit" className="btn btn-sm btn-warning p7">
@@ -122,13 +120,12 @@ const Properties = () => {
             <section className="property-grid grid">
                 <div className="container">
                     <div className="row">
-                        {properties && properties.length !== 0 ? properties : <div>No properties added yet !!!</div>}
-                        <PropertyDetail />
+                        {properties && properties.length !== 0 ? properties : <div>{noProductsMessage}</div>}
+                        <PropertyDetail/>
                     </div>
                 </div>
             </section>
-        </div>
-    )
+        </div>)
 }
 
 
