@@ -46,4 +46,7 @@ public interface PropertyRepository extends CrudRepository<Property, Long> {
 
     @Query("select p from property p where p.propertyStatus <> 'UNPUBLISHED' and p.id=:id")
     Optional<Property> findPropertyIfNotUnpublished(long id);
+
+    @Query("select p.propertyStatus from property p where p.id=:propertyId")
+    String getPropertyStatus(long propertyId);
 }

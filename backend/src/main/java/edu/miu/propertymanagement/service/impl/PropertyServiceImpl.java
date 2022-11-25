@@ -101,11 +101,11 @@ public class PropertyServiceImpl implements PropertyService {
     @Override
     public PropertyDto getPropertyDetailsById(long id) {
         Property property = getPropertyById(id);
-        
-        if(property == null) {
+
+        if (property == null) {
             throw new PropertyNotFoundException();
         }
-        
+
         return modelMapper.map(property, PropertyDto.class);
     }
 
@@ -158,6 +158,11 @@ public class PropertyServiceImpl implements PropertyService {
     @Override
     public void convertOwnerPropertiesToUnpublishedWhereNotCompleted(long userId) {
         propertyRepository.convertOwnerPropertiesToUnpublishedWhereNotCompleted(userId);
+    }
+
+    @Override
+    public boolean isPropertyUnpublished(long propertyId) {
+        return propertyRepository.getPropertyStatus(propertyId).equals(PropertyStatus.UNPUBLISHED.toString());
     }
 
     private ApplicationUserDetail getLoggedInUser() {
