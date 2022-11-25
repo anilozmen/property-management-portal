@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserRequestDto {
-    private long id;
-    private boolean deleted;
+//    private long id;
+    private Boolean deleted;
+    private Boolean activated;
 }

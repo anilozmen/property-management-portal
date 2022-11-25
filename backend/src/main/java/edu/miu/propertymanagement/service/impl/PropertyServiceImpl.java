@@ -31,11 +31,13 @@ public class PropertyServiceImpl implements PropertyService {
     private final ListMapper listMapper;
     private final ModelMapper modelMapper;
 
-    private final UserService userService;
-
     @Override
     public List<ListingPropertyDto> findAll(PropertyFilterRequest propertyFilterRequest) {
-        return listMapper.map(filterPropertyBuilder(propertyRepository.findAll(), propertyFilterRequest), ListingPropertyDto.class);
+        ApplicationUserDetail userDetail = getLoggedInUser();
+
+        boolean isCustomer = (userDetail == null || userDetail.isCustomer());
+
+        return listMapper.map(filterPropertyBuilder(isCustomer ? propertyRepository.findExceptUnpublished() : propertyRepository.findAll(), propertyFilterRequest), ListingPropertyDto.class);
     }
 
     @Override
@@ -59,7 +61,8 @@ public class PropertyServiceImpl implements PropertyService {
 
         owner.setId(loggedInOwnerDetail.getId());
         property.setOwner(owner);
-        property.setPropertyStatus(PropertyStatus.AVAILABLE);
+
+        property.setPropertyStatus(owner.isActivated() ? PropertyStatus.AVAILABLE : PropertyStatus.UNPUBLISHED);
         property.setName(propertyCreationDto.getName());
         property.setDescription(propertyCreationDto.getDescription());
         property.setPrice(propertyCreationDto.getPrice());
@@ -83,7 +86,7 @@ public class PropertyServiceImpl implements PropertyService {
 
     @Override
     public PropertyDto getPropertyDetailsById(long id) {
-        ApplicationUserDetail userDetail = userService.getLoggedInUser();
+        ApplicationUserDetail userDetail = getLoggedInUser();
 
         if (userDetail == null || !userDetail.isAdmin()) {
             increaseCounterByOne(id);
@@ -132,4 +135,20 @@ public class PropertyServiceImpl implements PropertyService {
 
         return propertiesStream.collect(Collectors.toList());
     }
+
+    @Override
+    public void convertOwnerPropertiesToAvailable(long userId) {
+        propertyRepository.convertOwnerPropertiesToAvailable(userId);
+    }
+
+    private ApplicationUserDetail getLoggedInUser() {
+        try {
+            return ((ApplicationUserDetail) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return null;
+        }
+    }
+
+
 }

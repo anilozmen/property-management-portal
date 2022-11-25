@@ -2,13 +2,16 @@ import Layout from "../../components/Layout/Layout";
 import axios from 'axios';
 import React, { useEffect, useRef, useState } from 'react';
 import Property from "../../components/Property/Property";
-import PropertyDetail from "../../components/PropertyDetail/PropertyDetail";
+import { useDispatch, useSelector } from "react-redux";
+import { CUSTOMER } from "../../constants/roles";
+import { fetchSavedPropertyIds } from "../../reducers/savedPropertyIdsForCustomer";
 
 
-const Properties = ({ fetched_properties, noProductMessage: noProductsMessage = "No properties added yet!!"}) => {
-
+const Properties = ({ fetched_properties, noProductMessage: noProductsMessage = "No properties added yet!!" }) => {
+    const userRole = useSelector(state => state.user.role);
     const [propertyState, setPropertyState] = useState([]);
     const filterRef = useRef(null);
+    const dispatch = useDispatch();
 
     const fetchProperties = (filter = {}) => {
         axios.get("/properties", filter).then(res => {
@@ -19,15 +22,16 @@ const Properties = ({ fetched_properties, noProductMessage: noProductsMessage = 
         })
     }
 
-
     useEffect(() => {
+        if (userRole === CUSTOMER)
+            dispatch(fetchSavedPropertyIds());
+
         if (!fetched_properties) {
             fetchProperties();
         } else {
-            console.log("XXX: %O", fetched_properties)
             setPropertyState(fetched_properties);
         }
-    }, []);
+    }, [userRole]);
 
     const filterSubmit = (event) => {
         event.preventDefault();
@@ -71,7 +75,7 @@ const Properties = ({ fetched_properties, noProductMessage: noProductsMessage = 
 
         )
     });
-    
+
     return (<div>
         <section className="intro-single">
             <div className="container">
@@ -85,7 +89,7 @@ const Properties = ({ fetched_properties, noProductMessage: noProductsMessage = 
             </div>
         </section>
 
-        
+
         {(!fetched_properties) &&
             <section className="container m-auto">
                 <form onSubmit={filterSubmit} ref={filterRef}>
@@ -126,7 +130,7 @@ const Properties = ({ fetched_properties, noProductMessage: noProductsMessage = 
             <div className="container">
                 <div className="row">
                     {properties && properties.length !== 0 ? properties : <div>{noProductsMessage}</div>}
-                    <PropertyDetail />
+
                 </div>
             </div>
         </section>

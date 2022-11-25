@@ -55,7 +55,7 @@ public class AdminController {
     @PutMapping("/users/{id}")
     @ResponseStatus(HttpStatus.CREATED)
     public void updateUserById(@Valid @RequestBody UserRequestDto userDto, @PathVariable long id) {
-        userService.updateUserById(userDto.isDeleted(), id);
+        userService.updateUserById(userDto, id);
     }
 
 
@@ -64,5 +64,4 @@ public class AdminController {
     public List<ListingPropertyDto> getUserPropertiesById(@PathVariable long id) {
         return propertyService.findByOwnerId(id, new PropertyFilterRequest());
     }
-
 }

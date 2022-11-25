@@ -10,4 +10,6 @@ public interface SavedPropertyService {
     List<PropertyDto> findSavedProperties();
 
     void deletePropertyFromSavedList(long propertyId);
+
+    List<Long> findSavedPropertyIds();
 }

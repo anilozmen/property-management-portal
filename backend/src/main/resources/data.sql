@@ -89,72 +89,72 @@ SELECT pg_catalog.setval('public.users_id_seq', 8, true);
 -- PROPERTY
 INSERT INTO property (id, description, name, price, view_count, address_id, listing_type, owner_id, property_status,
                       property_type, deleted)
-VALUES (1, 'PROPERTY 1 DESCRIPTION', 'PROPERTY 1 NAME', 35.5, 0, 4, 'SALE', 4, 'AVAILABLE', 'HOUSE', false);
+VALUES (1, 'PROPERTY 1 DESCRIPTION', 'PROPERTY 1 NAME', 35.5, 0, 4, 'SALE', 4, 'UNPUBLISHED', 'HOUSE', false);
 INSERT INTO property (id, description, name, price, view_count, address_id, listing_type, owner_id, property_status,
                       property_type, deleted)
-VALUES (2, 'PROPERTY 2 DESCRIPTION', 'PROPERTY 2 NAME', 50.5, 356, 5, 'SALE', 4, 'AVAILABLE', 'CONDO', false);
+VALUES (2, 'PROPERTY 2 DESCRIPTION', 'PROPERTY 2 NAME', 50.5, 356, 5, 'SALE', 4, 'UNPUBLISHED', 'CONDO', false);
 INSERT INTO property (id, description, name, price, view_count, address_id, listing_type, owner_id, property_status,
                       property_type, deleted)
-VALUES (3, 'PROPERTY 3 DESCRIPTION', 'PROPERTY 3 NAME', 20, 120, 6, 'RENT', 4, 'AVAILABLE', 'APARTMENT', false);
+VALUES (3, 'PROPERTY 3 DESCRIPTION', 'PROPERTY 3 NAME', 20, 120, 6, 'RENT', 4, 'UNPUBLISHED', 'APARTMENT', false);
 INSERT INTO property (id, description, name, price, view_count, address_id, listing_type, owner_id, property_status,
                       property_type, deleted)
-VALUES (4, 'PROPERTY 4 DESCRIPTION', 'PROPERTY 4 NAME', 20, 120, 6, 'RENT', 4, 'COMPLETED', 'APARTMENT', false);
+VALUES (4, 'PROPERTY 4 DESCRIPTION', 'PROPERTY 4 NAME', 20, 120, 6, 'RENT', 4, 'UNPUBLISHED', 'APARTMENT', false);
 
 INSERT INTO property (id, description, name, price, view_count, address_id, listing_type, owner_id, property_status,
                       property_type, deleted)
-VALUES (5, 'PROPERTY 5 DESCRIPTION', 'PROPERTY  NAME 5', 20, 120, 6, 'RENT', 2, 'COMPLETED', 'APARTMENT', false);
+VALUES (5, 'PROPERTY 5 DESCRIPTION', 'PROPERTY  NAME 5', 20, 120, 6, 'RENT', 4, 'UNPUBLISHED', 'APARTMENT', false);
 
 INSERT INTO property (id, description, name, price, view_count, address_id, listing_type, owner_id, property_status,
                       property_type, deleted)
-VALUES (6, 'PROPERTY 6 DESCRIPTION', 'PROPERTY 6 NAME', 20, 120, 6, 'RENT', 4, 'COMPLETED', 'APARTMENT', false);
+VALUES (6, 'PROPERTY 6 DESCRIPTION', 'PROPERTY 6 NAME', 20, 120, 6, 'RENT', 4, 'UNPUBLISHED', 'APARTMENT', false);
 
 INSERT INTO property (id, description, name, price, view_count, address_id, listing_type, owner_id, property_status,
                       property_type, deleted)
-VALUES (7, 'PROPERTY 7 DESCRIPTION', 'PROPERTY 7 NAME', 20, 120, 6, 'RENT', 4, 'COMPLETED', 'APARTMENT', false);
+VALUES (7, 'PROPERTY 7 DESCRIPTION', 'PROPERTY 7 NAME', 20, 120, 6, 'RENT', 4, 'UNPUBLISHED', 'APARTMENT', false);
 
 INSERT INTO property (id, description, name, price, view_count, address_id, listing_type, owner_id, property_status,
                       property_type, deleted)
-VALUES (8, 'PROPERTY 8 DESCRIPTION', 'PROPERTY 8 NAME', 20, 120, 6, 'RENT', 2, 'COMPLETED', 'APARTMENT', false);
+VALUES (8, 'PROPERTY 8 DESCRIPTION', 'PROPERTY 8 NAME', 20, 120, 6, 'RENT', 2, 'AVAILABLE', 'APARTMENT', false);
 
 INSERT INTO property (id, description, name, price, view_count, address_id, listing_type, owner_id, property_status,
                       property_type, deleted)
-VALUES (9, 'PROPERTY 9 DESCRIPTION', 'PROPERTY 9 NAME', 20, 120, 6, 'RENT', 2, 'COMPLETED', 'APARTMENT', false);
+VALUES (9, 'PROPERTY 9 DESCRIPTION', 'PROPERTY 9 NAME', 20, 120, 6, 'RENT', 4, 'UNPUBLISHED', 'APARTMENT', false);
 
 INSERT INTO property (id, description, name, price, view_count, address_id, listing_type, owner_id, property_status,
                       property_type, deleted)
-VALUES (10, 'PROPERTY 10 DESCRIPTION', 'PROPERTY 10 NAME', 20, 120, 6, 'RENT', 4, 'COMPLETED', 'APARTMENT', false);
+VALUES (10, 'PROPERTY 10 DESCRIPTION', 'PROPERTY 10 NAME', 20, 120, 6, 'RENT', 4, 'UNPUBLISHED', 'APARTMENT', false);
 
 INSERT INTO property (id, description, name, price, view_count, address_id, listing_type, owner_id, property_status,
                       property_type, deleted)
-VALUES (11, 'PROPERTY 11 DESCRIPTION', 'PROPERTY 11 NAME', 20, 120, 6, 'RENT', 2, 'COMPLETED', 'APARTMENT', false);
+VALUES (11, 'PROPERTY 11 DESCRIPTION', 'PROPERTY 11 NAME', 20, 120, 6, 'RENT', 4, 'UNPUBLISHED', 'APARTMENT', false);
 
 INSERT INTO property (id, description, name, price, view_count, address_id, listing_type, owner_id, property_status,
                       property_type, deleted)
-VALUES (12, 'PROPERTY 12 DESCRIPTION', 'PROPERTY 12 NAME', 20, 120, 6, 'RENT', 4, 'COMPLETED', 'APARTMENT', false);
+VALUES (12, 'PROPERTY 12 DESCRIPTION', 'PROPERTY 12 NAME', 20, 120, 6, 'RENT', 4, 'UNPUBLISHED', 'APARTMENT', false);
 
 INSERT INTO property (id, description, name, price, view_count, address_id, listing_type, owner_id, property_status,
                       property_type, deleted)
-VALUES (13, 'PROPERTY 13 DESCRIPTION', 'PROPERTY 13 NAME', 20, 120, 6, 'RENT', 4, 'COMPLETED', 'APARTMENT', false);
+VALUES (13, 'PROPERTY 13 DESCRIPTION', 'PROPERTY 13 NAME', 20, 120, 6, 'RENT', 4, 'UNPUBLISHED', 'APARTMENT', false);
 
 INSERT INTO property (id, description, name, price, view_count, address_id, listing_type, owner_id, property_status,
                       property_type, deleted)
-VALUES (14, 'PROPERTY 14 DESCRIPTION', 'PROPERTY 14 NAME', 20, 120, 6, 'RENT', 4, 'COMPLETED', 'APARTMENT', false);
+VALUES (14, 'PROPERTY 14 DESCRIPTION', 'PROPERTY 14 NAME', 20, 120, 6, 'RENT', 4, 'UNPUBLISHED', 'APARTMENT', false);
 
 INSERT INTO property (id, description, name, price, view_count, address_id, listing_type, owner_id, property_status,
                       property_type, deleted)
-VALUES (15, 'PROPERTY 15 DESCRIPTION', 'PROPERTY 15 NAME', 20, 120, 6, 'RENT', 4, 'COMPLETED', 'APARTMENT', false);
+VALUES (15, 'PROPERTY 15 DESCRIPTION', 'PROPERTY 15 NAME', 20, 120, 6, 'RENT', 4, 'UNPUBLISHED', 'APARTMENT', false);
 
 INSERT INTO property (id, description, name, price, view_count, address_id, listing_type, owner_id, property_status,
                       property_type, deleted)
-VALUES (16, 'PROPERTY 16 DESCRIPTION', 'PROPERTY 16 NAME', 20, 120, 6, 'RENT', 4, 'COMPLETED', 'APARTMENT', false);
+VALUES (16, 'PROPERTY 16 DESCRIPTION', 'PROPERTY 16 NAME', 20, 120, 6, 'RENT', 4, 'UNPUBLISHED', 'APARTMENT', false);
 
 INSERT INTO property (id, description, name, price, view_count, address_id, listing_type, owner_id, property_status,
                       property_type, deleted)
-VALUES (17, 'PROPERTY 17 DESCRIPTION', 'PROPERTY 17 NAME', 20, 120, 6, 'RENT', 4, 'COMPLETED', 'APARTMENT', false);
+VALUES (17, 'PROPERTY 17 DESCRIPTION', 'PROPERTY 17 NAME', 20, 120, 6, 'RENT', 4, 'UNPUBLISHED', 'APARTMENT', false);
 
 INSERT INTO property (id, description, name, price, view_count, address_id, listing_type, owner_id, property_status,
                       property_type, deleted)
-VALUES (18, 'PROPERTY 18 DESCRIPTION', 'PROPERTY 18 NAME', 20, 120, 6, 'RENT', 4, 'COMPLETED', 'APARTMENT', false);
+VALUES (18, 'PROPERTY 18 DESCRIPTION', 'PROPERTY 18 NAME', 20, 120, 6, 'RENT', 4, 'UNPUBLISHED', 'APARTMENT', false);
 
 
 SELECT pg_catalog.setval('public.property_id_seq', 18, true);

@@ -1,12 +1,17 @@
 package edu.miu.propertymanagement.service.impl;
 
+import edu.miu.propertymanagement.entity.Owner;
 import edu.miu.propertymanagement.entity.User;
+import edu.miu.propertymanagement.entity.dto.request.UserRequestDto;
 import edu.miu.propertymanagement.entity.dto.response.UserDetailDto;
 import edu.miu.propertymanagement.entity.dto.response.UserDto;
+import edu.miu.propertymanagement.repository.OwnerRepository;
 import edu.miu.propertymanagement.repository.UserRepository;
+import edu.miu.propertymanagement.service.PropertyService;
 import edu.miu.propertymanagement.service.UserService;
 import edu.miu.propertymanagement.util.ListMapper;
 import lombok.RequiredArgsConstructor;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -23,6 +28,10 @@ class UserServiceImpl implements UserService {
     private final ListMapper listMapper;
     private final UserRepository userRepository;
     private final ModelMapper modelMapper;
+
+    private final OwnerRepository ownerRepository;
+    
+    private final PropertyService propertyService;
 
     @Override
     public User getUserByEmailId(String id) {
@@ -62,10 +71,42 @@ class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void updateUserById(boolean isDeleted, long id) {
+    public void updateUserById(UserRequestDto userRequestDto, long id) {
+        boolean isOwner = getLoggedInUser().isOwner();
+
+        if (isOwner) {
+            updateOwner(userRequestDto, id);
+        } else {
+            updateUser(userRequestDto, id);
+        }
+    }
+    
+    private void updateOwner(UserRequestDto userRequestDto, long id) {
+        Owner owner = ownerRepository.findById(id).orElse(null);
+        if (owner != null) {
+            if (userRequestDto.getDeleted() != null) {
+                owner.setDeleted(userRequestDto.getDeleted());
+            }
+
+            if (userRequestDto.getActivated() != null) {
+                owner.setActivated(userRequestDto.getActivated());
+
+                if (userRequestDto.getActivated()) {
+                    propertyService.convertOwnerPropertiesToAvailable(id);
+                }
+
+            }
+
+            ownerRepository.save(owner);
+        }
+    }
+
+    private void updateUser(UserRequestDto userRequestDto, long id) {
         User user = userRepository.findById(id).orElse(null);
         if (user != null) {
-            user.setDeleted(isDeleted);
+            if (userRequestDto.getDeleted() != null) {
+                user.setDeleted(userRequestDto.getDeleted());
+            }
             userRepository.save(user);
         }
     }
