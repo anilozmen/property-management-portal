@@ -11,6 +11,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1")
 @RequiredArgsConstructor
+@CrossOrigin(origins = "http://localhost:3000")
 public class SavePropertyController {
     private final SavedPropertyService savedPropertyService;
 
@@ -27,5 +28,10 @@ public class SavePropertyController {
     @DeleteMapping("/properties/saved/{propertyId}")
     public void deleteFromSavedList(@PathVariable("propertyId") long propertyId) {
         savedPropertyService.deletePropertyFromSavedList(propertyId);
+    }
+
+    @GetMapping("/properties/saved/property-ids")
+    public List<Long> getSavedPropertyIds() {
+        return savedPropertyService.findSavedPropertyIds();
     }
 }

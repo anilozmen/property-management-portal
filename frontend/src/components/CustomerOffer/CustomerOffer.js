@@ -42,7 +42,7 @@ const CustomerOffer = ({ offer }) => {
                 </span>
                 <p className="comment-description">
                   <span>
-                    <b>Message:</b>
+                    <b>Message: </b>
                   </span>
                   {offer.message}
                 </p>

@@ -1,0 +1,16 @@
+.customer-property-action {
+  position: absolute;
+  z-index: 100;
+  right: 0;
+  top: 0;
+  padding: 8px;
+  cursor: pointer;
+}
+
+.customer-property-action:hover {
+  color: #b71c1c;
+}
+
+.customer-property-action.saved {
+  color: #b71c1c;
+}
