@@ -2012,3 +2012,9 @@ body {
       font-size: 1.3rem;
     }
   }
+
+  .p7 {
+    padding: 7px;
+    max-width: 50px;
+    min-width: 50px;
+  }

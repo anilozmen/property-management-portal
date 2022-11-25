@@ -8,8 +8,6 @@ import edu.miu.propertymanagement.service.PropertyService;
 import edu.miu.propertymanagement.service.UserService;
 import edu.miu.propertymanagement.service.impl.ApplicationUserDetail;
 import lombok.RequiredArgsConstructor;
-
-import org.apache.logging.log4j.util.PropertyFilePropertySource;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -34,7 +32,7 @@ public class PropertyController {
         ApplicationUserDetail user = userService.getLoggedInUser();
 
         PropertyFilterRequest propertyFilterRequest = new PropertyFilterRequest();
-        propertyFilterRequest.setListingType(listingType);
+        propertyFilterRequest.setPropertyType(propertyType);
         propertyFilterRequest.setListingType(listingType);
         propertyFilterRequest.setPriceGreaterThan(priceGt);
         propertyFilterRequest.setPriceLessThan(priceLt);
