@@ -11,7 +11,7 @@ import { faHeart } from '@fortawesome/free-solid-svg-icons';
 import { addInSavedPropertyIdsAsync, deleteFromSavedPropertyIdsAsync } from '../../reducers/savedPropertyIdsForCustomer';
 
 const Property = (props) => {
-    const isSaved = useSelector(state => !!state.savedPropertyIds[props.id]);
+    const isSaved = useSelector(state => !!state.savedPropertyIds.mapping[props.id]);
     const propertyAttributes = props.propertyAttributes;
     const dispatch = useDispatch();
 
