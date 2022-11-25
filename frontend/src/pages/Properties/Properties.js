@@ -1,17 +1,17 @@
 import Layout from "../../components/Layout/Layout";
 import axios from 'axios';
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import Property from "../../components/Property/Property";
 import PropertyDetail from "../../components/PropertyDetail/PropertyDetail";
 
 
-const Properties = () => {
+const Properties = ({fetched_properties, noProductMessage: noProductsMessage = "No properties added yet!!"}) => {
 
-    const [propertyState, setPropertyState] = useState([]);
-
+    const [propertyState, setPropertyState] = useState(fetched_properties);
 
     const fetchProperties = () => {
         axios.get("/properties").then(res => {
+            console.log('fetching properties list ----');
             setPropertyState(res.data);
         }).catch(err => {
             console.log(err);
@@ -20,7 +20,9 @@ const Properties = () => {
 
 
     useEffect(() => {
-        fetchProperties();
+        if (!fetched_properties) {
+            fetchProperties();
+        }
     }, []);
 
 
@@ -54,8 +56,8 @@ const Properties = () => {
             <section className="property-grid grid">
                 <div className="container">
                     <div className="row">
-                        {properties && properties.length !== 0? properties : <div>No properties added yet !!!</div>}
-                        <PropertyDetail />
+                        {properties && properties.length !== 0 ? properties : <div>{noProductsMessage}</div>}
+                        <PropertyDetail/>
                     </div>
                 </div>
             </section>
