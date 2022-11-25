@@ -3,6 +3,7 @@ package edu.miu.propertymanagement.service;
 import edu.miu.propertymanagement.entity.Property;
 import edu.miu.propertymanagement.entity.dto.request.PropertyCreationDto;
 import edu.miu.propertymanagement.entity.dto.request.PropertyFilterRequest;
+import edu.miu.propertymanagement.entity.dto.response.GenericActivityResponse;
 import edu.miu.propertymanagement.entity.dto.response.ListingPropertyDto;
 import edu.miu.propertymanagement.entity.dto.response.PropertyDto;
 import edu.miu.propertymanagement.service.impl.ApplicationUserDetail;
@@ -30,6 +31,9 @@ public interface PropertyService {
 
     void convertOwnerPropertiesToAvailable(long userId);
 
+    GenericActivityResponse complete(long id);
+
+    GenericActivityResponse cancelContingency(long id);
     void convertOwnerPropertiesToUnpublishedWhereNotCompleted(long userId);
 
     void updatePropertyDetailsById(ApplicationUserDetail ownerDetail, long propertyId, PropertyCreationDto propertyCreationDto);

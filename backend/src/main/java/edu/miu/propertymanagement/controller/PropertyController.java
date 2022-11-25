@@ -1,8 +1,10 @@
 package edu.miu.propertymanagement.controller;
 
-import edu.miu.propertymanagement.entity.Property;
+import edu.miu.propertymanagement.entity.dto.request.ChangePropertyStatusRequest;
+import edu.miu.propertymanagement.entity.dto.request.PropertyAction;
 import edu.miu.propertymanagement.entity.dto.request.PropertyCreationDto;
 import edu.miu.propertymanagement.entity.dto.request.PropertyFilterRequest;
+import edu.miu.propertymanagement.entity.dto.response.GenericActivityResponse;
 import edu.miu.propertymanagement.entity.dto.response.ListingPropertyDto;
 import edu.miu.propertymanagement.entity.dto.response.PropertyDto;
 import edu.miu.propertymanagement.service.PropertyService;
@@ -58,6 +60,15 @@ public class PropertyController {
         return propertyService.getPropertyDetailsById(propertyId);
     }
 
+    @PutMapping("/{id}/action")
+    public GenericActivityResponse updateStatus(@PathVariable long id, @RequestBody ChangePropertyStatusRequest status) {
+        if (status.getAction() == PropertyAction.COMPLETE)
+            return propertyService.complete(id);
+        else if (status.getAction() == PropertyAction.CANCEL)
+            return propertyService.cancelContingency(id);
+
+        return new GenericActivityResponse(false, "Unknown operation");
+    }
     @PutMapping("/{id}")
     public void updatePropertyById(@PathVariable("id") long propertyId, @RequestBody PropertyCreationDto propertyCreationDto) {
         ApplicationUserDetail ownerDetail = userService.getLoggedInUser();
