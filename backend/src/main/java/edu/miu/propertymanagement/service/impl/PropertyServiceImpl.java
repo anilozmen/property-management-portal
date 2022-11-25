@@ -3,11 +3,13 @@ package edu.miu.propertymanagement.service.impl;
 import edu.miu.propertymanagement.entity.*;
 import edu.miu.propertymanagement.entity.dto.request.PropertyCreationDto;
 import edu.miu.propertymanagement.entity.dto.request.PropertyFilterRequest;
+import edu.miu.propertymanagement.entity.dto.response.GenericActivityResponse;
 import edu.miu.propertymanagement.entity.dto.response.ListingPropertyDto;
 import edu.miu.propertymanagement.entity.dto.response.PropertyDto;
+import edu.miu.propertymanagement.exceptions.ErrorException;
+import edu.miu.propertymanagement.repository.OfferRepository;
 import edu.miu.propertymanagement.repository.PropertyRepository;
 import edu.miu.propertymanagement.service.PropertyService;
-import edu.miu.propertymanagement.service.UserService;
 import edu.miu.propertymanagement.util.ListMapper;
 import lombok.RequiredArgsConstructor;
 
@@ -20,6 +22,7 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -28,6 +31,7 @@ import java.util.stream.Stream;
 public class PropertyServiceImpl implements PropertyService {
 
     private final PropertyRepository propertyRepository;
+    private final OfferRepository offerRepository;
     private final ListMapper listMapper;
     private final ModelMapper modelMapper;
 
@@ -140,6 +144,63 @@ public class PropertyServiceImpl implements PropertyService {
     public void convertOwnerPropertiesToAvailable(long userId) {
         propertyRepository.convertOwnerPropertiesToAvailable(userId);
     }
+
+    @Override
+    public GenericActivityResponse complete(long id) {
+        Property property = propertyRepository.findById(id).get();
+
+        try {
+            validateStatusChange(property);
+        } catch (ErrorException e) {
+            return new GenericActivityResponse(false, e.getMessage());
+        }
+
+        property.setPropertyStatus(PropertyStatus.COMPLETED);
+        propertyRepository.save(property);
+        return new GenericActivityResponse(true, "Completed");
+        //@TODO add notification
+    }
+
+    @Override
+    public GenericActivityResponse cancel(long id) {
+        Property property = propertyRepository.findById(id).get();
+
+        try {
+            validateStatusChange(property);
+        } catch (ErrorException e) {
+            return new GenericActivityResponse(false, e.getMessage());
+        }
+
+        Optional<Offer> cancelledOffer = property
+                .getOffers()
+                .stream()
+                .filter(o -> o.getStatus() == OfferStatus.APPROVED)
+                .findFirst();
+
+        if (cancelledOffer.isPresent()) {
+            Offer offer = cancelledOffer.get();
+            offer.setStatus(OfferStatus.REJECTED);
+
+            offerRepository.save(offer);
+        }
+
+        propertyRepository.save(property);
+        return new GenericActivityResponse(true, "Completed");
+        //@TODO add notification
+    }
+
+    private void validateStatusChange(Property property) {
+        if (!isLoggedInUserOwned(property) || property.getPropertyStatus() != PropertyStatus.CONTINGENT)
+            throw new ErrorException("Action not allowed in this property");
+    }
+
+    private boolean isLoggedInUserOwned(Property property) {
+        if (property.getOwner().getId() != getLoggedInUser().getId()) return false;
+
+        return true;
+
+    }
+
 
     private ApplicationUserDetail getLoggedInUser() {
         try {

@@ -1,8 +1,10 @@
 package edu.miu.propertymanagement.service;
 
 import edu.miu.propertymanagement.entity.Property;
+import edu.miu.propertymanagement.entity.dto.request.ChangePropertyStatusRequest;
 import edu.miu.propertymanagement.entity.dto.request.PropertyCreationDto;
 import edu.miu.propertymanagement.entity.dto.request.PropertyFilterRequest;
+import edu.miu.propertymanagement.entity.dto.response.GenericActivityResponse;
 import edu.miu.propertymanagement.entity.dto.response.ListingPropertyDto;
 import edu.miu.propertymanagement.entity.dto.response.PropertyDto;
 
@@ -25,4 +27,8 @@ public interface PropertyService {
     void increaseCounterByOne(long id);
 
     void convertOwnerPropertiesToAvailable(long userId);
+
+    GenericActivityResponse complete(long id);
+
+    GenericActivityResponse cancel(long id);
 }

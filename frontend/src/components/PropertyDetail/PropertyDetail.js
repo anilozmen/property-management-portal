@@ -13,6 +13,7 @@ import "./PropertyDetail.css";
 import Tab from "../Tab/Tab";
 import { useDispatch } from "react-redux";
 import { setData } from "../../reducers/offer";
+import PropertyAction from "../PropertyAction/PropertyAction";
 
 const PropertyDetail = () => {
   const params = useParams();
@@ -49,6 +50,10 @@ const PropertyDetail = () => {
   if (params.id) {
     propertyDetailsDisplay = (
       <Layout>
+        {propertyDetail.propertyStatus==="CONTINGENT" && <PropertyAction
+          propertyId={params.id}
+          onSuccess={fetchDetails}
+        ></PropertyAction>}
         <div className="title-single-box">
           <h1 className="title-single">{propertyDetail.name}</h1>
           {propertyDetail.address && (

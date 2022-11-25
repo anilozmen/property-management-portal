@@ -1,7 +1,11 @@
 package edu.miu.propertymanagement.controller;
 
+import edu.miu.propertymanagement.entity.PropertyStatus;
+import edu.miu.propertymanagement.entity.dto.request.ChangePropertyStatusRequest;
+import edu.miu.propertymanagement.entity.dto.request.PropertyAction;
 import edu.miu.propertymanagement.entity.dto.request.PropertyCreationDto;
 import edu.miu.propertymanagement.entity.dto.request.PropertyFilterRequest;
+import edu.miu.propertymanagement.entity.dto.response.GenericActivityResponse;
 import edu.miu.propertymanagement.entity.dto.response.ListingPropertyDto;
 import edu.miu.propertymanagement.entity.dto.response.PropertyDto;
 import edu.miu.propertymanagement.service.PropertyService;
@@ -55,5 +59,15 @@ public class PropertyController {
     @GetMapping("/{id}")
     public PropertyDto getPropertyById(@PathVariable("id") long propertyId) {
         return propertyService.getPropertyDetailsById(propertyId);
+    }
+
+    @PutMapping("/{id}/action")
+    public GenericActivityResponse updateStatus(@PathVariable long id, @RequestBody ChangePropertyStatusRequest status) {
+        if (status.getAction() == PropertyAction.COMPLETE)
+            return propertyService.complete(id);
+        else if (status.getAction() == PropertyAction.CANCEL)
+            return propertyService.cancel(id);
+
+        return new GenericActivityResponse(false, "Unknown operation");
     }
 }
