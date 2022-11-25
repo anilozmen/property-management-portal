@@ -16,6 +16,7 @@ const PropertyDetail = () => {
   const params = useParams();
   const navigate = useNavigate();
   const [propertyDetail, setPropertyDetail] = useState({});
+  const [propertyNotFound, setPropertyNotFound] = useState(false);
   const userType = useMemo(() => getUserType(), [getUserType()]);
   const userLoggedIn = useMemo(
     () => () => {
@@ -33,11 +34,23 @@ const PropertyDetail = () => {
           console.log(response.data);
           setPropertyDetail(response.data);
         })
-        .catch((err) => console.log(err.message));
+        .catch((err) => {
+          if(err.response.status === 404) {
+            setPropertyNotFound(true);
+          }
+          console.log(err.message);
+        });
     }
   }, [params.id]);
 
   let propertyDetailsDisplay = null;
+  
+  if(propertyNotFound) {
+    return (<div className={'no-property-found'}>
+      404 Property not found !!
+    </div>);
+  }
+  
 
   if (params.id) {
     propertyDetailsDisplay = (

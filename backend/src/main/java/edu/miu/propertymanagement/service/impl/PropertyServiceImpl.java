@@ -5,10 +5,9 @@ import edu.miu.propertymanagement.entity.dto.request.PropertyCreationDto;
 import edu.miu.propertymanagement.entity.dto.request.PropertyFilterRequest;
 import edu.miu.propertymanagement.entity.dto.response.ListingPropertyDto;
 import edu.miu.propertymanagement.entity.dto.response.PropertyDto;
-import edu.miu.propertymanagement.exceptions.PropertyNotListedException;
+import edu.miu.propertymanagement.exceptions.PropertyNotFoundException;
 import edu.miu.propertymanagement.repository.PropertyRepository;
 import edu.miu.propertymanagement.service.PropertyService;
-import edu.miu.propertymanagement.service.UserService;
 import edu.miu.propertymanagement.util.ListMapper;
 import lombok.RequiredArgsConstructor;
 
@@ -85,7 +84,7 @@ public class PropertyServiceImpl implements PropertyService {
             Property property = propertyRepository.findPropertyIfNotUnpublished(id).orElse(null);
 
             if (property == null) {
-                throw new PropertyNotListedException();
+                return null;
             }
 
             increaseCounterByOne(id);
@@ -101,7 +100,13 @@ public class PropertyServiceImpl implements PropertyService {
 
     @Override
     public PropertyDto getPropertyDetailsById(long id) {
-        return modelMapper.map(getPropertyById(id), PropertyDto.class);
+        Property property = getPropertyById(id);
+        
+        if(property == null) {
+            throw new PropertyNotFoundException();
+        }
+        
+        return modelMapper.map(property, PropertyDto.class);
     }
 
     @Override
