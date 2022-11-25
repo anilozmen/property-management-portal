@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { useNavigate, useParams } from "react-router";
+import { useNavigate, useParams, Outlet } from "react-router-dom";
 import Layout from "../Layout/Layout";
 import { moneyFormat } from "../../services/helper";
 import axios from "axios";
@@ -30,6 +30,7 @@ const PropertyDetail = () => {
   );
 
   useEffect(() => {
+
     fetchDetails();
 
     return () => dispatch(setData([]));
@@ -43,7 +44,7 @@ const PropertyDetail = () => {
           setPropertyDetail(response.data);
         })
         .catch((err) => {
-          if(err.response.status === 404) {
+          if (err.response.status === 404) {
             setPropertyNotFound(true);
           }
           console.log(err.message);
@@ -51,14 +52,29 @@ const PropertyDetail = () => {
     }
   };
 
+
+  const handleUpdateButtonClick = event => {
+    event.preventDefault();
+
+    navigate("update", {
+      state: {
+        property: {
+          ...propertyDetail,
+          address: propertyDetail.address || {},
+          propertyAttributes: propertyDetail.propertyAttributes || {}
+        }
+      }
+    });
+  }
+
   let propertyDetailsDisplay = null;
-  
-  if(propertyNotFound) {
+
+  if (propertyNotFound) {
     return (<div className={'no-property-found'}>
       404 Property not found !!
     </div>);
   }
-  
+
 
   if (params.id) {
     propertyDetailsDisplay = (
@@ -68,7 +84,15 @@ const PropertyDetail = () => {
           onSuccess={fetchDetails}
         ></PropertyAction>}
         <div className="title-single-box">
-          <h1 className="title-single">{propertyDetail.name}</h1>
+          <h1 className="title-single">
+            {propertyDetail.name}
+            &ensp;&ensp;
+            <ProtectedComponent
+              isPage={false}
+              requiredRole={OWNER}
+              component={<button onClick={handleUpdateButtonClick} className="btn btn-b">Update Details</button>}
+            />
+          </h1>
           {propertyDetail.address && (
             <span className="color-text-a">
               {propertyDetail.address.address1}{" "}
@@ -77,11 +101,10 @@ const PropertyDetail = () => {
             </span>
           )}
           <span
-            className={`offer-status ${
-              propertyDetail.propertyStatus
+            className={`offer-status ${propertyDetail.propertyStatus
                 ? propertyDetail.propertyStatus.toLowerCase()
                 : ""
-            }`}
+              }`}
           >
             {propertyDetail.propertyStatus}
           </span>

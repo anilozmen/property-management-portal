@@ -69,4 +69,10 @@ public class PropertyController {
 
         return new GenericActivityResponse(false, "Unknown operation");
     }
+    @PutMapping("/{id}")
+    public void updatePropertyById(@PathVariable("id") long propertyId, @RequestBody PropertyCreationDto propertyCreationDto) {
+        ApplicationUserDetail ownerDetail = userService.getLoggedInUser();
+
+        propertyService.updatePropertyDetailsById(ownerDetail, propertyId, propertyCreationDto);
+    }
 }

@@ -8,6 +8,7 @@ import edu.miu.propertymanagement.entity.dto.response.ListingPropertyDto;
 import edu.miu.propertymanagement.entity.dto.response.PropertyDto;
 import edu.miu.propertymanagement.exceptions.ErrorException;
 import edu.miu.propertymanagement.repository.OfferRepository;
+import edu.miu.propertymanagement.exceptions.ForbiddenException;
 import edu.miu.propertymanagement.exceptions.PropertyNotFoundException;
 import edu.miu.propertymanagement.repository.PropertyRepository;
 import edu.miu.propertymanagement.service.PropertyService;
@@ -239,5 +240,34 @@ public class PropertyServiceImpl implements PropertyService {
         }
     }
 
+    @Override
+    public void updatePropertyDetailsById(ApplicationUserDetail ownerDetail, long propertyId, PropertyCreationDto propertyCreationDto) {
+        Property property = getPropertyById(propertyId);
 
+        if(property == null)
+            throw new PropertyNotFoundException();
+        if(property.getOwner().getId() != ownerDetail.getId())
+            throw new ForbiddenException();
+
+        PropertyAttributes propertyAttributes = propertyCreationDto.getPropertyAttributes();
+        if (propertyAttributes != null) {
+            PropertyAttributes existingAttr = property.getPropertyAttributes();
+
+            if(existingAttr != null)
+                propertyAttributes.setId(existingAttr.getId());
+
+            property.setPropertyAttributes(propertyAttributes);
+        }
+
+        propertyCreationDto.getAddress().setId(property.getAddress().getId());
+
+        property.setName(propertyCreationDto.getName());
+        property.setDescription(propertyCreationDto.getDescription());
+        property.setPrice(propertyCreationDto.getPrice());
+        property.setAddress(propertyCreationDto.getAddress());
+        property.setListingType(propertyCreationDto.getListingType());
+        property.setPropertyType(propertyCreationDto.getPropertyType());
+
+        propertyRepository.save(property);
+    }
 }
