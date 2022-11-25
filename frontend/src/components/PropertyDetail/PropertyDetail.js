@@ -4,10 +4,13 @@ import Layout from '../Layout/Layout';
 import {moneyFormat} from '../../services/helper';
 import axios from "axios";
 import Messages from "../Messages/Messages";
-import {OWNER} from "../../constants/roles";
+import {CUSTOMER, OWNER} from "../../constants/roles";
 import {getUserType, getAccessToken} from '../../services/token';
 import PropertyAmenities from "../PropertyAmenities/PropertyAmenities";
+import ProtectedComponent from "../ProtectedComponent/ProtectedComponent";
+import Offer from "../Offer/Offer";
 import './PropertyDetail.css';
+import Tab from "../Tab/Tab";
 
 const PropertyDetail = () => {
 
@@ -54,8 +57,18 @@ const PropertyDetail = () => {
                                         <div className={'property-view-count'}>{propertyDetail.viewCount} views</div>
                                         </div>
                                         <div className='col-sm-4'>
-                                            {userLoggedIn() &&
-                                                <Messages isOwner={userType === OWNER} propertyId={params.id}/>}
+                                            <ProtectedComponent
+                                            isPage={false}
+                                            requiredRoles={[CUSTOMER, OWNER]}
+                                            component={
+                                                <Tab tabDetails={[
+                                                    {title: "Messages", content: <Messages isOwner={userType === OWNER} propertyId={params.id}/>},
+                                                    {title: "Offer", content: <Offer propertyId={params.id} />}
+                                                    
+                                                ]} />
+                                            }
+                                            />
+                                                
                                         </div>
                                     </div>
 

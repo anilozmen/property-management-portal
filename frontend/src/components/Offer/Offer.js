@@ -14,7 +14,7 @@ const Offer = ({ propertyId }) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(fetchOffersAsyncAction(propertyId));
+    dispatch(fetchOffersAsyncAction(propertyId, null, false));
   }, []);
 
   return (

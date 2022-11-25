@@ -24,7 +24,15 @@ const offer = createSlice({
 export const { setIsInProgress, setError, setData } = offer.actions;
 
 export const fetchOffersAsyncAction =
-  (propertyId, successCallback) => (dispatch) => {
+  (propertyId, successCallback, force = true) =>
+  (dispatch, getState) => {
+    const data = getState().offer.data;
+
+    if (!force && data.length > 0) {
+      dispatch(setData([...data]));
+      return;
+    }
+
     dispatch(setIsInProgress(true));
 
     axios
@@ -41,6 +49,5 @@ export const fetchOffersAsyncAction =
         dispatch(setIsInProgress(false));
       });
   };
-
 
 export default offer.reducer;
