@@ -1,5 +1,6 @@
 package edu.miu.propertymanagement.service.impl;
 
+import edu.miu.propertymanagement.service.NotificationService;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.stereotype.Service;
 
@@ -28,6 +29,7 @@ public class MessageServiceImpl implements MessageService {
 
     private final PropertyService propertyService;
 
+    private final NotificationService notificationService;
 
     @Override
     public List<MessageDto> getAllMessagesByUserId(long userId) {
@@ -54,6 +56,8 @@ public class MessageServiceImpl implements MessageService {
 
         Message message = mapMessageDtoToEntity(messageDto);
         messageRepository.save(message);
+
+        notificationService.sendNotificationForMessage(message);
     }
 
     @Override
@@ -61,6 +65,8 @@ public class MessageServiceImpl implements MessageService {
         Message message = mapMessageDtoToEntity(messageDto);
         message.setId(id);
         messageRepository.save(message);
+
+        notificationService.sendNotificationForMessage(message);
     }
 
     @Override
