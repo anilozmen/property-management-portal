@@ -8,10 +8,11 @@ import VerifyEmail from "../../components/VerifyEmail/VerifyEmail";
 import Properties from "../Properties/Properties";
 import PropertyDetail from "../../components/PropertyDetail/PropertyDetail";
 import ProtectedComponent from "../../components/ProtectedComponent/ProtectedComponent";
-import {ADMIN, OWNER} from "../../constants/roles";
+import {ADMIN, CUSTOMER, OWNER} from "../../constants/roles";
 import AddNewProperty from "../../components/AddNewProperty/AddNewProperty";
 import Admin from "../Admin/Admin";
 import HomeNavigator from "../../components/HomeNavigator/HomeNavigator";
+import Offers from "./Offers";
 
 
 const PageRoutes = (props) => {
@@ -33,6 +34,10 @@ const PageRoutes = (props) => {
             <Route
                 path="properties/new"
                 element={<ProtectedComponent requiredRole={OWNER} component={<AddNewProperty/>}/>}
+            />
+            <Route
+                path="offers"
+                element={<ProtectedComponent requiredRole={CUSTOMER} component={<Offers />}/>}
             />
 
             <Route

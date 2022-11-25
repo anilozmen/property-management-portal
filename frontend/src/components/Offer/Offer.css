@@ -5,7 +5,7 @@
 .offer-status {
     border-radius: 5px;
     padding: 3px 6px;
-    color: white;
+    color: white !important;
     font-style: italic;
 }
 
