@@ -54,6 +54,11 @@ const Header = () => {
                                 <NavLink end className='nav-link' to="/properties/saved">Saved Properties</NavLink>
                             </li>
                         )}
+                        {userRole === CUSTOMER && (
+                            <li className="nav-item">
+                                <NavLink end className='nav-link' to="/offers">My Offers</NavLink>
+                            </li>
+                        )}
 
                         {userRole === ADMIN && (
                             <li className="nav-item">

@@ -57,7 +57,7 @@ const User = () => {
                 </thead>
                 <tbody>
                     {usersState.map((item, index) => {
-                        return <tr>
+                        return <tr key={index}>
                             <th scope="row">{item.id}</th>
                             <td>{item.firstName}</td>
                             <td>{item.lastName}</td>
