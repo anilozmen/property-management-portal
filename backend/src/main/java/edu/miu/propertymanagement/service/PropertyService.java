@@ -10,21 +10,24 @@ import java.util.List;
 
 public interface PropertyService {
     List<ListingPropertyDto> findAll(PropertyFilterRequest propertyFilterRequest);
+
     List<ListingPropertyDto> findByOwnerId(long id, PropertyFilterRequest propertyFilterRequest);
+
     List<ListingPropertyDto> findListingProperties(PropertyFilterRequest propertyFilterRequest);
+
     void save(PropertyCreationDto propertyCreationDto);
-    
+
     Property getPropertyById(long id);
-    
+
     Long getOwnerByProperty(long propertyId);
 
     PropertyDto getPropertyDetailsById(long id);
 
     List<ListingPropertyDto> findRentedPropertiesBySize();
-    
+
     void increaseCounterByOne(long id);
 
     void convertOwnerPropertiesToAvailable(long userId);
-    
+
     void convertOwnerPropertiesToUnpublishedWhereNotCompleted(long userId);
 }
