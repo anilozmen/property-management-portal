@@ -156,12 +156,33 @@ INSERT INTO property (id, description, name, price, view_count, address_id, list
                       property_type, deleted)
 VALUES (18, 'PROPERTY 18 DESCRIPTION', 'PROPERTY 18 NAME', 20, 120, 6, 'RENT', 4, 'UNPUBLISHED', 'APARTMENT', false);
 
+INSERT INTO property (id, deleted, description, listing_type, name, price, property_status, property_type, view_count,
+                      address_id, owner_id)
+VALUES (19, false, 'PROPERTY 8 DESCRIPTION', 'RENT', 'PROPERTY 9 NAME NEW 9', 20.00, 'AVAILABLE', 'APARTMENT', 80, 6,
+        2);
+INSERT INTO property (id, deleted, description, listing_type, name, price, property_status, property_type, view_count,
+                      address_id, owner_id)
+VALUES (20, false, 'PROPERTY 67 DESCRIPTION', 'SALE', 'PROPERTY oopoe NAME NEW 9', 20.00, 'AVAILABLE', 'HOUSE', 80, 6,
+        2);
+INSERT INTO property (id, deleted, description, listing_type, name, price, property_status, property_type, view_count,
+                      address_id, owner_id)
+VALUES (21, false, 'PROPERTY 89iosd DESCRIPTION', 'RENT', 'PROPERTY kkff NAME NEW 9', 20.00, 'AVAILABLE', 'HOUSE', 80,
+        6, 2);
+INSERT INTO property (id, deleted, description, listing_type, name, price, property_status, property_type, view_count,
+                      address_id, owner_id)
+VALUES (22, false, 'PROPERTY 23423 DESCRIPTION', 'SALE', 'PROPERTY lleoeo NAME NEW 9', 20.00, 'AVAILABLE', 'APARTMENT',
+        80, 6, 2);
+INSERT INTO property (id, deleted, description, listing_type, name, price, property_status, property_type, view_count,
+                      address_id, owner_id)
+VALUES (23, false, 'PROPERTY 90909 DESCRIPTION', 'SALE', 'PROPERTY uiuuiew NAME NEW 9', 20.00, 'AVAILABLE', 'APARTMENT',
+        80, 6, 2);
+
 
 SELECT pg_catalog.setval('public.property_id_seq', 18, true);
 
 
 INSERT INTO offer (id, message, status, amount, customer_id, property_id, date)
-VALUES (1, 'I would like to buy this please', 'CREATED', 35, 3, 1, '202-10-13');
+VALUES (1, 'I would like to buy this please', 'APPROVED', 35, 3, 1, '202-10-13');
 INSERT INTO offer (id, message, status, amount, customer_id, property_id, date)
 VALUES (2, 'I would like to buy this please', 'CANCELLED', 35, 3, 1, '202-10-14');
 INSERT INTO offer (id, message, status, amount, customer_id, property_id, date)
