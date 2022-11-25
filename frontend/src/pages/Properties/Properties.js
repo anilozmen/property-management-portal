@@ -50,7 +50,7 @@ const Properties = () => {
             filterData.price_lt = maxPriceVal;
 
         if (filterData.price_gt && filterData.price_lt) {
-            if (filterData.price_lt > filterData.price_gt || filterData.price_lt == filterData.price_gt) {
+            if (filterData.price_gt > filterData.price_lt || filterData.price_lt == filterData.price_gt) {
                 delete filterData.price_lt;
                 delete filterData.price_gt;
             }
