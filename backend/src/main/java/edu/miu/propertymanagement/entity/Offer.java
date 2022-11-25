@@ -17,7 +17,7 @@ import java.util.Date;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity
+@Entity(name = "offer")
 @SQLDelete(sql = "UPDATE Offer SET deleted = true WHERE id=?")
 @FilterDef(name = "deletedOfferFilter", parameters = @ParamDef(name = "isDeleted", type = "boolean"))
 @Filter(name = "deletedOfferFilter", condition = "deleted = :isDeleted")

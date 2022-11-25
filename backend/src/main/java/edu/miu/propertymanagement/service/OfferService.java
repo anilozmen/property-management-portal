@@ -1,5 +1,6 @@
 package edu.miu.propertymanagement.service;
 
+import edu.miu.propertymanagement.entity.Offer;
 import edu.miu.propertymanagement.entity.dto.request.ChangeOfferStatusRequest;
 import edu.miu.propertymanagement.entity.dto.request.CreateOfferRequest;
 import edu.miu.propertymanagement.entity.dto.response.GenericActivityResponse;
@@ -19,4 +20,6 @@ public interface OfferService {
     List<OfferDto> findByPropertyId(long propertyId);
 
     List<OfferDto> findCustomerOffersByPropertyId(long propertyId);
+
+    Offer getCompletedOfferIfExists(long propertyId);
 }

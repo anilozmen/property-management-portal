@@ -165,6 +165,11 @@ public class PropertyServiceImpl implements PropertyService {
         return propertyRepository.getPropertyStatus(propertyId).equals(PropertyStatus.UNPUBLISHED.toString());
     }
 
+    @Override
+    public boolean isPropertyStatusComplete(long propertyId) {
+        return propertyRepository.getPropertyStatus(propertyId).equals(PropertyStatus.COMPLETED.toString());
+    }
+
     private ApplicationUserDetail getLoggedInUser() {
         try {
             return ((ApplicationUserDetail) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
