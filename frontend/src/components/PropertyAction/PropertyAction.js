@@ -1,13 +1,18 @@
 import axios from "axios";
+import { useDispatch } from "react-redux";
+import { fetchOffersAsyncAction } from "../../reducers/offer";
 
 const PropertyAction = ({ propertyId, onSuccess }) => {
+  const dispatch = useDispatch();
   const sendAction = (action) => {
     axios
       .put(`/properties/${propertyId}/action`, action)
       .then((response) => {
         if (response.status === 200) {
-          if (response.data.success) onSuccess();
-          else alert(response.data.message);
+          if (response.data.success) {
+            onSuccess();
+            dispatch(fetchOffersAsyncAction(propertyId, null, true));
+          } else alert(response.data.message);
         } else {
           alert("API ERROR");
         }
@@ -19,7 +24,7 @@ const PropertyAction = ({ propertyId, onSuccess }) => {
   };
 
   const complete = () => sendAction({ action: "COMPLETE" });
-  const cancel = () => sendAction({ action: "COMPLETE" });
+  const cancel = () => sendAction({ action: "CANCEL" });
 
   return (
     <div className="float-right">
@@ -29,7 +34,7 @@ const PropertyAction = ({ propertyId, onSuccess }) => {
       </button>
       <button className="btn btn-danger" onClick={cancel}>
         {" "}
-        Unsuccessful{" "}
+        Cancel Contingency{" "}
       </button>
     </div>
   );
