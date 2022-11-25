@@ -2,12 +2,15 @@ import Layout from "../../components/Layout/Layout";
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import Property from "../../components/Property/Property";
+import { useDispatch, useSelector } from "react-redux";
+import { CUSTOMER } from "../../constants/roles";
+import { fetchSavedPropertyIds } from "../../reducers/savedPropertyIdsForCustomer";
 
 
 const Properties = () => {
-
+    const userRole = useSelector(state => state.user.role);
     const [propertyState, setPropertyState] = useState([]);
-
+    const dispatch = useDispatch();
 
     const fetchProperties = () => {
         axios.get("/properties").then(res => {
@@ -17,10 +20,12 @@ const Properties = () => {
         })
     }
 
-
     useEffect(() => {
+        if (userRole === CUSTOMER)
+            dispatch(fetchSavedPropertyIds());
+
         fetchProperties();
-    }, []);
+    }, [userRole]);
 
 
     const properties = propertyState.map(property => {

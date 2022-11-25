@@ -1,9 +1,8 @@
-import { faXmark } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import IntroTitle from "../../components/IntroTitle/IntroTitle";
 import Property from "../../components/Property/Property";
+import { fetchSavedPropertyIds } from "../../reducers/savedPropertyIdsForCustomer";
 
 import "./SavedProperties.css";
 
@@ -11,6 +10,7 @@ const SavedProperties = props => {
   const [properties, setProperties] = useState([]);
 
   useEffect(() => {
+    fetchSavedPropertyIds();
     fetchProperties();
   }, []);
 
@@ -22,14 +22,12 @@ const SavedProperties = props => {
     })
   }
 
-  const removePropertyFromList = id => {
-    axios.delete(`/properties/saved/${id}`)
-      .then(response => {
-        fetchProperties();
-      })
-      .catch(error => {
-        alert("Failed to remove the property!");
-      });
+  const handleRemoveFromSavedList = index => {
+    const idx = +index;
+
+    if (!isNaN(idx) && idx >= 0 && idx < properties.length) {
+      setProperties(properties => [...properties.slice(0, idx), ...properties.slice(idx + 1)]);
+    }
   }
 
   return (
@@ -40,18 +38,14 @@ const SavedProperties = props => {
           <div className="row">
             {properties &&
               properties.length !== 0
-              ? properties.map(property => (
+              ? properties.map((property, idx) => (
                 <Property
                   id={property.id}
                   key={property.id}
                   name={property.name}
                   price={property.price}
                   propertyAttributes={property.propertyAttributesBasicDto}
-                  propertyHead={
-                    <div className="saved-property-remove" onClick={() => removePropertyFromList(property.id)} title="Remove from list">
-                      <FontAwesomeIcon icon={faXmark} size="2x" />
-                    </div>
-                  }
+                  onRemoveFromSavedList={() => handleRemoveFromSavedList(idx)}
                 />
               ))
               : <div className="col-md-4">No properties saved yet!</div>}

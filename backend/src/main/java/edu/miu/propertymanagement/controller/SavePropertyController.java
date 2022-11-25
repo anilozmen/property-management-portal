@@ -29,4 +29,9 @@ public class SavePropertyController {
     public void deleteFromSavedList(@PathVariable("propertyId") long propertyId) {
         savedPropertyService.deletePropertyFromSavedList(propertyId);
     }
+
+    @GetMapping("/properties/saved/property-ids")
+    public List<Long> getSavedPropertyIds() {
+        return savedPropertyService.findSavedPropertyIds();
+    }
 }
