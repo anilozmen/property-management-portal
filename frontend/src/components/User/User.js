@@ -21,11 +21,10 @@ const User = () => {
     }, [refreshFlagState]);
 
     const userEditHandler = (id, currentStatus) => {
-        axios.put(`/admin/users/${id}`, {
-            deleted: !currentStatus
-        }).then(response => {
+
+        axios.put(`/admin/users/${id}`, currentStatus).then(response => {
             setRefreshFlagState(!refreshFlagState);
-            
+
         }).catch(error => {
             console.log(error.message);
         })
@@ -73,8 +72,14 @@ const User = () => {
                                     key={item.id}
                                     id={item.id}>
                                     <i className="fa fa-eye"></i> Properties
-                                </Link>}
-                                <button className="btn btn-sm btn-outline-danger" onClick={() => { userEditHandler(item.id, item.deleted) }}>
+                                </Link>
+                                }
+                                {item.userType === 'OWNER' && !item.activated &&
+                                    <button className="btn btn-sm btn-outline-warning mr-2" onClick={() => { userEditHandler(item.id, {activated: !item.activated}) }}>
+                                        <i className={item.activated ? 'fa fa-check' : 'fa fa-close'}></i> {item.activated ? 'Deactivate' : 'Activate'}
+                                    </button>
+                                }
+                                <button className="btn btn-sm btn-outline-danger" onClick={() => { userEditHandler(item.id, {deleted: !item.deleted}) }}>
                                     <i className={item.deleted ? 'fa fa-check' : 'fa fa-close'}></i> {item.deleted ? 'Rollback' : 'Remove'}
                                 </button>
                             </td>

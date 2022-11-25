@@ -16,4 +16,5 @@ public class UserDto {
     private String phoneNumber;
     private boolean isEmailVerified;
     private boolean deleted;
+    private boolean isActivated;
 }
