@@ -71,6 +71,8 @@ const Properties = ({ fetched_properties, noProductMessage: noProductsMessage = 
                 key={property.id}
                 name={property.name}
                 price={property.price}
+                listingType ={property.listingType}
+                propertyStatus={property.propertyStatus}
             />
 
         )
