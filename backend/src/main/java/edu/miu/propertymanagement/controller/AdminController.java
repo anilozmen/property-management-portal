@@ -1,5 +1,6 @@
 package edu.miu.propertymanagement.controller;
 
+import edu.miu.propertymanagement.entity.dto.request.PropertyFilterRequest;
 import edu.miu.propertymanagement.entity.dto.request.UserRequestDto;
 import edu.miu.propertymanagement.entity.dto.response.ListingPropertyDto;
 import edu.miu.propertymanagement.entity.dto.response.UserDetailDto;
@@ -56,5 +57,11 @@ public class AdminController {
     public void updateUserById(@Valid @RequestBody UserRequestDto userDto, @PathVariable long id) {
         userService.updateUserById(userDto, id);
     }
-    
+
+
+    @GetMapping("/users/{id}/properties")
+    @ResponseStatus(HttpStatus.OK)
+    public List<ListingPropertyDto> getUserPropertiesById(@PathVariable long id) {
+        return propertyService.findByOwnerId(id, new PropertyFilterRequest());
+    }
 }

@@ -1,11 +1,10 @@
 package edu.miu.propertymanagement.entity;
 
-import org.hibernate.annotations.ColumnDefault;
+import lombok.Data;
 
-import lombok.*;
-
-import javax.persistence.*;
-
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
+import javax.persistence.OneToMany;
 import java.util.List;
 
 @Data
@@ -15,7 +14,4 @@ public class Owner extends User {
 
     @OneToMany(mappedBy = "owner")
     private List<Property> properties;
-
-    @ColumnDefault(value = "false")
-    private boolean isActivated;
 }

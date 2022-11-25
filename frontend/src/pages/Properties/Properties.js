@@ -28,6 +28,8 @@ const Properties = ({ fetched_properties, noProductMessage: noProductsMessage = 
 
         if (!fetched_properties) {
             fetchProperties();
+        } else {
+            setPropertyState(fetched_properties);
         }
     }, [userRole]);
 
@@ -87,49 +89,52 @@ const Properties = ({ fetched_properties, noProductMessage: noProductsMessage = 
             </div>
         </section>
 
-        <section className="container m-auto">
-            <form onSubmit={filterSubmit} ref={filterRef}>
-                <div className="form-row p-2 justify-content-center">
-                    <div className="col-2 mb-2">
-                        <select className="form-control" name="listingType">
-                            <option value="">Listing Type</option>
-                            <option value="SALE">SALE</option>
-                            <option value="RENT">RENT</option>
-                        </select>
+
+        {(!fetched_properties) &&
+            <section className="container m-auto">
+                <form onSubmit={filterSubmit} ref={filterRef}>
+                    <div className="form-row p-2 justify-content-center">
+                        <div className="col-2 mb-2">
+                            <select className="form-control" name="listingType">
+                                <option value="">Listing Type</option>
+                                <option value="SALE">SALE</option>
+                                <option value="RENT">RENT</option>
+                            </select>
+                        </div>
+                        <div className="col-2 mb-2">
+                            <select className="form-control" name="propertyType">
+                                <option value="">Property Type</option>
+                                <option value="HOUSE">HOUSE</option>
+                                <option value="APARTMENT">APARTMENT</option>
+                                <option value="CONDO">CONDO</option>
+                            </select>
+                        </div>
+                        <div className="col-2">
+                            <input type="text" name="minPrice" className="form-control" id="minPrice"
+                                placeholder="Min Price" />
+                        </div>
+                        <div className="col-2">
+                            <input type="text" name="maxPrice" className="form-control" id="maxPrice"
+                                placeholder="Max Price" />
+                        </div>
+                        <div className="col-1">
+                            <button type="submit" className="btn btn-sm btn-warning p7">
+                                <i className="fa fa-solid fa-filter" aria-hidden="true"></i>
+                            </button>
+                        </div>
                     </div>
-                    <div className="col-2 mb-2">
-                        <select className="form-control" name="propertyType">
-                            <option value="">Property Type</option>
-                            <option value="HOUSE">HOUSE</option>
-                            <option value="APARTMENT">APARTMENT</option>
-                            <option value="CONDO">CONDO</option>
-                        </select>
-                    </div>
-                    <div className="col-2">
-                        <input type="text" name="minPrice" className="form-control" id="minPrice"
-                            placeholder="Min Price" />
-                    </div>
-                    <div className="col-2">
-                        <input type="text" name="maxPrice" className="form-control" id="maxPrice"
-                            placeholder="Max Price" />
-                    </div>
-                    <div className="col-1">
-                        <button type="submit" className="btn btn-sm btn-warning p7">
-                            <i className="fa fa-solid fa-filter" aria-hidden="true"></i>
-                        </button>
-                    </div>
-                </div>
-            </form>
-        </section>
+                </form>
+            </section>}
 
         <section className="property-grid grid">
             <div className="container">
                 <div className="row">
-                    {properties && properties.length !== 0 ? properties : <div>No properties added yet !!!</div>}
-                </div >
-            </div >
-        </section >
-    </div >)
+                    {properties && properties.length !== 0 ? properties : <div>{noProductsMessage}</div>}
+
+                </div>
+            </div>
+        </section>
+    </div>)
 }
 
 

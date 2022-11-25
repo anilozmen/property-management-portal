@@ -11,4 +11,5 @@ import java.util.List;
 public interface UserRepository extends CrudRepository<User, Long> {
     User findByEmail(String email);
     List<User> getUsersByUserType(String userType, Pageable pageable);
+    List<User> findAllByOrderByIdDesc();
 }

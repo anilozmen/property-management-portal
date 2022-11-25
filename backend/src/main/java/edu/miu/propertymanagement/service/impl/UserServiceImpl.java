@@ -61,7 +61,7 @@ class UserServiceImpl implements UserService {
 
     @Override
     public List<UserDto> getUsers() {
-        List<User> users = (List<User>) userRepository.findAll();
+        List<User> users = userRepository.findAllByOrderByIdDesc();
         return listMapper.map(users, UserDto.class);
     }
 
@@ -72,9 +72,10 @@ class UserServiceImpl implements UserService {
 
     @Override
     public void updateUserById(UserRequestDto userRequestDto, long id) {
-        boolean isOwner = getLoggedInUser().isOwner();
+        ApplicationUserDetail userDetail = getLoggedInUser();
+        boolean isOwnerOrAdmin = userDetail.isOwner() || userDetail.isAdmin();
 
-        if (isOwner) {
+        if (isOwnerOrAdmin) {
             updateOwner(userRequestDto, id);
         } else {
             updateUser(userRequestDto, id);
