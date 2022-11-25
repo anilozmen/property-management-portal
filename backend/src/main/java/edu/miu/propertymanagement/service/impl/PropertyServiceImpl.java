@@ -141,6 +141,11 @@ public class PropertyServiceImpl implements PropertyService {
         propertyRepository.convertOwnerPropertiesToAvailable(userId);
     }
 
+    @Override
+    public void convertOwnerPropertiesToUnpublishedWhereNotCompleted(long userId) {
+        propertyRepository.convertOwnerPropertiesToUnpublishedWhereNotCompleted(userId);
+    }
+
     private ApplicationUserDetail getLoggedInUser() {
         try {
             return ((ApplicationUserDetail) SecurityContextHolder.getContext().getAuthentication().getPrincipal());

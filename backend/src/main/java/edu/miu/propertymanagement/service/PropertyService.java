@@ -25,4 +25,6 @@ public interface PropertyService {
     void increaseCounterByOne(long id);
 
     void convertOwnerPropertiesToAvailable(long userId);
+    
+    void convertOwnerPropertiesToUnpublishedWhereNotCompleted(long userId);
 }

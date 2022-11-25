@@ -38,4 +38,8 @@ public interface PropertyRepository extends CrudRepository<Property, Long> {
     @Query("update property p set p.propertyStatus ='AVAILABLE' where p.owner.id = ?1 and p.propertyStatus='UNPUBLISHED'")
     void convertOwnerPropertiesToAvailable(long ownerId);
 
+    @Transactional
+    @Modifying
+    @Query("update property p set p.propertyStatus='UNPUBLISHED' where p.owner.id= ?1 and p.propertyStatus <> 'COMPLETED'")
+    void convertOwnerPropertiesToUnpublishedWhereNotCompleted(long userId);
 }
