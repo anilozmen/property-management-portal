@@ -17,7 +17,7 @@ const Property = (props) => {
 
     const handleAddToSavedList = id => {
         if (isSaved) {
-            dispatch(deleteFromSavedPropertyIdsAsync(id, () => {
+            return dispatch(deleteFromSavedPropertyIdsAsync(id, () => {
                 if (typeof props.onRemoveFromSavedList === 'function') {
                     props.onRemoveFromSavedList();
                 }
