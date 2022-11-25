@@ -52,7 +52,7 @@ public class SecurityConfig {
                 .antMatchers(HttpMethod.GET, "/api/v1/properties/*/offers").hasAnyAuthority("OWNER", "CUSTOMER")
                 .antMatchers(HttpMethod.PUT, "/api/v1/properties/*/offers/*").hasAnyAuthority("OWNER", "CUSTOMER")
                 .antMatchers("/api/v1/offers/").hasAnyAuthority("CUSTOMER", "ADMIN")
-                .antMatchers("/api/v1/properties/saved").hasAuthority("CUSTOMER")
+                .antMatchers("/api/v1/properties/saved/**").hasAuthority("CUSTOMER")
                 .antMatchers(HttpMethod.POST, "/api/v1/messages").hasAuthority("CUSTOMER")
                 .antMatchers(HttpMethod.PUT, "/api/v1/messages/**").hasAuthority("OWNER")
                 .anyRequest()

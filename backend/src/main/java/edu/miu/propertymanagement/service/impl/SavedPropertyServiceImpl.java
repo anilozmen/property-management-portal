@@ -51,4 +51,11 @@ public class SavedPropertyServiceImpl implements SavedPropertyService {
 
         savedPropertyRepo.deleteSavedPropertyByCustomerIdAndPropertyId(customerId, propertyId);
     }
+
+    @Override
+    public List<Long> findSavedPropertyIds() {
+        long customerId = userService.getLoggedInUser().getId();
+
+        return savedPropertyRepo.findSavedPropertiesByCustomerId(customerId);
+    }
 }
