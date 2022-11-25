@@ -1,13 +1,11 @@
 package edu.miu.propertymanagement.service.impl;
 
 import edu.miu.propertymanagement.service.NotificationService;
-import org.springframework.beans.factory.annotation.Required;
+
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import edu.miu.propertymanagement.entity.Message;
 import edu.miu.propertymanagement.entity.dto.request.CustomerMessageRequest;
@@ -95,7 +93,7 @@ public class MessageServiceImpl implements MessageService {
         Message message = new Message();
         message.setReply(messageDto.getReply());
         message.setMessage(messageDto.getMessage());
-        message.setProperty(propertyService.getPropertyById(messageDto.getPropertyId()));
+        message.setProperty(propertyService.getPropertyByIdAndIncrementView(messageDto.getPropertyId(), false));
         message.setReceiver(userService.findById(messageDto.getReceiverId()));
         message.setSender(userService.findById(messageDto.getSenderId()));
         message.setCreatedDate(messageDto.getCreatedDate());

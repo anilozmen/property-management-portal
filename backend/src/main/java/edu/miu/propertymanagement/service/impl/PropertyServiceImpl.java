@@ -75,7 +75,7 @@ public class PropertyServiceImpl implements PropertyService {
     }
 
     @Override
-    public Property getPropertyById(long id) {
+    public Property getPropertyByIdAndIncrementView(long id, boolean incrementCounter) {
         ApplicationUserDetail userDetail = getLoggedInUser();
 
         boolean isViewer = userDetail == null || userDetail.isCustomer();
@@ -87,11 +87,14 @@ public class PropertyServiceImpl implements PropertyService {
                 return null;
             }
 
-            increaseCounterByOne(id);
+            if(incrementCounter) {
+                increaseCounterByOne(id);
+            }
         }
 
         return propertyRepository.findById(id).orElse(null);
     }
+    
 
     @Override
     public Long getOwnerByProperty(long propertyId) {
@@ -100,7 +103,7 @@ public class PropertyServiceImpl implements PropertyService {
 
     @Override
     public PropertyDto getPropertyDetailsById(long id) {
-        Property property = getPropertyById(id);
+        Property property = getPropertyByIdAndIncrementView(id, true);
 
         if (property == null) {
             throw new PropertyNotFoundException();
@@ -168,6 +171,11 @@ public class PropertyServiceImpl implements PropertyService {
     @Override
     public boolean isPropertyStatusComplete(long propertyId) {
         return propertyRepository.getPropertyStatus(propertyId).equals(PropertyStatus.COMPLETED.toString());
+    }
+
+    @Override
+    public Property findById(long propertyId) {
+        return propertyRepository.findById(propertyId).orElse(null);
     }
 
     private ApplicationUserDetail getLoggedInUser() {
