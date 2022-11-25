@@ -11,9 +11,12 @@ import ProtectedComponent from "../ProtectedComponent/ProtectedComponent";
 import Offer from "../Offer/Offer";
 import "./PropertyDetail.css";
 import Tab from "../Tab/Tab";
+import { useDispatch } from "react-redux";
+import { setData } from "../../reducers/offer";
 
 const PropertyDetail = () => {
   const params = useParams();
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [propertyDetail, setPropertyDetail] = useState({});
   const userType = useMemo(() => getUserType(), [getUserType()]);
@@ -25,6 +28,12 @@ const PropertyDetail = () => {
   );
 
   useEffect(() => {
+    fetchDetails();
+
+    return () => dispatch(setData([]));
+  }, [params.id]);
+
+  const fetchDetails = () => {
     if (params.id) {
       axios
         .get("properties/" + params.id)
@@ -33,7 +42,7 @@ const PropertyDetail = () => {
         })
         .catch((err) => console.log(err.message));
     }
-  }, [params.id]);
+  };
 
   let propertyDetailsDisplay = null;
 
@@ -91,8 +100,11 @@ const PropertyDetail = () => {
                                 title: "Offer",
                                 content: (
                                   <Offer
-                                    propertyStatus={propertyDetail.propertyStatus}
+                                    propertyStatus={
+                                      propertyDetail.propertyStatus
+                                    }
                                     propertyId={params.id}
+                                    fetchDetails={fetchDetails}
                                   />
                                 ),
                               },

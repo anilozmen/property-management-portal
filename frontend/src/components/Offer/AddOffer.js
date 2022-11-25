@@ -6,7 +6,7 @@ import Form from "../Form/Form";
 import FormFieldWrapper from "../Form/FormFieldWrapper";
 import TransitionsModal from "../Modal/Modal";
 
-export const AddOffer = ({ propertyId }) => {
+export const AddOffer = ({ propertyId, onAdded }) => {
   const formRef = useRef();
   const [showModal, setShowModal] = useState(false);
   const handleOpen = () => setShowModal(true);
@@ -31,10 +31,11 @@ export const AddOffer = ({ propertyId }) => {
         } else if (!response.data.success) {
           alert(response.data.message);
         } else {
-          dispatch(fetchOffersAsyncAction(propertyId));
+          dispatch(fetchOffersAsyncAction(propertyId, onAdded));
         }
       })
-      .catch(() => alert("Could not send offer"));
+      .catch(() => alert("Could not send offer"))
+      .finally(() => dispatch(setIsInProgress(false)));
   };
 
   return (

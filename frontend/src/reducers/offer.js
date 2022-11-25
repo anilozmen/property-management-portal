@@ -44,8 +44,8 @@ export const fetchOffersAsyncAction =
     axios
       .get(`/properties/${propertyId}/offers`)
       .then((response) => {
-        dispatch(setData(response.data));
         if (typeof successCallback === "function") successCallback();
+        dispatch(setData(response.data));
       })
       .catch((error) => {
         console.log(error);

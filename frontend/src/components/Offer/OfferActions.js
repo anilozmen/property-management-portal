@@ -9,6 +9,7 @@ export const OfferActions = ({
   offer: { id, status },
   propertyId,
   propertyStatus,
+  onActionCompleted
 }) => {
   const dispatch = useDispatch();
   const { isInProgress } = useSelector((s) => s.offer);
@@ -21,7 +22,7 @@ export const OfferActions = ({
       })
       .then((response) => {
         if (response.status === 200 && response.data.success) {
-          dispatch(fetchOffersAsyncAction(propertyId));
+          dispatch(fetchOffersAsyncAction(propertyId, onActionCompleted));
         }
       })
       .finally(() => dispatch(setIsInProgress(false)));

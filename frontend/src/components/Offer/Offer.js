@@ -8,9 +8,8 @@ import { AddOffer } from "./AddOffer";
 import "./Offer.css";
 import { OfferEntry } from "./OfferEntry";
 
-const Offer = ({ propertyId, propertyStatus }) => {
+const Offer = ({ propertyId, propertyStatus, fetchDetails }) => {
   const { data: offers } = useSelector((state) => state.offer);
-
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -18,7 +17,6 @@ const Offer = ({ propertyId, propertyStatus }) => {
   }, []);
 
   const showAddButton = () => {
-    console.log(propertyStatus);
     return (
       ["AVAILABLE", "PENDING"].includes(propertyStatus) &&
       offers.filter((o) => ["CREATED"].includes(o.status)).length === 0
@@ -31,11 +29,11 @@ const Offer = ({ propertyId, propertyStatus }) => {
         <ProtectedComponent
           isPage={false}
           requiredRole={CUSTOMER}
-          component={<AddOffer propertyId={propertyId} />}
+          component={<AddOffer propertyId={propertyId} onAdded={fetchDetails}/>}
         />
       )}
       {offers.map((o, i) => (
-        <OfferEntry key={i} offer={o} propertyId={propertyId} />
+        <OfferEntry key={i} offer={o} propertyId={propertyId} onActionCompleted={fetchDetails}/>
       ))}
     </React.Fragment>
   );
