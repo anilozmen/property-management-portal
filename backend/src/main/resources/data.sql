@@ -160,16 +160,16 @@ VALUES (18, 'PROPERTY 18 DESCRIPTION', 'PROPERTY 18 NAME', 20, 120, 6, 'RENT', 4
 SELECT pg_catalog.setval('public.property_id_seq', 18, true);
 
 
-INSERT INTO offer (id, message, status, amount, customer_id, property_id)
-VALUES (1, 'I would like to buy this please', 'CREATED', 35, 3, 1);
-INSERT INTO offer (id, message, status, amount, customer_id, property_id)
-VALUES (2, 'I would like to buy this please', 'CANCELLED', 35, 3, 1);
-INSERT INTO offer (id, message, status, amount, customer_id, property_id)
-VALUES (3, 'I would like to buy this please', 'REJECTED', 35, 3, 1);
-INSERT INTO offer (id, message, status, amount, customer_id, property_id)
-VALUES (4, 'I would like to buy this please', 'APPROVED', 35, 3, 3);
-INSERT INTO offer (id, message, status, amount, customer_id, property_id)
-VALUES (5, 'CUSTOMER, I am. Buy this, I want to.', 'CREATED', 35, 5, 3);
+INSERT INTO offer (id, message, status, amount, customer_id, property_id, date)
+VALUES (1, 'I would like to buy this please', 'CREATED', 35, 3, 1, '202-10-13');
+INSERT INTO offer (id, message, status, amount, customer_id, property_id, date)
+VALUES (2, 'I would like to buy this please', 'CANCELLED', 35, 3, 1, '202-10-14');
+INSERT INTO offer (id, message, status, amount, customer_id, property_id, date)
+VALUES (3, 'I would like to buy this please', 'REJECTED', 35, 3, 1, '202-10-21');
+INSERT INTO offer (id, message, status, amount, customer_id, property_id, date)
+VALUES (4, 'I would like to buy this please', 'APPROVED', 35, 3, 3, '202-11-02');
+INSERT INTO offer (id, message, status, amount, customer_id, property_id, date)
+VALUES (5, 'CUSTOMER, I am. Buy this, I want to.', 'CREATED', 35, 5, 3, '202-07-01');
 
 SELECT pg_catalog.setval('public.offer_id_seq', 5, true);
 

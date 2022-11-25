@@ -9,19 +9,24 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.util.Date;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class OfferDto {
     private int id;
+    private int propertyId;
 
     private ListingType propertyListingType;
     private PropertyType propertyType;
+    private String propertyName;
     private PropertyStatus propertyStatus;
     private String propertyImage;
     private BigDecimal propertyPrice;
     private BigDecimal amount;
+    private Date date;
     private String message;
     private OfferStatus status;
 }
