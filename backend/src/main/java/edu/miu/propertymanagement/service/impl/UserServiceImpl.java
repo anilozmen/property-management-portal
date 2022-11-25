@@ -52,7 +52,7 @@ class UserServiceImpl implements UserService {
 
     @Override
     public List<UserDto> getUsers() {
-        List<User> users = (List<User>) userRepository.findAll();
+        List<User> users = userRepository.findAllByOrderByIdDesc();
         return listMapper.map(users, UserDto.class);
     }
 
