@@ -30,4 +30,6 @@ public interface PropertyService {
     void convertOwnerPropertiesToAvailable(long userId);
 
     void convertOwnerPropertiesToUnpublishedWhereNotCompleted(long userId);
+    
+    boolean isPropertyUnpublished(long propertyId);
 }

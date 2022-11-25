@@ -78,6 +78,9 @@ class UserServiceImpl implements UserService {
                 if(userRequestDto.getDeleted()) {
                     propertyService.convertOwnerPropertiesToUnpublishedWhereNotCompleted(id);
                 }
+                else {
+                    propertyService.convertOwnerPropertiesToAvailable(id);
+                }
             }
 
             if (userRequestDto.getActivated() != null) {

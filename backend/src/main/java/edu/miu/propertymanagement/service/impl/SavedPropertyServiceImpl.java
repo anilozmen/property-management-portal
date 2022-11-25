@@ -4,6 +4,7 @@ import edu.miu.propertymanagement.entity.Customer;
 import edu.miu.propertymanagement.entity.SavedProperty;
 import edu.miu.propertymanagement.entity.dto.response.PropertyDto;
 import edu.miu.propertymanagement.repository.SavedPropertyRepo;
+import edu.miu.propertymanagement.service.PropertyService;
 import edu.miu.propertymanagement.service.SavedPropertyService;
 import edu.miu.propertymanagement.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +22,8 @@ public class SavedPropertyServiceImpl implements SavedPropertyService {
     private final UserService userService;
     private final SavedPropertyRepo savedPropertyRepo;
     private final ModelMapper modelMapper;
+    
+    private final PropertyService propertyService;
 
     @Override
     public void saveProperty(long propertyId) {
@@ -41,6 +44,9 @@ public class SavedPropertyServiceImpl implements SavedPropertyService {
 
         return savedPropertyRepo.findSavedPropertiesByCustomer(customer)
                 .stream()
+                .filter((property) -> {
+                    return !propertyService.isPropertyUnpublished(property.getPropertyId());
+                })
                 .map(savedProperty -> modelMapper.map(savedProperty.getProperty(), PropertyDto.class))
                 .collect(Collectors.toList());
     }
