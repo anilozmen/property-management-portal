@@ -19,7 +19,7 @@ public interface PropertyService {
 
     void save(PropertyCreationDto propertyCreationDto);
 
-    Property getPropertyById(long id);
+    Property getPropertyByIdAndIncrementView(long id, boolean incrementView);
 
     Long getOwnerByProperty(long propertyId);
 
@@ -39,4 +39,8 @@ public interface PropertyService {
     void updatePropertyDetailsById(ApplicationUserDetail ownerDetail, long propertyId, PropertyCreationDto propertyCreationDto);
     
     boolean isPropertyUnpublished(long propertyId);
+    
+    boolean isPropertyStatusComplete(long propertyId);
+    
+    Property findById(long propertyId);
 }

@@ -57,6 +57,11 @@ public class OfferServiceImpl implements OfferService {
         return listMapper.map(offerRepository.findByCustomerIdAndPropertyId(user.getId(), propertyId), OfferDto.class);
     }
 
+    @Override
+    public Offer getCompletedOfferIfExists(long propertyId) {
+        return offerRepository.getCompletedOfferIfExists(propertyId);
+    }
+
     private void verifyLoggedInOwnerAccess(Property property) {
         long userId = userService.getLoggedInUser().getId();
 

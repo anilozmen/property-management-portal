@@ -23,16 +23,18 @@ VALUES (7, 'SOMEWHERE IN ZZZ', null, 'Sarasota', 'Florida', '33133', false);
 SELECT pg_catalog.setval('public.address_id_seq', 7, true);
 
 -- USERS
-INSERT INTO users (id, first_name, last_name, email, password, address_id, phone_number, user_type, deleted, is_email_verified)
+INSERT INTO users (id, first_name, last_name, email, password, address_id, phone_number, user_type, deleted,
+                   is_email_verified)
 VALUES (1, 'John', 'Doe', 'john@miu.edu', '$2a$12$IKEQb00u5QpZMx4v5zMweu.3wrq0pS7XLCHO4yHZ.BW/yvWu1feo2', 1,
         '+1 641 111 11 11', 'ADMIN', false, true); --123
 INSERT INTO users (id, is_email_verified, first_name, last_name, email, password, address_id, phone_number, user_type,
                    deleted)
 VALUES (2, true, 'Jessica', 'Doe', 'jessica@miu.edu', '$2a$12$IKEQb00u5QpZMx4v5zMweu.3wrq0pS7XLCHO4yHZ.BW/yvWu1feo2', 2,
         '+1 641 222 22 22', 'OWNER', false); --123
-INSERT INTO users (id, first_name, last_name, email, password, address_id, phone_number, user_type, deleted)
+INSERT INTO users (id, first_name, last_name, email, password, address_id, phone_number, user_type, deleted,
+                   is_email_verified)
 VALUES (3, 'Jerry', 'Doe', 'jerry@miu.edu', '$2a$12$IKEQb00u5QpZMx4v5zMweu.3wrq0pS7XLCHO4yHZ.BW/yvWu1feo2', 3,
-        '+1 641 333 33 33', 'CUSTOMER', true); --123
+        '+1 641 333 33 33', 'CUSTOMER', false, true); --123
 
 INSERT INTO users (id, first_name, last_name, email, password, address_id, phone_number, user_type, deleted,
                    is_email_verified)
@@ -53,7 +55,6 @@ INSERT INTO users (id, first_name, last_name, email, password, address_id, phone
                    is_email_verified)
 VALUES (7, 'Test', 'Test', 'test7@miu.edu', '$2a$12$IKEQb00u5QpZMx4v5zMweu.3wrq0pS7XLCHO4yHZ.BW/yvWu1feo2', 3,
         '+1 641 333 33 33', 'CUSTOMER', false, true); --123
-
 
 
 INSERT INTO users (id, first_name, last_name, email, password, address_id, phone_number, user_type, deleted,
@@ -161,7 +162,7 @@ SELECT pg_catalog.setval('public.property_id_seq', 18, true);
 
 
 INSERT INTO offer (id, message, status, amount, customer_id, property_id, date)
-VALUES (1, 'I would like to buy this please', 'CREATED', 35, 3, 1, '202-10-13');
+VALUES (1, 'I would like to buy this please', 'APPROVED', 35, 3, 1, '202-10-13');
 INSERT INTO offer (id, message, status, amount, customer_id, property_id, date)
 VALUES (2, 'I would like to buy this please', 'CANCELLED', 35, 3, 1, '202-10-14');
 INSERT INTO offer (id, message, status, amount, customer_id, property_id, date)
@@ -175,13 +176,13 @@ SELECT pg_catalog.setval('public.offer_id_seq', 5, true);
 
 
 -- MESSAGES
-INSERT INTO messages (id, message,reply, property_id, receiver_id, sender_id)
-VALUES (1, 'message from customer anil to madhav property 1','message back to anil from madhav property 1', 1, 4, 5);
+INSERT INTO messages (id, message, reply, property_id, receiver_id, sender_id)
+VALUES (1, 'message from customer anil to madhav property 1', 'message back to anil from madhav property 1', 1, 4, 5);
 INSERT INTO messages (id, message, property_id, receiver_id, sender_id)
 VALUES (2, 'message to owner madhav from anil customer property 1', 1, 4, 5);
 
-INSERT INTO messages (id, message,reply, property_id, receiver_id, sender_id)
-VALUES (3, 'message from customer anil to madhav property 2','message back to anil from madhav property 2', 2, 4, 5);
+INSERT INTO messages (id, message, reply, property_id, receiver_id, sender_id)
+VALUES (3, 'message from customer anil to madhav property 2', 'message back to anil from madhav property 2', 2, 4, 5);
 INSERT INTO messages (id, message, property_id, receiver_id, sender_id)
 VALUES (4, 'message to owner madhav from anil customer property 2', 2, 4, 5);
 
