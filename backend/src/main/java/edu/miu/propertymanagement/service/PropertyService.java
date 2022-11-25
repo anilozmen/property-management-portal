@@ -39,4 +39,6 @@ public interface PropertyService {
     void updatePropertyDetailsById(ApplicationUserDetail ownerDetail, long propertyId, PropertyCreationDto propertyCreationDto);
     
     boolean isPropertyUnpublished(long propertyId);
+
+    GenericActivityResponse unpublish(long id);
 }
