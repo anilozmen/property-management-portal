@@ -39,8 +39,10 @@ public interface PropertyService {
     void updatePropertyDetailsById(ApplicationUserDetail ownerDetail, long propertyId, PropertyCreationDto propertyCreationDto);
     
     boolean isPropertyUnpublished(long propertyId);
-    
+
     boolean isPropertyStatusComplete(long propertyId);
     
     Property findById(long propertyId);
+
+    GenericActivityResponse unpublish(long id);
 }

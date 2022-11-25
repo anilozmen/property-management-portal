@@ -64,8 +64,10 @@ public class PropertyController {
     public GenericActivityResponse updateStatus(@PathVariable long id, @RequestBody ChangePropertyStatusRequest status) {
         if (status.getAction() == PropertyAction.COMPLETE)
             return propertyService.complete(id);
-        else if (status.getAction() == PropertyAction.CANCEL)
+        else if (status.getAction() == PropertyAction.CANCEL_CONTINGENCY)
             return propertyService.cancelContingency(id);
+        else if (status.getAction() == PropertyAction.UNPUBLISH)
+            return propertyService.unpublish(id);
 
         return new GenericActivityResponse(false, "Unknown operation");
     }

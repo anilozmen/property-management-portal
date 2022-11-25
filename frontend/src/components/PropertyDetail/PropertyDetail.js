@@ -79,10 +79,11 @@ const PropertyDetail = () => {
   if (params.id) {
     propertyDetailsDisplay = (
       <Layout>
-        {propertyDetail.propertyStatus==="CONTINGENT" && <PropertyAction
+        <PropertyAction
           propertyId={params.id}
+          propertyStatus={propertyDetail.propertyStatus}
           onSuccess={fetchDetails}
-        ></PropertyAction>}
+        />
         <div className="title-single-box">
           <h1 className="title-single">
             {propertyDetail.name}
