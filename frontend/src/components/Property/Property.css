@@ -1,4 +1,6 @@
 .completed-transaction {
-    color: blue;
+    color: green;
+    background-color: whitesmoke;
+    padding: 4px;
     font-weight: bold;
 }
