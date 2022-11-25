@@ -1,4 +1,4 @@
-import { Route, Routes, Navigate } from "react-router";
+import { Route, Routes, Navigate, Outlet } from "react-router-dom";
 import Login from "../../components/Login/Login";
 import ResetPassword from '../../components/ResetPassword/ResetPassword';
 import ChangePassword from '../../components/ChangePassword/ChangePassword';
@@ -8,7 +8,7 @@ import VerifyEmail from "../../components/VerifyEmail/VerifyEmail";
 import Properties from "../Properties/Properties";
 import PropertyDetail from "../../components/PropertyDetail/PropertyDetail";
 import ProtectedComponent from "../../components/ProtectedComponent/ProtectedComponent";
-import {ADMIN, CUSTOMER, OWNER} from "../../constants/roles";
+import { ADMIN, CUSTOMER, OWNER } from "../../constants/roles";
 import AddNewProperty from "../../components/AddNewProperty/AddNewProperty";
 import SavedProperties from "../SavedProperties/SavedProperties";
 import Admin from "../Admin/Admin";
@@ -16,6 +16,8 @@ import HomeNavigator from "../../components/HomeNavigator/HomeNavigator";
 import Offers from "./Offers";
 import User from "../../components/User/User";
 import OwnerProperties from "../../components/OwnerProperties/OwnerProperties";
+import UpdateProperty from "../../components/UpdateProperty/UpdateProperty";
+import React from "react";
 
 
 const PageRoutes = (props) => {
@@ -29,7 +31,17 @@ const PageRoutes = (props) => {
             <Route path='change-password' element={<ChangePassword />} />
             <Route path='verify-email' element={<VerifyEmail />} />
             <Route path='properties' element={<Properties />} />
-            <Route path="properties/:id" element={<PropertyDetail />} />
+            <Route path="properties/:id" element={
+                <React.Fragment>
+                    <Outlet />
+                </React.Fragment>
+            }>
+                <Route path="" element={<PropertyDetail />} />
+                <Route
+                    path="update"
+                    element={<ProtectedComponent requiredRole={OWNER} component={<UpdateProperty />} />}
+                />
+            </Route>
             <Route
                 path="properties/new"
                 element={<ProtectedComponent requiredRole={OWNER} component={<AddNewProperty />} />}
@@ -44,7 +56,7 @@ const PageRoutes = (props) => {
             />
             <Route
                 path="offers"
-                element={<ProtectedComponent requiredRole={CUSTOMER} component={<Offers />}/>}
+                element={<ProtectedComponent requiredRole={CUSTOMER} component={<Offers />} />}
             />
 
             <Route
