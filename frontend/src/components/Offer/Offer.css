@@ -13,10 +13,14 @@
     background-color:  blue;
 }
 
-.cancelled, .rejected {
+.cancelled, .rejected, .completed, .unpublished  {
     background-color:  red;
 }
 
-.approved {
+.approved, .available {
     background-color:  green;
+}
+
+.contingent, .pending {
+    background-color: rgb(129, 91, 21);
 }

@@ -28,7 +28,7 @@ export const OfferEntry = ({ offer, propertyId }) => {
             </div>
           </div>
         </div>
-        <OfferActions offer={offer} propertyId={propertyId} />
+        <OfferActions offer={offer} propertyId={propertyId} propertyStatus={offer.propertyStatus} />
       </div>
       <hr />
     </>

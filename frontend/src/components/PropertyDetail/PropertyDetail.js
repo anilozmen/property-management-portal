@@ -25,12 +25,10 @@ const PropertyDetail = () => {
   );
 
   useEffect(() => {
-    
     if (params.id) {
       axios
         .get("properties/" + params.id)
         .then((response) => {
-          console.log(response.data);
           setPropertyDetail(response.data);
         })
         .catch((err) => console.log(err.message));
@@ -51,6 +49,15 @@ const PropertyDetail = () => {
               {propertyDetail.address.state}, {propertyDetail.address.zipCode}
             </span>
           )}
+          <span
+            className={`offer-status ${
+              propertyDetail.propertyStatus
+                ? propertyDetail.propertyStatus.toLowerCase()
+                : ""
+            }`}
+          >
+            {propertyDetail.propertyStatus}
+          </span>
         </div>
         <section className="property-single nav-arrow-b">
           <div className="container">
@@ -82,7 +89,12 @@ const PropertyDetail = () => {
                               },
                               {
                                 title: "Offer",
-                                content: <Offer propertyId={params.id} />,
+                                content: (
+                                  <Offer
+                                    propertyStatus={propertyDetail.propertyStatus}
+                                    propertyId={params.id}
+                                  />
+                                ),
                               },
                             ]}
                           />

@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchOffersAsyncAction } from "../../reducers/offer";
+import { fetchOffersAsyncAction, setIsInProgress } from "../../reducers/offer";
 import Form from "../Form/Form";
 import FormFieldWrapper from "../Form/FormFieldWrapper";
 import TransitionsModal from "../Modal/Modal";
@@ -16,6 +16,7 @@ export const AddOffer = ({ propertyId }) => {
   const { isInProgress } = useSelector((s) => s.offer);
 
   const sendOffer = (e) => {
+    dispatch(setIsInProgress(true));
     e.preventDefault();
     const data = {
       amount: formRef.current.bidAmount.value,

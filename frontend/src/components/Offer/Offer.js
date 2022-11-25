@@ -8,7 +8,7 @@ import { AddOffer } from "./AddOffer";
 import "./Offer.css";
 import { OfferEntry } from "./OfferEntry";
 
-const Offer = ({ propertyId }) => {
+const Offer = ({ propertyId, propertyStatus }) => {
   const { data: offers } = useSelector((state) => state.offer);
 
   const dispatch = useDispatch();
@@ -17,9 +17,17 @@ const Offer = ({ propertyId }) => {
     dispatch(fetchOffersAsyncAction(propertyId, null, false));
   }, []);
 
+  const showAddButton = () => {
+    console.log(propertyStatus);
+    return (
+      ["AVAILABLE", "PENDING"].includes(propertyStatus) &&
+      offers.filter((o) => ["CREATED"].includes(o.status)).length === 0
+    );
+  };
+
   return (
     <React.Fragment>
-      {offers.filter((o) => o.status === "CREATED").length === 0 && (
+      {showAddButton() && (
         <ProtectedComponent
           isPage={false}
           requiredRole={CUSTOMER}

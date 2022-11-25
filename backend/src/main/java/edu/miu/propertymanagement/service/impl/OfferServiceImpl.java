@@ -158,9 +158,9 @@ public class OfferServiceImpl implements OfferService {
         boolean isCurrentUsersProperty = offer.getProperty().getOwner().getId() == user.getId();
         boolean isCurrentUsersOffer = offer.getProperty().getOwner().getId() != user.getId();
 
-        boolean isAllowed = (user.isOwner() && isCurrentUsersProperty && allowedForOwner.contains(status))
+        boolean isAllowed = (user.isOwner() && isCurrentUsersProperty && allowedForOwner.contains(status) && offer.getProperty().getPropertyStatus() == PropertyStatus.PENDING)
                 ||
-                (user.isCustomer() && isCurrentUsersOffer && allowedForCustomer.contains(status) && offer.getStatus() != OfferStatus.APPROVED);
+                (user.isCustomer() && isCurrentUsersOffer && allowedForCustomer.contains(status) && offer.getStatus() != OfferStatus.APPROVED && offer.getProperty().getPropertyStatus() != PropertyStatus.UNPUBLISHED);
 
         if (!isAllowed)
             throw new ErrorException("Cannot perform given status change");
