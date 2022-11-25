@@ -11,9 +11,12 @@ import ProtectedComponent from "../ProtectedComponent/ProtectedComponent";
 import Offer from "../Offer/Offer";
 import "./PropertyDetail.css";
 import Tab from "../Tab/Tab";
+import { useDispatch } from "react-redux";
+import { setData } from "../../reducers/offer";
 
 const PropertyDetail = () => {
   const params = useParams();
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [propertyDetail, setPropertyDetail] = useState({});
   const [propertyNotFound, setPropertyNotFound] = useState(false);
@@ -26,12 +29,16 @@ const PropertyDetail = () => {
   );
 
   useEffect(() => {
-    
+    fetchDetails();
+
+    return () => dispatch(setData([]));
+  }, [params.id]);
+
+  const fetchDetails = () => {
     if (params.id) {
       axios
         .get("properties/" + params.id)
         .then((response) => {
-          console.log(response.data);
           setPropertyDetail(response.data);
         })
         .catch((err) => {
@@ -41,7 +48,7 @@ const PropertyDetail = () => {
           console.log(err.message);
         });
     }
-  }, [params.id]);
+  };
 
   let propertyDetailsDisplay = null;
   
@@ -64,6 +71,15 @@ const PropertyDetail = () => {
               {propertyDetail.address.state}, {propertyDetail.address.zipCode}
             </span>
           )}
+          <span
+            className={`offer-status ${
+              propertyDetail.propertyStatus
+                ? propertyDetail.propertyStatus.toLowerCase()
+                : ""
+            }`}
+          >
+            {propertyDetail.propertyStatus}
+          </span>
         </div>
         <section className="property-single nav-arrow-b">
           <div className="container">
@@ -95,7 +111,15 @@ const PropertyDetail = () => {
                               },
                               {
                                 title: "Offer",
-                                content: <Offer propertyId={params.id} />,
+                                content: (
+                                  <Offer
+                                    propertyStatus={
+                                      propertyDetail.propertyStatus
+                                    }
+                                    propertyId={params.id}
+                                    fetchDetails={fetchDetails}
+                                  />
+                                ),
                               },
                             ]}
                           />

@@ -1,7 +1,7 @@
 import React from "react";
 import { OfferActions } from "./OfferActions";
 
-export const OfferEntry = ({ offer, propertyId }) => {
+export const OfferEntry = ({ offer, propertyId, onActionCompleted }) => {
   const { amount, message, propertyPrice, status } = offer;
 
   return (
@@ -28,7 +28,7 @@ export const OfferEntry = ({ offer, propertyId }) => {
             </div>
           </div>
         </div>
-        <OfferActions offer={offer} propertyId={propertyId} />
+        <OfferActions offer={offer} propertyId={propertyId} propertyStatus={offer.propertyStatus} onActionCompleted={onActionCompleted}/>
       </div>
       <hr />
     </>
