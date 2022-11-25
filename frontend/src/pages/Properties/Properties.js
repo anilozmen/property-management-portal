@@ -1,11 +1,11 @@
 import Layout from "../../components/Layout/Layout";
 import axios from 'axios';
-import React, {useEffect, useRef, useState} from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Property from "../../components/Property/Property";
 import PropertyDetail from "../../components/PropertyDetail/PropertyDetail";
 
 
-const Properties = ({fetched_properties, noProductMessage: noProductsMessage = "No properties added yet!!"}) => {
+const Properties = ({ fetched_properties, noProductMessage: noProductsMessage = "No properties added yet!!"}) => {
 
     const [propertyState, setPropertyState] = useState([]);
     const filterRef = useRef(null);
@@ -23,6 +23,9 @@ const Properties = ({fetched_properties, noProductMessage: noProductsMessage = "
     useEffect(() => {
         if (!fetched_properties) {
             fetchProperties();
+        } else {
+            console.log("XXX: %O", fetched_properties)
+            setPropertyState(fetched_properties);
         }
     }, []);
 
@@ -53,7 +56,7 @@ const Properties = ({fetched_properties, noProductMessage: noProductsMessage = "
             }
         }
 
-        fetchProperties({params: filterData});
+        fetchProperties({ params: filterData });
     };
 
     const properties = propertyState.map(property => {
@@ -68,20 +71,22 @@ const Properties = ({fetched_properties, noProductMessage: noProductsMessage = "
 
         )
     });
-
+    
     return (<div>
-            <section className="intro-single">
-                <div className="container">
-                    <div className="row">
-                        <div className="col-md-12 col-lg-8">
-                            <div className="title-single-box">
-                                <h1 className="title-single">Properties</h1>
-                            </div>
+        <section className="intro-single">
+            <div className="container">
+                <div className="row">
+                    <div className="col-md-12 col-lg-8">
+                        <div className="title-single-box">
+                            <h1 className="title-single">Properties</h1>
                         </div>
                     </div>
                 </div>
-            </section>
+            </div>
+        </section>
 
+        
+        {(!fetched_properties) &&
             <section className="container m-auto">
                 <form onSubmit={filterSubmit} ref={filterRef}>
                     <div className="form-row p-2 justify-content-center">
@@ -102,11 +107,11 @@ const Properties = ({fetched_properties, noProductMessage: noProductsMessage = "
                         </div>
                         <div className="col-2">
                             <input type="text" name="minPrice" className="form-control" id="minPrice"
-                                   placeholder="Min Price"/>
+                                placeholder="Min Price" />
                         </div>
                         <div className="col-2">
                             <input type="text" name="maxPrice" className="form-control" id="maxPrice"
-                                   placeholder="Max Price"/>
+                                placeholder="Max Price" />
                         </div>
                         <div className="col-1">
                             <button type="submit" className="btn btn-sm btn-warning p7">
@@ -115,17 +120,17 @@ const Properties = ({fetched_properties, noProductMessage: noProductsMessage = "
                         </div>
                     </div>
                 </form>
-            </section>
+            </section>}
 
-            <section className="property-grid grid">
-                <div className="container">
-                    <div className="row">
-                        {properties && properties.length !== 0 ? properties : <div>{noProductsMessage}</div>}
-                        <PropertyDetail/>
-                    </div>
+        <section className="property-grid grid">
+            <div className="container">
+                <div className="row">
+                    {properties && properties.length !== 0 ? properties : <div>{noProductsMessage}</div>}
+                    <PropertyDetail />
                 </div>
-            </section>
-        </div>)
+            </div>
+        </section>
+    </div>)
 }
 
 

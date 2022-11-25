@@ -3,7 +3,7 @@ import { hasSessionData, removeTokens } from '../../services/token';
 import { useNavigate } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
 import { setRole } from '../../reducers/user';
-import { OWNER } from '../../constants/roles';
+import { OWNER, ADMIN } from '../../constants/roles';
 
 const Header = () => {
     const userRole = useSelector(state => state.user.role);
@@ -37,9 +37,22 @@ const Header = () => {
                         <li className="nav-item">
                             <NavLink end className='nav-link' to="/properties">Properties</NavLink>
                         </li>
+
+                        {userRole === ADMIN && (
+                            <li className="nav-item">
+                                <NavLink end className='nav-link' to="/admin">Dashboard</NavLink>
+                            </li>
+                        )}
+
                         {userRole === OWNER && (
                             <li className="nav-item">
                                 <NavLink end className='nav-link' to="/properties/new">Add Property</NavLink>
+                            </li>
+                        )}
+
+                        {userRole === ADMIN && (
+                            <li className="nav-item">
+                                <NavLink end className='nav-link' to="/admin/users">Users</NavLink>
                             </li>
                         )}
 

@@ -15,14 +15,14 @@ const Property = (props) => {
                     <div className="card-overlay-a-content">
                         <div className="card-header-a">
                             <h2 className="card-title-a">
-                                <Link to={`${props.id}`} key={props.id} >{props.name}</Link>
+                                <Link to={`/properties/${props.id}`} key={props.id} >{props.name}</Link>
                             </h2>
                         </div>
                         <div className="card-body-a">
                             <div className="price-box d-flex">
                                 <span className="price-a">rent | {moneyFormat(props.price)}</span>
                             </div>
-                            <Link to={`${props.id}`} key={props.id} className="link-a">
+                            <Link to={`/properties/${props.id}`} key={props.id} className="link-a">
                                 Click here to view
                                 <span className="ion-ios-arrow-forward"></span>
                             </Link>
