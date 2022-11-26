@@ -1,8 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getUserType } from "../services/token";
+import { getEmail, getFullName, getUserType } from "../services/token";
 
 const initialState = {
-  role: null
+  role: null,
+  email: null,
+  fullName: null
 };
 const user = createSlice({
   name: 'user',
@@ -10,6 +12,8 @@ const user = createSlice({
   reducers: {
     setRole: (state) => {
       state.role = getUserType();
+      state.email = getEmail();
+      state.fullName = getFullName();
     }
   }
 });
