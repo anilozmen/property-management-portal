@@ -45,7 +45,7 @@ export const OfferActions = ({
             <button
               disabled={isInProgress}
               type="button"
-              className="btn btn-a btn-action"
+              className="btn btn-action btn-success"
               onClick={approve}
             >
               Approve
@@ -60,7 +60,7 @@ export const OfferActions = ({
           component={
             <button
               disabled={isInProgress}
-              className="btn btn-b btn-action"
+              className="btn btn-action btn-danger"
               onClick={reject}
             >
               Reject
