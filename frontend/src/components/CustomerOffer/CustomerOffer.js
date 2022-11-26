@@ -1,7 +1,42 @@
+import axios from "axios";
 import { Link } from "react-router-dom";
+import { CUSTOMER } from "../../constants/roles";
+import ProtectedComponent from "../ProtectedComponent/ProtectedComponent";
 import "./CustomerOffer.css";
 
 const CustomerOffer = ({ offer }) => {
+
+  const handleDownloadRecipt = event => {
+    event.preventDefault();
+
+    axios.get(
+      '/receipts',
+      {
+        params: {
+          property_id: offer.propertyId
+        },
+        responseType: 'blob',
+        headers: {
+          Accept: "application/pdf"
+        }
+      }
+    )
+      .then(res => {
+        const downloadLink = document.createElement('a');
+
+        downloadLink.href = window.URL.createObjectURL(new Blob([res.data]));
+        downloadLink.target = '_blank';
+        downloadLink.style.display = 'none';
+        downloadLink.download = 'receipt.pdf';
+        document.body.appendChild(downloadLink);
+        downloadLink.click();
+      })
+      .catch(error => {
+        alert("Failed to download receipt!");
+        console.log(error);
+      })
+  }
+
   return (
     <div className="box-comments">
       <ul className="list-comments">
@@ -47,6 +82,13 @@ const CustomerOffer = ({ offer }) => {
                   {offer.message}
                 </p>
               </span>
+              <ProtectedComponent
+                requiredRole={CUSTOMER}
+                isPage={false}
+                component={offer.status === 'APPROVED' &&
+                  offer.propertyStatus === 'COMPLETED' &&
+                  (<button onClick={handleDownloadRecipt} className="btn btn-b">Download Recipt</button>)}
+              />
             </div>
           </div>
         </li>

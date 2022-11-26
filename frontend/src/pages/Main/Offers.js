@@ -24,8 +24,8 @@ const Offers = () => {
 
   return (
     <ContentContainer>
-      <div class="title-box-d section-t4">
-        <h3 class="title-d">My Offers</h3>
+      <div className="title-box-d section-t4">
+        <h3 className="title-d">My Offers</h3>
       </div>
 
       {myOffers.map((offer) => (
