@@ -51,7 +51,7 @@ const ChangePassword = () => {
                         </div>
                     </div>
                     <div className="col-md-12 text-right">
-                        <button type="submit" className="btn btn-a">Update Password</button>
+                        <button type="submit" className="btn btn-a">Verify Email</button>
                     </div>
                 </div>
             </form>
