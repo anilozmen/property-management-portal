@@ -23,6 +23,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -205,8 +206,8 @@ public class PropertyServiceImpl implements PropertyService {
 
         if (property.getOffers().stream().anyMatch(o -> o.getStatus() == OfferStatus.CREATED))
             property.setPropertyStatus(PropertyStatus.PENDING);
-         else
-             property.setPropertyStatus(PropertyStatus.AVAILABLE);
+        else
+            property.setPropertyStatus(PropertyStatus.AVAILABLE);
 
         propertyRepository.save(property);
         return new GenericActivityResponse(true, "Cancelled");
@@ -243,6 +244,18 @@ public class PropertyServiceImpl implements PropertyService {
     public Property findById(long propertyId) {
         return propertyRepository.findById(propertyId).orElse(null);
     }
+    public GenericActivityResponse unpublish(long id) {
+        Property property = propertyRepository.findById(id).get();
+
+        var allowedStatus = Arrays.asList(PropertyStatus.PENDING, PropertyStatus.AVAILABLE);
+
+        if (!isLoggedInUserOwned(property) || !allowedStatus.contains(property.getPropertyStatus()))
+            return new GenericActivityResponse(false, "Not allowed for " + property.getPropertyStatus() + " status");
+
+        property.setPropertyStatus(PropertyStatus.UNPUBLISHED);
+        propertyRepository.save(property);
+        return new GenericActivityResponse(true, "Property unpublished");
+    }
 
     private ApplicationUserDetail getLoggedInUser() {
         try {
@@ -255,7 +268,7 @@ public class PropertyServiceImpl implements PropertyService {
 
     @Override
     public void updatePropertyDetailsById(ApplicationUserDetail ownerDetail, long propertyId, PropertyCreationDto propertyCreationDto) {
-        Property property = getPropertyById(propertyId);
+        Property property = findById(propertyId);
 
         if(property == null)
             throw new PropertyNotFoundException();

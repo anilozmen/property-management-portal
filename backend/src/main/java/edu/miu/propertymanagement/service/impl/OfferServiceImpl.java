@@ -17,6 +17,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 
@@ -103,10 +104,7 @@ public class OfferServiceImpl implements OfferService {
     }
 
     private void validateOfferCreate(Property property) {
-        List<PropertyStatus> allowedStatus = new ArrayList<>() {{
-            add(PropertyStatus.AVAILABLE);
-            add(PropertyStatus.PENDING);
-        }};
+        List<PropertyStatus> allowedStatus = Arrays.asList(PropertyStatus.AVAILABLE, PropertyStatus.PENDING);
 
         if (property == null || !allowedStatus.contains(property.getPropertyStatus()))
             throw new ErrorException("Not Allowed");
@@ -151,14 +149,8 @@ public class OfferServiceImpl implements OfferService {
     private void validateStatusChange(Offer offer, OfferStatus status) {
         ApplicationUserDetail user = userService.getLoggedInUser();
 
-        List<OfferStatus> allowedForOwner = new ArrayList<>() {{
-            add(OfferStatus.APPROVED);
-            add(OfferStatus.REJECTED);
-        }};
-
-        List<OfferStatus> allowedForCustomer = new ArrayList<>() {{
-            add(OfferStatus.CANCELLED);
-        }};
+        List<OfferStatus> allowedForOwner =Arrays.asList(OfferStatus.APPROVED, OfferStatus.REJECTED);
+        List<OfferStatus> allowedForCustomer =Arrays.asList(OfferStatus.CANCELLED);
 
         boolean isCurrentUsersProperty = offer.getProperty().getOwner().getId() == user.getId();
         boolean isCurrentUsersOffer = offer.getProperty().getOwner().getId() != user.getId();
