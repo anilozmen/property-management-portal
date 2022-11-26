@@ -18,4 +18,7 @@ public interface OfferRepository extends CrudRepository<Offer, Long> {
 
     @Query("select o from offer o where o.property.id=:propertyId and o.status='APPROVED'")
     Offer getCompletedOfferIfExists(long propertyId);
+
+    @Query("select o.customer.email from offer o where o.property.id=:propertyId and o.property.propertyStatus='COMPLETED' and o.status='APPROVED'")
+    String getEmailForCompletedCustomer(long propertyId);
 }

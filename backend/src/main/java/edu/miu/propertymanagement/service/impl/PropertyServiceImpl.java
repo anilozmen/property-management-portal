@@ -11,6 +11,8 @@ import edu.miu.propertymanagement.repository.OfferRepository;
 import edu.miu.propertymanagement.exceptions.ForbiddenException;
 import edu.miu.propertymanagement.exceptions.PropertyNotFoundException;
 import edu.miu.propertymanagement.repository.PropertyRepository;
+import edu.miu.propertymanagement.service.EmailService;
+import edu.miu.propertymanagement.service.NotificationService;
 import edu.miu.propertymanagement.service.PropertyService;
 import edu.miu.propertymanagement.util.ListMapper;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +24,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import javax.validation.constraints.Email;
 import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.List;
@@ -37,6 +40,7 @@ public class PropertyServiceImpl implements PropertyService {
     private final OfferRepository offerRepository;
     private final ListMapper listMapper;
     private final ModelMapper modelMapper;
+    private final EmailService emailService;
 
     @Override
     public List<ListingPropertyDto> findAll(PropertyFilterRequest propertyFilterRequest) {
@@ -177,8 +181,11 @@ public class PropertyServiceImpl implements PropertyService {
 
         property.setPropertyStatus(PropertyStatus.COMPLETED);
         propertyRepository.save(property);
+
+        String customerEmail = offerRepository.getEmailForCompletedCustomer(property.getId());
+        emailService.send(customerEmail, "Purchase successful - "+property.getName(), "Your purchase for property: " + property.getName() + " has been completed.");
+
         return new GenericActivityResponse(true, "Completed");
-        //@TODO add notification
     }
 
     @Override
