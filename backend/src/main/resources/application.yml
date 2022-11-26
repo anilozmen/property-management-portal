@@ -21,8 +21,8 @@ spring:
   mail:
     host: smtp.elasticemail.com
     port: 2525
-    username: miuwaafinal@gmail.com
-    password: 7D1B1A2B6684A6A90B110CF2D1690BC2DC9B
+    username: waafinalmiu@gmail.com
+    password: 2EB91490F98EABF3841ADACBFA85486AC2DD
     properties:
       mail:
         smtp:
