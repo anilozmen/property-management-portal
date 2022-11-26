@@ -255,7 +255,7 @@ public class PropertyServiceImpl implements PropertyService {
 
     @Override
     public void updatePropertyDetailsById(ApplicationUserDetail ownerDetail, long propertyId, PropertyCreationDto propertyCreationDto) {
-        Property property = getPropertyById(propertyId);
+        Property property = findById(propertyId);
 
         if(property == null)
             throw new PropertyNotFoundException();
