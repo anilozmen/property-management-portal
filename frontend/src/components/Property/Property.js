@@ -1,13 +1,13 @@
-import {moneyFormat} from '../../services/helper';
-import {Link} from "react-router-dom";
-import {useDispatch, useSelector} from 'react-redux';
+import { moneyFormat } from '../../services/helper';
+import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from 'react-redux';
 import "../../pages/SavedProperties/SavedProperties.css";
 
 import ProtectedComponent from "../ProtectedComponent/ProtectedComponent";
-import {CUSTOMER} from '../../constants/roles';
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {faHeart} from '@fortawesome/free-solid-svg-icons';
-import {addInSavedPropertyIdsAsync, deleteFromSavedPropertyIdsAsync} from '../../reducers/savedPropertyIdsForCustomer';
+import { CUSTOMER } from '../../constants/roles';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faHeart } from '@fortawesome/free-solid-svg-icons';
+import { addInSavedPropertyIdsAsync, deleteFromSavedPropertyIdsAsync } from '../../reducers/savedPropertyIdsForCustomer';
 import './Property.css';
 
 const Property = (props) => {
@@ -35,13 +35,13 @@ const Property = (props) => {
                     isPage={false}
                     component={
                         <div className={`customer-property-action ${isSaved ? 'saved' : ''}`}
-                             onClick={() => handleAddToSavedList(props.id)}>
-                            <FontAwesomeIcon icon={faHeart} size="2x"/>
+                            onClick={() => handleAddToSavedList(props.id)}>
+                            <FontAwesomeIcon icon={faHeart} size="2x" />
                         </div>
                     }
                 />
                 <div className="img-box-a">
-                    <img src="https://via.placeholder.com/700" alt="{props.name}" className="img-a img-fluid"/>
+                    <img src="https://via.placeholder.com/700" alt="{props.name}" className="img-a img-fluid" />
                 </div>
                 <div className="card-overlay">
                     <div className="card-overlay-a-content">
@@ -95,9 +95,11 @@ function GetListingType(listingType, propertyStatus) {
     }
 
     if (propertyStatus === "COMPLETED") {
-        return <div style={{display: "inline"}}
-                    className={'completed-transaction'}>{listingType === "RENT" ? "RENTED" : "SOLD"}</div>;
+        return <div style={{ display: "inline" }}
+            className={'completed-transaction'}>{listingType === "RENT" ? "RENTED" : "SOLD"}</div>;
     }
+    return <div style={{ display: "inline" }}
+        className={{}}>{listingType}</div>;
 }
 
 

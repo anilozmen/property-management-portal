@@ -10,7 +10,7 @@ export default function Register() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        document.title = "Register";
+        // document.title = "Register";
 
         if (hasSessionData()) {
             navigate("/");

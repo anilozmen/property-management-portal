@@ -10,7 +10,7 @@ const VerifyEmail = () => {
 
 
     useEffect(() => {
-        document.title = "Verify Email";
+        // document.title = "Verify Email";
     }, []);
 
     const handleSubmit = (event) => {

@@ -14,7 +14,7 @@ function Login() {
   const { isLoggingIn, error: loginError } = useSelector(state => state.login);
 
   useEffect(() => {
-    document.title = "Login";
+    // document.title = "Login";
 
 
     if (hasSessionData()) {
