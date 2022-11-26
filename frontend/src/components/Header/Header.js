@@ -6,7 +6,7 @@ import { setRole } from '../../reducers/user';
 import { CUSTOMER, OWNER, ADMIN } from '../../constants/roles';
 
 const Header = () => {
-    const userRole = useSelector(state => state.user.role);
+    const user = useSelector(state => state.user);
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
@@ -38,29 +38,29 @@ const Header = () => {
                             <NavLink end className='nav-link' to="/properties">Properties</NavLink>
                         </li>
 
-                        {userRole === ADMIN && (
+                        {user.role === ADMIN && (
                             <li className="nav-item">
                                 <NavLink end className='nav-link' to="/admin">Dashboard</NavLink>
                             </li>
                         )}
 
-                        {userRole === OWNER && (
+                        {user.role === OWNER && (
                             <li className="nav-item">
                                 <NavLink end className='nav-link' to="/properties/new">Add Property</NavLink>
                             </li>
                         )}
-                        {userRole === CUSTOMER && (
+                        {user.role === CUSTOMER && (
                             <li className="nav-item">
                                 <NavLink end className='nav-link' to="/properties/saved">Saved Properties</NavLink>
                             </li>
                         )}
-                        {userRole === CUSTOMER && (
+                        {user.role === CUSTOMER && (
                             <li className="nav-item">
                                 <NavLink end className='nav-link' to="/offers">My Offers</NavLink>
                             </li>
                         )}
 
-                        {userRole === ADMIN && (
+                        {user.role === ADMIN && (
                             <li className="nav-item">
                                 <NavLink end className='nav-link' to="/admin/users">Users</NavLink>
                             </li>
@@ -87,6 +87,11 @@ const Header = () => {
                     </ul>
                 </div>
             </div>
+            {hasSessionData() && (
+                <div style={{ position: 'absolute', right: '10px' }}>
+                    Welcome {`${user.fullName} (${user.role})`}
+                </div>
+            )}
         </nav>
     )
 
