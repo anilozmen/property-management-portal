@@ -13,7 +13,7 @@ const ResetPassword = () => {
   const [successMessageVisibilityState, setSuccessMessageVisibilityState] = useState(false);
 
   useEffect(() => {
-    document.title = "Reset Password";
+    // document.title = "Reset Password";
   }, [errorMessageState, successMessageState]);
 
 

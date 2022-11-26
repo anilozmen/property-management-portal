@@ -14,7 +14,7 @@ const ChangePassword = () => {
             navigate("/");
         }
 
-        document.title = "Change Password";
+        // // document.title = "Change Password";
     }, []);
 
 
