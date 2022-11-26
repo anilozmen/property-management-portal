@@ -31,7 +31,7 @@ const PropertyAction = ({ propertyId, onSuccess, propertyStatus }) => {
   const unpublish = () => sendAction({ action: "UNPUBLISH" });
 
   const showCompleteCancel = propertyStatus === "CONTINGENT";
-  const showUnpublish = ["AVAILABLE", "PENDING"].includes(propertyStatus);
+  const showUnpublish = ["AVAILABLE"].includes(propertyStatus);
 
   return (
     <div className="float-right">
@@ -48,7 +48,7 @@ const PropertyAction = ({ propertyId, onSuccess, propertyStatus }) => {
       {showUnpublish && (
         <>
           <button className="btn btn-danger" onClick={unpublish}>
-            <FontAwesomeIcon icon={faRemove} /> Completed
+            <FontAwesomeIcon icon={faRemove} /> Unpublish
           </button>
         </>
       )}
