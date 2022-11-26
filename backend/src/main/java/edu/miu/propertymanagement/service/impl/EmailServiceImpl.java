@@ -16,7 +16,7 @@ import java.io.UnsupportedEncodingException;
 @RequiredArgsConstructor
 public class EmailServiceImpl implements EmailService {
 
-    private static final String NOREPLY_ADDRESS = "miuwaafinal@gmail.com";
+    private static final String NOREPLY_ADDRESS = "waafinalmiu@gmail.com";
     private final JavaMailSender javaMailSender;
 
     @Override
