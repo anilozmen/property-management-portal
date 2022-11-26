@@ -254,7 +254,7 @@ public class PropertyServiceImpl implements PropertyService {
     public GenericActivityResponse unpublish(long id) {
         Property property = propertyRepository.findById(id).get();
 
-        var allowedStatus = Arrays.asList(PropertyStatus.PENDING, PropertyStatus.AVAILABLE);
+        var allowedStatus = Arrays.asList(PropertyStatus.AVAILABLE);
 
         if (!isLoggedInUserOwned(property) || !allowedStatus.contains(property.getPropertyStatus()))
             return new GenericActivityResponse(false, "Not allowed for " + property.getPropertyStatus() + " status");

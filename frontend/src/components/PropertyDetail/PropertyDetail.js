@@ -79,11 +79,14 @@ const PropertyDetail = () => {
   if (params.id) {
     propertyDetailsDisplay = (
       <Layout>
-        <PropertyAction
+        <ProtectedComponent 
+        requiredRole={OWNER}
+        isPage={false}
+        component={<PropertyAction
           propertyId={params.id}
           propertyStatus={propertyDetail.propertyStatus}
           onSuccess={fetchDetails}
-        />
+        />} />
         <div className="title-single-box">
           <h1 className="title-single">
             {propertyDetail.name}
